@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Settings >
+    <Property name="CrosshairEnabled" value="true" />
+    <Property name="Fullscreen" value="false" />
+    <Property name="GameVolume" value="97" />
+    <Property name="MusicVolume" value="100" />
+</Settings>

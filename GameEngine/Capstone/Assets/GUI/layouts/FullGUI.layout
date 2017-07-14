@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="DefaultWindow" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="TaharezLook/StaticImage" name="MainMenuWindow" >
+			<Property name="FrameEnabled" value="false" />
+			<Property name="BackgroundEnabled" value="false" />
+			<Property name="Image" value="MainBackground" />
+            <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="RiseOnClickEnabled" value="false" />
+            <Window type="AlfiskoSkin/Button" name="PlayButton" >
+                <Property name="Area" value="{{0.4,0},{0.5,0},{0.6,0},{0.58,0}}" />
+                <Property name="Text" value="Play" />
+				<Property name="Alpha" value="0.92" />
+            </Window>
+			<Window type="AlfiskoSkin/Button" name="ControlsButton" >
+                <Property name="Area" value="{{0.4,0},{0.62,0},{0.6,0},{0.7,0}}" />
+                <Property name="Text" value="Controls" />
+				<Property name="Alpha" value="0.92" />
+            </Window>
+			<Window type="AlfiskoSkin/Button" name="OptionsButton" >
+                <Property name="Area" value="{{0.4,0},{0.74,0},{0.6,0},{0.82,0}}" />
+                <Property name="Text" value="Options" />
+				<Property name="Alpha" value="0.92" />
+            </Window>
+			<Window type="AlfiskoSkin/Button" name="QuitButton" >
+                <Property name="Area" value="{{0.4,0},{0.86,0},{0.6,0},{0.94,0}}" />
+                <Property name="Text" value="Quit" />
+				<Property name="Alpha" value="0.92" />
+            </Window>
+        </Window>
+		<Window type="TaharezLook/StaticImage" name="ControlsWindow" >
+			<Property name="Area" value="{{0.15,0},{0.2,0},{0.85,0},{0.8,0}}" />
+			<Property name="Image" value="ControlsImage" />
+			<Property name="Visible" value="false" />
+			<Property name="RiseOnClickEnabled" value="false" />
+		</Window>
+		<Window type="TaharezLook/FrameWindow" name="CalibrationWindow" >
+			<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="MaxSize" value="{{1,0},{1,0}}" />
+			<Property name="Visible" value="false" />
+			<Property name="RiseOnClickEnabled" value="false" />
+			<Property name="FrameEnabled" value="false" />
+			<Property name="TitlebarEnabled" value="false" />
+			<Property name="CloseButtonEnabled" value="false" />
+			<Property name="InheritsAlpha" value="false" />
+			<Property name="Alpha" value="1" />
+			<Window type="AlfiskoSkin/FrameWindow" name="InstructionsMenu" >
+				<Property name="Area" value="{{0.3,0},{0.43,0},{0.7,0},{0.57,0}}" />
+				<Property name="FrameEnabled" value="false" />
+				<Property name="TitlebarEnabled" value="false" />
+				<Property name="CloseButtonEnabled" value="false" />
+				<Window type="AlfiskoSkin/Label" name="InstructionsLabel" >
+					<Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.6,0}}" />
+					<Property name="Text" value="Shoot at each of the 4 targets that appear." />
+				</Window>	
+				<Window type="AlfiskoSkin/Button" name="StartCalibrationButton" >
+					<Property name="Area" value="{{0.1,0},{0.63,0},{0.4,0},{0.94,0}}" />
+					<Property name="Text" value="Start" />
+					<Property name="Alpha" value="0.92" />
+				</Window>
+				<Window type="AlfiskoSkin/Button" name="CancelCalibrationButton" >
+					<Property name="Area" value="{{0.6,0},{0.63,0},{0.9,0},{0.94,0}}" />
+					<Property name="Text" value="Cancel" />
+					<Property name="Alpha" value="0.92" />
+				</Window>
+			</Window>
+			<Window type="TaharezLook/StaticImage" name="TargetWindow" >
+				<Property name="Area" value="{{0.1,0},{0.1,0},{0.2,0},{0.2,0}}" />
+				<Property name="Image" value="Target" />
+				<Property name="Visible" value="false" />
+				<Property name="RiseOnClickEnabled" value="false" />	
+				<Property name="BackgroundEnabled" value="false" />
+				<Property name="FrameEnabled" value="false" />
+			</Window>
+		</Window>
+		<!-- The InvisibleFullscreen window is so that the options menu will
+		still take the fullscreen so the mouse will be a regular mouse cursor
+		in game with the options menu open, instead of a crosshair. !-->
+		<Window type="DefaultWindow" name="InvisibleFullscreen" >
+			<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="MaxSize" value="{{1,0},{1,0}}" />
+			<Property name="Visible" value="false" />
+			<Property name="Disabled" value="true" />
+			<Property name="RiseOnClickEnabled" value="false" />
+			<Window type="AlfiskoSkin/FrameWindow" name="OptionsWindow" >
+				<Property name="Area" value="{{0.2,0},{0.25,0},{0.8,0},{0.75,0}}" />
+				<Property name="Visible" value="false" />
+				<Property name="Text" value="Options" />
+				<Property name="RiseOnClickEnabled" value="false" />
+				<Property name="SizingEnabled" value = "false" />
+				<Property name="RollUpEnabled" value = "false" />
+				<Property name="DragMovingEnabled" value = "false" />
+				<Window type="AlfiskoSkin/Label" name="CrosshairEnabled" >
+					<Property name="Area" value="{{0.05,0},{0.1028,0},{0.4,0},{0.1828,0}}" />
+					<Property name="Text" value="Enable crosshair" />
+				</Window>
+				<Window type="AlfiskoSkin/Checkbox" name="CrosshairEnabledCheck" >
+					<Property name="Area" value="{{0.64,0},{0.1078,0},{0.68,0},{0.1778,0}}" />
+				</Window>
+				
+				<Window type="AlfiskoSkin/Label" name="FullscreenEnabled" >
+					<Property name="Area" value="{{0.05,0},{0.2456,0},{0.4,0},{0.3256,0}}" />
+					<Property name="Text" value="Fullscreen" />
+				</Window>
+				<Window type="AlfiskoSkin/Checkbox" name="FullscreenEnabledCheck" >
+					<Property name="Area" value="{{0.64,0},{0.2506,0},{0.68,0},{0.3206,0}}" />
+				</Window>
+				
+				<Window type="AlfiskoSkin/Label" name="GameVolumeLabel" >
+					<Property name="Area" value="{{0.05,0},{0.3884,0},{0.4,0},{0.4684,0}}" />
+					<Property name="Text" value="Game Volume" />
+				</Window>	
+				<Window type="AlfiskoSkin/HorizontalSlider" name="GameVolumeSlider">
+					<Property name="Area" value="{{0.42,0},{0.39,0},{0.81,0},{0.4668,0}}" />
+				</Window>
+				<Window type="AlfiskoSkin/Editbox" name="GameVolumeValue">
+					<Property name="Area" value="{{0.82,0},{0.39,0},{0.9,0},{0.4668,0}}" />
+					<Property name="Text" value="100" />
+					<Property name="TextFormatting" value="CentreAligned" />
+					<Property name="MaxTextLength" value="3" />
+				</Window>	
+				
+				<Window type="AlfiskoSkin/Label" name="MusicVolumeLabel" >
+					<Property name="Area" value="{{0.05,0},{0.5312,0},{0.4,0},{0.6112,0}}" />
+					<Property name="Text" value="Music Volume" />
+				</Window>
+				<Window type="AlfiskoSkin/HorizontalSlider" name="MusicVolumeSlider">
+					<Property name="Area" value="{{0.42,0},{0.5328,0},{0.81,0},{0.6096,0}}" />
+				</Window>
+				<Window type="AlfiskoSkin/Editbox" name="MusicVolumeValue">
+					<Property name="Area" value="{{0.82,0},{0.5328,0},{0.9,0},{0.6096,0}}" />
+					<Property name="Text" value="100" />
+					<Property name="TextFormatting" value="CentreAligned" />
+					<Property name="MaxTextLength" value="3" />
+				</Window>	
+				
+				<Window type="AlfiskoSkin/Button" name="CalibrateWiimote" >
+					<Property name="Area" value="{{0.25,0},{0.694,0},{0.75,0},{0.774,0}}" />
+					<Property name="Text" value="Calibrate Wii Controller" />
+				</Window>
+				<Window type="AlfiskoSkin/Button" name="QuitToMain" >
+					<Property name="Area" value="{{0.25,0},{0.694,0},{0.75,0},{0.774,0}}" />
+					<Property name="Text" value="Quit to Main" />
+				</Window>
+				<Window type="AlfiskoSkin/Button" name="ApplySettings" >
+					<Property name="Area" value="{{0.53,0},{0.8368,0},{0.73,0},{0.9168,0}}" />
+					<Property name="Text" value="Apply" />
+				</Window>
+				<Window type="AlfiskoSkin/Button" name="Cancel" >
+					<Property name="Area" value="{{0.76,0},{0.8368,0},{0.96,0},{0.9168,0}}" />
+					<Property name="Text" value="Cancel" />
+				</Window>			
+			</Window>
+			<Window type="AlfiskoSkin/FrameWindow" name="InstructionsMenu" >
+				<Property name="Area" value="{{0.35,0},{0.44,0},{0.65,0},{0.56,0}}" />
+				<Property name="FrameEnabled" value="false" />
+				<Property name="TitlebarEnabled" value="false" />
+				<Property name="CloseButtonEnabled" value="false" />
+				<Property name="Visible" value="false" />
+				<Window type="AlfiskoSkin/Label" name="InstructionsLabel" >
+					<Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.6,0}}" />
+				</Window>	
+				<Window type="AlfiskoSkin/Button" name="OkayToPromptButton" >
+					<Property name="Area" value="{{0.4,0},{0.63,0},{0.6,0},{0.9,0}}" />
+					<Property name="Text" value="Okay" />
+				</Window>
+			</Window>
+		</Window>
+		<Window type="DefaultWindow" name="IngameHUD" >
+			<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="MaxSize" value="{{1,0},{1,0}}" />
+			<!--<Property name="MouseCursorImage" value="CrosshairImage" />!-->'
+			<Property name="RiseOnClickEnabled" value="false" />
+			<Property name="Visible" value="false" />
+			<Window type="TaharezLook/StaticImage" name="ReloadMessageArea" >
+				<Property name="Area" value="{{0.4,0},{0.42,0},{0.6,0},{0.48,0}}" />
+				<Property name="Image" value="ReloadMessage" />
+				<Property name="BackgroundEnabled" value="false" />
+				<Property name="FrameEnabled" value="false" />
+				<Property name="Alpha" value="1" />
+				<Property name="Visible" value="false" />
+			</Window>
+			<Window type="TaharezLook/StaticImage" name="WeaponBG" >
+				<Property name="Area" value="{{0.04,0},{0.85,0},{0.21,0},{0.96,0}}" />
+				<Property name="Image" value="WeaponBG" />
+				<Property name="Alpha" value="0.6" />
+				<Property name="BackgroundEnabled" value="false" />
+				<Property name="FrameEnabled" value="false" />
+				<Window type="TaharezLook/StaticImage" name="Weapon" >
+					<Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
+					<Property name="Image" value="Rifle" />
+					<Property name="BackgroundEnabled" value="false" />
+					<Property name="FrameEnabled" value="false" />
+					<Property name="InheritsAlpha" value="false" />
+					<Property name="Alpha" value="1" />
+				</Window>
+			</Window>
+			<Window type="TaharezLook/StaticImage" name="AmmoBG" >
+				<Property name="Area" value="{{0.79,0},{0.85,0},{0.96,0},{0.96,0}}" />
+				<Property name="Image" value="WeaponBG" />
+				<Property name="Alpha" value="0.6" />
+				<Property name="BackgroundEnabled" value="false" />
+				<Property name="FrameEnabled" value="false" />
+				<Window type="TaharezLook/Label" name="AmmoText" >
+					<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+					<Property name="Font" value="BroshK" />
+					<Property name="InheritsAlpha" value="false" />
+					<Property name="Alpha" value="1" />
+				</Window>
+			</Window>
+			<Window type="TaharezLook/StaticImage" name="HealthBG" >
+				<Property name="Area" value="{{0.38,0},{0.83,0},{0.62,0},{0.96,0}}" />
+				<Property name="Image" value="WeaponBG" />
+				<Property name="Alpha" value="0.6" />
+				<Property name="BackgroundEnabled" value="false" />
+				<Property name="FrameEnabled" value="false" />
+				<Window type="TaharezLook/StaticImage" name="HealthImg0" >
+					<Property name="Area" value="{{0.0625,0},{0.12,0},{0.3125,0},{0.88,0}}" />
+					<Property name="Image" value="HealthImage" />
+					<Property name="InheritsAlpha" value="false" />
+					<Property name="Alpha" value="1" />
+					<Property name="BackgroundEnabled" value="false" />
+					<Property name="FrameEnabled" value="false" />
+				</Window>
+				<Window type="TaharezLook/StaticImage" name="HealthImg1" >
+					<Property name="Area" value="{{0.375,0},{0.12,0},{0.625,0},{0.88,0}}" />
+					<Property name="Image" value="HealthImage" />
+					<Property name="InheritsAlpha" value="false" />
+					<Property name="Alpha" value="1" />
+					<Property name="BackgroundEnabled" value="false" />
+					<Property name="FrameEnabled" value="false" />
+				</Window>
+				<Window type="TaharezLook/StaticImage" name="HealthImg2" >
+					<Property name="Area" value="{{0.6875,0},{0.12,0},{0.9375,0},{0.88,0}}" />
+					<Property name="Image" value="HealthImage" />
+					<Property name="InheritsAlpha" value="false" />
+					<Property name="Alpha" value="1" />
+					<Property name="BackgroundEnabled" value="false" />
+					<Property name="FrameEnabled" value="false" />
+				</Window>
+			</Window>
+		</Window>
+		<Window type="TaharezLook/StaticImage" name="GameOverBG" >
+			<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="MaxSize" value="{{1,0},{1,0}}" />
+			<!--<Property name="MouseCursorImage" value="CrosshairImage" />!-->'
+			<Property name="RiseOnClickEnabled" value="false" />
+			<Property name="Image" value="GameOverScreen" />
+			<Property name="Visible" value="false" />
+			<Window type="AlfiskoSkin/Button" name="QuitToMainButton" >
+                <Property name="Area" value="{{0.4,0},{0.63,0},{0.6,0},{0.71,0}}" />
+                <Property name="Text" value="Quit to Main" />
+				<Property name="Alpha" value="1" />
+            </Window>
+		</Window>
+		<Window type="TaharezLook/StaticImage" name="VictoryOverlay" >
+			<Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property name="MaxSize" value="{{1,0},{1,0}}" />
+			<!--<Property name="MouseCursorImage" value="CrosshairImage" />!-->'
+			<Property name="RiseOnClickEnabled" value="false" />
+			<Property name="Image" value="VictoryScreen" />
+			<Property name="Visible" value="false" />
+			<Property name="BackgroundEnabled" value="false" />
+			<Property name="FrameEnabled" value="false" />
+		</Window>
+    </Window>
+</GUILayout>

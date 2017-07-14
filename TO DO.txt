@@ -1,0 +1,37 @@
+state change enum playing, menu, pause, options
+Modify GameEngine/Cube/SingleMesh such that
+there's a default shader included.
+So no need to pass shader vars, names etc.
+namespaces, make using statements only in .cpp
+
+// Music
+Reload with Wii / kinda done - test more
+// Reload message / voice
+// In-game ui
+// Change skybox
+// Sounds with hovering over menu items.
+
+// Clipping with frustum culling
+Redo the level
+
+// Player takes damage, sound effect as well
+//Lose condition, win condition (Sound effects, Level Clear, Game Over)
+// Sound bug, sound already playing on channel
+// Options take effect on the music
+death sounds
+footstep sounds
+Controls image
+way to swap weapons with wii
+reload sound for rifle
+swap weapons sound
+
+// remove unnecessary GUI files.
+add resolution option 
+
+score
+timer
+
+Disconnect event Wii
+Sensor bar location, change hard code
+
+Add windows, where player can shoot through
