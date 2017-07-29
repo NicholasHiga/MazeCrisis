@@ -11,10 +11,11 @@ using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 
-BoundingBox::BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType)
+BoundingBox::BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, bool isVisible)
 {
 	calculateBaseBounds(mesh, bbType);
 	this->bbType = bbType;
+	setIsVisible(isVisible);
 }
 
 void
@@ -156,6 +157,17 @@ BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, const B
 	return intersections;
 }
 
+bool 
+BoundingBox::getIsVisible()
+{
+	return isVisible;
+}
+
+void 
+BoundingBox::setIsVisible(bool isVisible)
+{
+	this->isVisible = isVisible;
+}
 
 void
 BoundingBox::calculateBaseBounds(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType)

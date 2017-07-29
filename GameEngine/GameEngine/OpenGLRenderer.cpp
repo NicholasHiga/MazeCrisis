@@ -41,7 +41,7 @@ OpenGLRenderer::OpenGLRenderer()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LEQUAL);
 
 	// Cull triangles which normal is not towards the camera
 	glEnable(GL_CULL_FACE);
@@ -114,6 +114,11 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 	if (camera.getFrustum()->isBoxInFrustum(*boundingBox))
 	{
 		glUseProgram(material->getShader()->getProgramID());
+
+		if (boundingBox->getIsVisible())
+		{
+			
+		}
 
 		// Only diffuse texture.
 		if (!samplerVars.empty())

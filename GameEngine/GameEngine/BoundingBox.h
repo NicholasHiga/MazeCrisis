@@ -19,7 +19,7 @@ enum BOUNDING_BOX_TYPE
 class BoundingBox
 {
 public: 
-	BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType);
+	BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, bool isVisible = false);
 
 	//void updateBounds(Mat4x4 &transform); // Should be called any time a new transformation matrix is used.
 	void updateBounds(glm::mat4 &transform); // Should be called any time a new transformation matrix is used.
@@ -34,6 +34,9 @@ public:
 	static std::vector<std::shared_ptr<SceneNode>> doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, const BoundingBox &bb,
 		std::vector<unsigned int> *indices = nullptr); // Check with all nodes in the vector for collisions.
 
+	bool getIsVisible();
+	void setIsVisible(bool isVisible);
+
 	glm::vec3 aabbMins, aabbMaxes;             // Current minX, minY, minZ, maxX, maxY, maxZ
 	glm::vec3 baseMins, baseMaxes;     // The base minX, minY, minZ, maxX, maxY, maxZ
 	
@@ -47,4 +50,5 @@ private:
 	void calculateBaseBounds(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType);
 
 	BOUNDING_BOX_TYPE bbType;
+	bool isVisible; // Renders the wireframe bounding box if true.
 };
