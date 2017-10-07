@@ -72,7 +72,7 @@ namespace MazeCrisis
 						}
 
 						shared_ptr<SceneNode> node = std::make_shared<SceneNode>();
-						gameObjects.push_back(std::make_shared<GameObject>(textures[i][j][k] + "Cube"));
+						gameObjects.push_back(std::make_shared<GameObject>(textures[i][j][k] + "Cube", textures[i][j][k] + "Cube"));
 						gameObjects.back().get()->setIsEnabled(false);
 						node->addRenderable(*gameObjects.back());
 						node->setPosition(

@@ -13,22 +13,24 @@ using std::shared_ptr;
 
 GameObject::GameObject()
 {
-	init("");
+	init("", "");
 }
 
-GameObject::GameObject(const string &modelName)
+GameObject::GameObject(const string &gameObjectName, const string &modelName)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 }
 
-GameObject::GameObject(const string &modelName, shared_ptr<EffectedModel> model)
+GameObject::GameObject(const string &gameObjectName, const string &modelName,
+	shared_ptr<EffectedModel> model)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
 		bool success = ModelManager::getInstance()->loadModel(modelName, model);
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName
+				+ " did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -37,14 +39,17 @@ GameObject::GameObject(const string &modelName, shared_ptr<EffectedModel> model)
 }
 
 // Initialize neither - assume both model, material are already loaded.
-GameObject::GameObject(const string &modelName, const string &meshName, const string &materialName)
+GameObject::GameObject(const string &gameObjectName, const string &modelName,
+	const string &meshName, const string &materialName)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName, meshName, materialName);
+		bool success = ModelManager::getInstance()->loadModel(modelName, 
+			meshName, materialName);
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName +
+				" did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -52,24 +57,26 @@ GameObject::GameObject(const string &modelName, const string &meshName, const st
 	}
 }
 
-// Doesn't initialize mesh or shader, but initializes the material using the given shader
-// and texture.
-GameObject::GameObject(const string &modelName, const string &meshName, const string &materialName,
+// Doesn't initialize mesh or shader, but initializes the material using 
+// the given shader and texture.
+GameObject::GameObject(const string &gameObjectName, const string &modelName,
+	const string &meshName, const string &materialName,
 	const string &shaderName, const string &diffuseTexture, bool loadAsCube)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
 		bool success;
 		if (loadAsCube)
-			success = ModelManager::getInstance()->loadModel(modelName, meshName,
-				materialName, shaderName, diffuseTexture);
+			success = ModelManager::getInstance()->loadModel(modelName, 
+				meshName, materialName, shaderName, diffuseTexture);
 		else
-			success = ModelManager::getInstance()->loadCubeModel(modelName, meshName,
-				materialName, shaderName, diffuseTexture);
+			success = ModelManager::getInstance()->loadCubeModel(modelName, 
+				meshName, materialName, shaderName, diffuseTexture);
 
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName +
+				" did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -78,16 +85,18 @@ GameObject::GameObject(const string &modelName, const string &meshName, const st
 }
 
 // Initialize mesh, but not material.
-GameObject::GameObject(const string &modelName, const string &meshName, const string &materialName,
-	PrimitiveType prim, vector<Vertex> vertices, vector<GLuint> indices)
+GameObject::GameObject(const string &gameObjectName, const string &modelName,
+	const string &meshName, const string &materialName, PrimitiveType prim, 
+	vector<Vertex> vertices, vector<GLuint> indices)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName, meshName, materialName,
-			prim, vertices, indices);
+		bool success = ModelManager::getInstance()->loadModel(modelName,
+			meshName, materialName, prim, vertices, indices);
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName + 
+				" did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -96,26 +105,30 @@ GameObject::GameObject(const string &modelName, const string &meshName, const st
 }
 
 // Initialize material, but not mesh.
-GameObject::GameObject(const string &modelName, const string &meshName, const string &materialName,
-	const string &shaderName, const string &vertexShaderPath, const string &fragmentShaderPath,
-	vector<ShaderVariable> shaderVars, const string &diffuseTexture,
-	bool loadAsCube, bool printShaderLoadStatus)
+GameObject::GameObject(const string &gameObjectName, const string &modelName, 
+	const string &meshName, const string &materialName, 
+	const string &shaderName, const string &vertexShaderPath,
+	const string &fragmentShaderPath, vector<ShaderVariable> shaderVars, 
+	const string &diffuseTexture, bool loadAsCube, bool printShaderLoadStatus)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
 		bool success;
 		if (loadAsCube)
-			success = ModelManager::getInstance()->loadCubeModel(modelName, meshName,
-				materialName, shaderName, vertexShaderPath, fragmentShaderPath,
-				shaderVars, diffuseTexture, printShaderLoadStatus);
+			success = ModelManager::getInstance()->loadCubeModel(modelName, 
+				meshName, materialName, shaderName, vertexShaderPath, 
+				fragmentShaderPath, shaderVars, diffuseTexture,
+				printShaderLoadStatus);
 		else
-			success = ModelManager::getInstance()->loadModel(modelName, meshName,
-				materialName, shaderName, vertexShaderPath, fragmentShaderPath,
-				shaderVars, diffuseTexture, printShaderLoadStatus);
+			success = ModelManager::getInstance()->loadModel(modelName,
+				meshName, materialName, shaderName, vertexShaderPath,
+				fragmentShaderPath, shaderVars, diffuseTexture,
+				printShaderLoadStatus);
 
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName + 
+				" did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -124,21 +137,23 @@ GameObject::GameObject(const string &modelName, const string &meshName, const st
 }
 
 // Initialization of everything.
-GameObject::GameObject(const string &modelName, const string &meshName, const string &materialName,
+GameObject::GameObject(const string &gameObjectName, const string &modelName, 
+	const string &meshName, const string &materialName,
 	const string &shaderName, PrimitiveType prim, vector<Vertex> vertices,
 	vector<GLuint> indices, const string &vertexShaderPath,
 	const string &fragmentShaderPath, vector<ShaderVariable> shaderVars,
 	const string &diffuseTexture, bool printShaderLoadStatus)
 {
-	init(modelName);
+	init(gameObjectName, modelName);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName, meshName, materialName,
-			shaderName, prim, vertices, indices, vertexShaderPath,
-			fragmentShaderPath, shaderVars, diffuseTexture, 
+		bool success = ModelManager::getInstance()->loadModel(modelName, 
+			meshName, materialName, shaderName, prim, vertices, indices,
+			vertexShaderPath, fragmentShaderPath, shaderVars, diffuseTexture, 
 			printShaderLoadStatus);
 		if (!success)
-			throw std::runtime_error("Model " + modelName + " did not load successfully.");
+			throw std::runtime_error("Model " + modelName + 
+				" did not load successfully.");
 	}
 	catch (std::exception &e)
 	{
@@ -146,22 +161,22 @@ GameObject::GameObject(const string &modelName, const string &meshName, const st
 	}
 }
 
+vector<Material*>
+GameObject::getMaterials()
+{
+	return getModel()->getMaterials();
+}
+
 void
-GameObject::setMaterialName(const string &matName)
-{ 
-	getModel()->setMaterialName(matName);
+GameObject::setGameObjectName(const std::string &name)
+{
+	this->gameObjectName = name;
 }
 
 string
-GameObject::getMaterialName()
+GameObject::getGameObjectName()
 {
-	return getModel()->getMaterialName();
-}
-
-Material* 
-GameObject::getMaterial()
-{
-	return getModel()->getMaterial();
+	return gameObjectName;
 }
 
 void 
@@ -269,12 +284,10 @@ GameObject::update(double deltaTime)
 }
 
 void 
-GameObject::init(const string &modelName)
+GameObject::init(const string &gameObjectName, const string &modelName)
 {
 	this->modelName = modelName;
-
-	if (!getModel())
-		int x = 5;
+	this->gameObjectName = gameObjectName;
 
 	script = [](SceneNode*, double) {};
 	isEnabled = true;
@@ -282,5 +295,6 @@ GameObject::init(const string &modelName)
 
 	// TODO: Change when PolyMesh implemented.
 	if (SingleMesh* m = dynamic_cast<SingleMesh*>(getMesh()))
-		boundingBoxes.push_back(std::make_unique<BoundingBox>(*m, BOUNDING_BOX_TYPE::OBB));
+		boundingBoxes.push_back(std::make_unique<BoundingBox>(*m,
+			BOUNDING_BOX_TYPE::OBB));
 }

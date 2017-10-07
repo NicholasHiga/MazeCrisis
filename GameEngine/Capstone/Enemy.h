@@ -7,7 +7,8 @@ namespace MazeCrisis
 	{
 	public:
 		Enemy(int maxHealth);
-		Enemy(const std::string &modelName, int maxHealth);
+		Enemy(const std::string &gameObjectName,
+			const std::string &modelName, int maxHealth);
 
 		int getMaxHealth();
 		void setMaxHealth(int maxHealth);

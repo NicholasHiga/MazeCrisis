@@ -56,9 +56,9 @@ namespace MazeCrisis
 
 				if (enemy)
 				{
-					std::cout << enemy->getMaterialName() << " " <<
+					std::cout << enemy->getGameObjectName() << " " <<
 						(int)(enemy->getCurrentHealth() - damagePerShot) << " hp" << std::endl;
-					if (enemy->getMaterialName() == "Boss"
+					if (enemy->getGameObjectName() == "Boss"
 						&& enemy->getCurrentHealth() - damagePerShot <= 0)
 						Common::gameStates.push(GameState::VICTORY);
 					enemy->setCurrentHealth(enemy->getCurrentHealth() - damagePerShot);			

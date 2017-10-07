@@ -105,7 +105,7 @@ OpenGLRenderer::renderMesh(MeshType &meshType)
 void
 OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
 {
-	Material *material = model.getMaterial();
+	Material *material = model.getMaterials()[0];
 	vector<ShaderVariable> samplerVars = material->getShader()->getSamplerVars();
 
 	mat4 modelM = node.get()->getModelMatrix();

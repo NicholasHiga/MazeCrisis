@@ -21,7 +21,7 @@ MaterialManager::getInstance()
 bool
 MaterialManager::loadMaterial(const string &materialName, const string &shaderName, const string &diffuseTexture)
 {
-	shared_ptr<Material> mat = std::make_shared<Material>(shaderName);
+	shared_ptr<Material> mat = std::make_shared<Material>(materialName, shaderName);
 
 	if (diffuseTexture != "")
 	{
@@ -38,8 +38,8 @@ MaterialManager::loadMaterial(const string &materialName, const string &shaderNa
 	const string &fragmentShaderPath, const vector<ShaderVariable> &shaderVars,
 	const string &diffuseTexturePath, bool printShaderLoadStatus)
 {
-	shared_ptr<Material> mat = std::make_shared<Material>(shaderName, vertexShaderPath, fragmentShaderPath,
-		shaderVars, printShaderLoadStatus);
+	shared_ptr<Material> mat = std::make_shared<Material>(materialName, shaderName, 
+		vertexShaderPath, fragmentShaderPath, shaderVars, printShaderLoadStatus);
 
 	if (diffuseTexturePath != "")
 	{

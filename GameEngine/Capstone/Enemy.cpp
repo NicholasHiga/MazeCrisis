@@ -11,7 +11,9 @@ namespace MazeCrisis
 		setCurrentHealth(maxHealth);
 	}
 
-	Enemy::Enemy(const std::string &modelName, int maxHealth) : GameObject(modelName)
+	Enemy::Enemy(const std::string &gameObjectName,
+		const std::string &modelName, int maxHealth) 
+		: GameObject(gameObjectName, modelName)
 	{
 		setMaxHealth(maxHealth);
 		setCurrentHealth(maxHealth);

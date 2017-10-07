@@ -20,42 +20,59 @@ public:
 	GameObject();
 
 	// Model with given name already loaded.
-	GameObject(const std::string &modelName);
+	GameObject(const std::string &gameObjectName, const std::string &modelName);
 
-	GameObject(const std::string &modelName, std::shared_ptr<EffectedModel> model);
+	GameObject(const std::string &gameObjectName, const std::string &modelName,
+		std::shared_ptr<EffectedModel> model);
 
 	// Doesn't initialize mesh, shader or material, assume all are loaded already.
-	GameObject(const std::string &modelName, const std::string &meshName, const std::string &materialName);
+	GameObject(const std::string &gameObjectName, const std::string &modelName, 
+		const std::string &meshName, const std::string &materialName);
 
-	// Doesn't initialize mesh or shader, but initializes the material using the given shader
-	// and texture.
-	GameObject(const std::string &modelName, const std::string &meshName, const std::string &materialName,
-		const std::string &shaderName, const std::string &diffuseTexture = "", bool loadAsCube = false);
+	// Doesn't initialize mesh or shader, but initializes the material using 
+	// the given shader and texture.
+	GameObject(const std::string &gameObjectName, const std::string &modelName,
+		const std::string &meshName, const std::string &materialName,
+		const std::string &shaderName, const std::string &diffuseTexture = "",
+		bool loadAsCube = false);
 
 	// Initialize mesh, but not material or shader.
-	GameObject(const std::string &modelName, const std::string &meshName, const std::string &materialName, PrimitiveType prim,
-		std::vector<Vertex> vertices, std::vector<GLuint> indices);
+	GameObject(const std::string &gameObjectName, const std::string &modelName, 
+		const std::string &meshName, const std::string &materialName,
+		PrimitiveType prim, std::vector<Vertex> vertices,
+		std::vector<GLuint> indices);
 
 	// Initialize material and shader, but not mesh.
-	GameObject(const std::string &modelName, const std::string &meshName, const std::string &materialName,
-		const std::string &shaderName, const std::string &vertexShaderPath, const std::string &fragmentShaderPath,
-		std::vector<ShaderVariable> shaderVars, const std::string &diffuseTexture = "",
-		bool loadAsCube = false, bool printShaderLoadStatus = false);
+	GameObject(const std::string &gameObjectName, const std::string &modelName,
+		const std::string &meshName, const std::string &materialName,
+		const std::string &shaderName, const std::string &vertexShaderPath,
+		const std::string &fragmentShaderPath, 
+		std::vector<ShaderVariable> shaderVars, 
+		const std::string &diffuseTexture = "", bool loadAsCube = false, 
+		bool printShaderLoadStatus = false);
 
 	// Initialization of everything, mesh, material and shader.
-	GameObject(const std::string &modelName, const std::string &meshName, const std::string &materialName,
-		const std::string &shaderName, PrimitiveType prim, std::vector<Vertex> vertices,
-		std::vector<GLuint> indices, const std::string &vertexShaderPath,
-		const std::string &fragmentShaderPath, std::vector<ShaderVariable> shaderVars,
-		const std::string &diffuseTexture = "", bool printShaderLoadStatus = false);
+	GameObject(const std::string &gameObjectName, const std::string &modelName,
+		const std::string &meshName, const std::string &materialName,
+		const std::string &shaderName, PrimitiveType prim, 
+		std::vector<Vertex> vertices, std::vector<GLuint> indices,
+		const std::string &vertexShaderPath,
+		const std::string &fragmentShaderPath,
+		std::vector<ShaderVariable> shaderVars,
+		const std::string &diffuseTexture = "", 
+		bool printShaderLoadStatus = false);
 		
-	void setMaterialName(const std::string &matName);
-	std::string getMaterialName();
-	Material* getMaterial();
+	//void removeMaterial(const std::string &matName);
+	//void addMaterial(const std::string &matName);
+	std::vector<Material*> getMaterials();
+
+	void setGameObjectName(const std::string &name);
+	std::string getGameObjectName();
 
 	void setMeshName(const std::string &meshName);
 	std::string getMeshName();
-	SingleMesh* getMesh(); 	// TODO: Change to MeshType when PolyMesh implemented.
+	SingleMesh* getMesh(); 	
+	// TODO: Change to MeshType when PolyMesh implemented.
 
 	void setModelName(const std::string &modelName);
 	std::string getModelName();
@@ -75,16 +92,17 @@ public:
 
 	std::vector<BoundingBox*> getBoundingBoxes();
 
-	// GameObject(SceneNode &parent, string modelPath); When model loader completed.
+	// GameObject(SceneNode &parent, string modelPath); When model loader 
+	// completed.
 
 	void update(double deltaTime);
 
 	std::string name() const { return "GameObject"; }
 
 protected:
-	void init(const std::string &modelName);
+	void init(const std::string &gameObjectName, const std::string &modelName);
 	std::shared_ptr<SceneNode> parentNode;
-	std::string modelName;
+	std::string gameObjectName, modelName;
 	std::function<void(SceneNode*, double)> script;
 	std::vector<std::unique_ptr<BoundingBox>> boundingBoxes;
 	bool isVisible;		// Determines if being rendered.

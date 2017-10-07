@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "ShaderVariable.h"
 #include "MaterialManager.h"
+#include "ModelManager.h"
 
 using std::string;
 using std::vector;
@@ -12,12 +13,12 @@ using std::vector;
 EffectedModel::EffectedModel(const string &meshName, const string &materialName)
 {
 	this->meshName = meshName;
-	this->materialName = materialName;
+	addExistingMaterial(materialName);
 	bindAttributes();
 }
 
-// Doesn't initialize mesh or shader, but initializes the material using the given shader
-// and texture.
+// Doesn't initialize mesh or shader, but initializes the material using 
+// the given shader and texture.
 EffectedModel::EffectedModel(const string &meshName, const string &materialName,
 	const string &shaderName, const string &diffuseTexture)
 {
@@ -26,17 +27,19 @@ EffectedModel::EffectedModel(const string &meshName, const string &materialName,
 }
 
 // Initialize mesh, but not material or shader.
-EffectedModel::EffectedModel(const string &meshName, const string &materialName,
-	PrimitiveType prim, const vector<Vertex> &vertices, const vector<GLuint> &indices)
+EffectedModel::EffectedModel(const string &meshName, const string &materialName, 
+	PrimitiveType prim, const vector<Vertex> &vertices, 
+	const vector<GLuint> &indices)
 {
-	this->materialName = materialName;
+	addExistingMaterial(materialName);
 	initModel(prim, meshName, vertices, indices);
 }
 
 // Initialize material and shader, but not mesh.
-EffectedModel::EffectedModel(const string &meshName, const string &materialName,
-	const string &shaderName, const string &vertexShaderPath, const string &fragmentShaderPath,
-	const vector<ShaderVariable> &shaderVars, const string &diffuseTexture,
+EffectedModel::EffectedModel(const string &meshName, const string &materialName, 
+	const string &shaderName, const string &vertexShaderPath,
+	const string &fragmentShaderPath, const vector<ShaderVariable> &shaderVars,
+	const string &diffuseTexture,
 	bool printShaderLoadStatus)
 {
 	this->meshName = meshName;
@@ -45,11 +48,12 @@ EffectedModel::EffectedModel(const string &meshName, const string &materialName,
 }
 
 // Initialization of everything, mesh, material and shader.
-EffectedModel::EffectedModel(const string &meshName, const string &materialName,
-	const string &shaderName, PrimitiveType prim, const vector<Vertex> &vertices,
-	const vector<GLuint> &indices,	const string &vertexShaderPath,
-	const string &fragmentShaderPath, const vector<ShaderVariable> &shaderVars,
-	const string &diffuseTexture, bool printShaderLoadStatus)
+EffectedModel::EffectedModel(const string &meshName,
+	const string &materialName, const string &shaderName, PrimitiveType prim,
+	const vector<Vertex> &vertices, const vector<GLuint> &indices,	
+	const string &vertexShaderPath, const string &fragmentShaderPath,
+	const vector<ShaderVariable> &shaderVars, const string &diffuseTexture, 
+	bool printShaderLoadStatus)
 {
 	initModel(prim, meshName, vertices, indices);
 	initMaterial(materialName, shaderName, vertexShaderPath, fragmentShaderPath,
@@ -57,15 +61,17 @@ EffectedModel::EffectedModel(const string &meshName, const string &materialName,
 }
 
 void 
-EffectedModel::initMaterial(const string &materialName, const string &shaderName, const string &vertexShaderPath,
+EffectedModel::initMaterial(const string &materialName,
+	const string &shaderName, const string &vertexShaderPath,
 	const string &fragmentShaderPath, const vector<ShaderVariable> &shaderVars,
 	const string &diffuseTexture, bool printShaderLoadStatus)
 {
 	try 
 	{
-		MaterialManager::getInstance()->loadMaterial(materialName, shaderName, vertexShaderPath,
-			fragmentShaderPath, shaderVars, diffuseTexture, printShaderLoadStatus);
-		setMaterialName(materialName);
+		MaterialManager::getInstance()->loadMaterial(materialName, shaderName, 
+			vertexShaderPath, fragmentShaderPath, shaderVars, diffuseTexture,
+			printShaderLoadStatus);
+		addExistingMaterial(materialName);
 		bindAttributes();
 	}
 	catch (std::exception &e)
@@ -75,12 +81,14 @@ EffectedModel::initMaterial(const string &materialName, const string &shaderName
 }
 
 void 
-EffectedModel::initMaterialWithLoadedShader(const string &materialName, const string &shaderName, const string &diffuseTexture)
+EffectedModel::initMaterialWithLoadedShader(const string &materialName, 
+	const string &shaderName, const string &diffuseTexture)
 {
 	try
 	{
-		MaterialManager::getInstance()->loadMaterial(materialName, shaderName, diffuseTexture);
-		setMaterialName(materialName);
+		MaterialManager::getInstance()->loadMaterial(materialName, shaderName, 
+			diffuseTexture);
+		addExistingMaterial(materialName);
 		bindAttributes();
 	}
 	catch (std::exception &e)
@@ -90,12 +98,14 @@ EffectedModel::initMaterialWithLoadedShader(const string &materialName, const st
 }
 
 void 
-EffectedModel::initModel(PrimitiveType prim, const string &modelName, const vector<Vertex> &vertices,
+EffectedModel::initModel(PrimitiveType prim, const string &modelName, 
+	const vector<Vertex> &vertices,
 	const vector<GLuint> &indices)
 {
 	try
 	{
-		MeshManager::getInstance()->loadMesh(modelName, prim, vertices, indices);
+		MeshManager::getInstance()->loadMesh(modelName, prim, vertices,
+			indices);
 		setMeshName(modelName);
 	}
 	catch (std::exception &e)
@@ -104,10 +114,10 @@ EffectedModel::initModel(PrimitiveType prim, const string &modelName, const vect
 	}
 }
 
-Material*
-EffectedModel::getMaterial()
+void
+EffectedModel::addExistingMaterial(const std::string &materialName)
 {
-	return MaterialManager::getInstance()->get(materialName);
+	materials.push_back(MaterialManager::getInstance()->get(materialName));
 }
 
 SingleMesh* 
@@ -121,7 +131,10 @@ EffectedModel::bindAttributes()
 {
 	glBindVertexArray(getMesh()->getVAO());
 
-	vector<ShaderVariable> vars = getMaterial()->getShader()->getShaderVars();
+	// TO DO: MAKE SURE WORKING WITH MULTIPLE MATERIALS!!
+	vector<ShaderVariable> vars = getMaterials()[0]->getShader()
+		->getShaderVars();
+
 	for (size_t i = 0; i < vars.size(); i++)
 	{	
 		glEnableVertexAttribArray(i);

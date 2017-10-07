@@ -16,7 +16,7 @@ namespace MazeCrisis
 	{
 		ModelManager::getInstance()->loadCubeModel("CameraBox",
 			TEXTURES_PATH + "bcrate.jpg");
-		go = std::make_shared<GameObject>("CameraBox");
+		go = std::make_shared<GameObject>("CameraBox", "CameraBox");
 		invisBoundingBoxNode = std::make_shared<SceneNode>();
 		invisBoundingBoxNode->setScale(vec3(20, 20, 20));
 		invisBoundingBoxNode->addRenderable(*go);

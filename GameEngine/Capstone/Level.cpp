@@ -159,25 +159,25 @@ namespace MazeCrisis
 		game->getModelManager()->loadCubeModel("Buckets", "Cube", "Buckets", "TexturedCube",
 			TEXTURES_PATH + "buckets.png");
 
-		enemies.push_back(std::make_shared<Enemy>("Enemy1", 30)); 
-		enemies.push_back(std::make_shared<Enemy>("Enemy2", 40)); 
-		enemies.push_back(std::make_shared<Enemy>("Enemy3", 70)); 
-		enemies.push_back(std::make_shared<Enemy>("Footballer", 90));
-		enemies.push_back(std::make_shared<Enemy>("Blacksmith", 150));
-		enemies.push_back(std::make_shared<Enemy>("Buckets", 70));
-		enemies.push_back(std::make_shared<Enemy>("Enemy2", 30));
-		enemies.push_back(std::make_shared<Enemy>("Footballer", 90));
-		enemies.push_back(std::make_shared<Enemy>("Enemy3", 70));
-		enemies.push_back(std::make_shared<Enemy>("Enemy3", 70));
-		enemies.push_back(std::make_shared<Enemy>("Footballer", 100)); // 11
+		enemies.push_back(std::make_shared<Enemy>("E1", "Enemy1", 30));
+		enemies.push_back(std::make_shared<Enemy>("E2", "Enemy2", 40));
+		enemies.push_back(std::make_shared<Enemy>("E3", "Enemy3", 70));
+		enemies.push_back(std::make_shared<Enemy>("E4", "Footballer", 90));
+		enemies.push_back(std::make_shared<Enemy>("E5", "Blacksmith", 150));
+		enemies.push_back(std::make_shared<Enemy>("E6", "Buckets", 70));
+		enemies.push_back(std::make_shared<Enemy>("E7", "Enemy2", 30));
+		enemies.push_back(std::make_shared<Enemy>("E8", "Footballer", 90));
+		enemies.push_back(std::make_shared<Enemy>("E9", "Enemy3", 70));
+		enemies.push_back(std::make_shared<Enemy>("E10", "Enemy3", 70));
+		enemies.push_back(std::make_shared<Enemy>("E11", "Footballer", 100)); // 11
 
-		enemies.push_back(std::make_shared<Enemy>("Enemy3", 70));
-		enemies.push_back(std::make_shared<Enemy>("Footballer", 90));
-		enemies.push_back(std::make_shared<Enemy>("Buckets", 70));
-		enemies.push_back(std::make_shared<Enemy>("Buckets", 70));
-		enemies.push_back(std::make_shared<Enemy>("Blacksmith", 150));
-		enemies.push_back(std::make_shared<Enemy>("Enemy3", 70));
-		enemies.push_back(std::make_shared<Enemy>("Boss", 300));
+		enemies.push_back(std::make_shared<Enemy>("E12", "Enemy3", 70));
+		enemies.push_back(std::make_shared<Enemy>("E13", "Footballer", 90));
+		enemies.push_back(std::make_shared<Enemy>("E14", "Buckets", 70));
+		enemies.push_back(std::make_shared<Enemy>("E15", "Buckets", 70));
+		enemies.push_back(std::make_shared<Enemy>("E16", "Blacksmith", 150));
+		enemies.push_back(std::make_shared<Enemy>("E17", "Enemy3", 70));
+		enemies.push_back(std::make_shared<Enemy>("Boss", "Boss", 300));
 
 		/*enemies.push_back(std::make_shared<Enemy>("Enemy1", 30));
 		enemies.push_back(std::make_shared<Enemy>("Enemy2", 30));
@@ -478,10 +478,11 @@ namespace MazeCrisis
 			if (GameObject *go = dynamic_cast<GameObject*>((*renderables)[0]))
 			{
 #ifdef _DEBUG
-				std::cout << "Player hit by " << go->getMaterialName() << std::endl;
+				std::cout << "Player hit by " <<
+					go->getGameObjectName() << std::endl;
 #endif
 				game->getSceneGraph()->removeNodeWithRenderable(*go);
-				if  (go->getMaterialName() == "Boss")
+				if (go->getGameObjectName() == "Boss")
 					player->setCurrentHealth(0);
 				else 
 					player->setCurrentHealth(player->getCurrentHealth() - 1);
