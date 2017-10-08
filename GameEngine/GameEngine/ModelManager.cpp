@@ -170,12 +170,12 @@ ModelManager::buildSingleModel(const string &path, ImageManager &im, int _index)
 	Face *faces = new Face[mesh->mNumFaces];
 
 	// Load each face.
-	for (int i = 0; i < mesh->mNumFaces; i++)
+	for (int i = 0; i < mesh->mNumFaces; ++i)
 	{
 		Vertex *verts = new Vertex[mesh->mFaces[i].mNumIndices];
 
 		// Load vertices for the face.
-		for (int j = 0; j < mesh->mFaces[i].mNumIndices; j++)
+		for (int j = 0; j < mesh->mFaces[i].mNumIndices; ++j)
 		{
 			unsigned int index = mesh->mFaces[i].mIndices[j];
 			verts[j] = Vertex(Vec3(mesh->mVertices[index].x, mesh->mVertices[index].y, mesh->mVertices[index].z));
@@ -229,7 +229,7 @@ ModelManager::buildPolyModel(const string &path, ImageManager &im)
 {
 	// Load each mesh using buildSingleModel method.
 	vector<Mesh*> meshes;
-	for (int i = 0; i < scene->mNumMeshes; i++)
+	for (int i = 0; i < scene->mNumMeshes; ++i)
 		meshes.push_back(buildSingleModel(path, im, i));
 	return new PolyMesh(meshes);
 }*/

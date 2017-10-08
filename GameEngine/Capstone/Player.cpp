@@ -145,7 +145,7 @@ namespace MazeCrisis
 	{
 		this->numGruntSounds = numGruntSounds;
 		this->gruntSoundFiletype = gruntSoundFiletype;
-		for (size_t i = 0; i < numGruntSounds; i++)
+		for (size_t i = 0; i < numGruntSounds; ++i)
 			AudioManager::getInstance()->loadSound(gruntSoundPrefix + std::to_string(i) + "." + gruntSoundFiletype);
 		this->gruntSoundPrefix = gruntSoundPrefix;
 	}

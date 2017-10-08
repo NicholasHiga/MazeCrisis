@@ -55,7 +55,7 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 	camera->setSceneCenter(vec3(0, 0, 0), false);
 	camera->setCameraUp(vec3(0, 1, 0), true);
 
-	for (size_t i = 0; i < modelNames.size(); i++)
+	for (size_t i = 0; i < modelNames.size(); ++i)
 		nodes.push_back(std::make_shared<SceneNode>());
 
 	nodes[0]->setPosition(vec3(-1.2f, -1.0f, -2.0f));
@@ -85,7 +85,7 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 	vars2.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
 	vars2.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
 
-	for (size_t i = 0; i < coloredCubePositions.size() / 3; i++)
+	for (size_t i = 0; i < coloredCubePositions.size() / 3; ++i)
 	{
 		Vertex v;
 		v.position = vec3(coloredCubePositions[i * 3], coloredCubePositions[i * 3 + 1], coloredCubePositions[i * 3 + 2]);
@@ -93,7 +93,7 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 		cubeOneVertices.push_back(v);
 	}
 
-	for (size_t i = 0; i < texturedCubeVertices.size() / 3; i++)
+	for (size_t i = 0; i < texturedCubeVertices.size() / 3; ++i)
 	{
 		Vertex v;
 		v.position = vec3(texturedCubeVertices[i * 3], texturedCubeVertices[i * 3 + 1], texturedCubeVertices[i * 3 + 2]);
@@ -131,10 +131,10 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 		modelManager->loadCubeModel(modelNames[5], meshNames[1], materialNames[5], shaderNames[2], "grass.png");
 
 		//ren->setWireframeMode(true);
-		for (size_t i = 0; i < modelNames.size(); i++)
+		for (size_t i = 0; i < modelNames.size(); ++i)
 			gameObjects.push_back(std::make_shared<GameObject>(modelNames[i]));
 
-		for (size_t i = 0; i < nodes.size(); i++)
+		for (size_t i = 0; i < nodes.size(); ++i)
 		{
 			nodes[i]->addRenderable(*gameObjects[i]);
 			scene->appendChildNode(nodes[i]);

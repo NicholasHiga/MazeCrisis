@@ -183,14 +183,14 @@ OpenGLRenderer::renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node)
 void
 OpenGLRenderer::renderMesh(Mesh &mesh)
 {
-	for (int i = 0; i < mesh.getNumPrimitives(); i++)
+	for (int i = 0; i < mesh.getNumPrimitives(); ++i)
 		renderPrimitiveShape(mesh.getPrimitives()[i]);
 }
 
 void
 OpenGLRenderer::renderMesh(PolyMesh &polymesh)
 {
-	for (int i = 0; i < polymesh.getNumMeshes(); i++)
+	for (int i = 0; i < polymesh.getNumMeshes(); ++i)
 		renderMesh(*((*polymesh.getMeshes())[i]));
 }*/
 
@@ -220,7 +220,7 @@ void
 OpenGLRenderer::renderSceneNode(shared_ptr<SceneNode> node, Camera &camera)
 {
 	vector<Renderable*> *renderables = node.get()->getRenderables();
-	for (size_t i = 0; i < (*renderables).size(); i++)
+	for (size_t i = 0; i < (*renderables).size(); ++i)
 	{
 		if (GameObject *go = dynamic_cast<GameObject*>((*renderables)[i]))
 		{

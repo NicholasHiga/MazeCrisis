@@ -24,7 +24,7 @@ SceneGraph::getRootSceneNode()
 void
 SceneGraph::doSomethingEachElement(shared_ptr<SceneNode> firstNode, std::function<void(shared_ptr<SceneNode>)> func)
 {
-	for (size_t i = 0; i < firstNode.get()->getChildren()->size(); i++)
+	for (size_t i = 0; i < firstNode.get()->getChildren()->size(); ++i)
 	{
 		doSomethingEachElement((*firstNode.get()->getChildren())[i], func);
 		func((*firstNode.get()->getChildren())[i]);
@@ -46,7 +46,7 @@ SceneGraph::updateSceneGraph(double deltaTime)
 		[deltaTime](shared_ptr<SceneNode> n)
 	{
 		vector<Renderable*> *tmp = n.get()->getRenderables();
-		for (size_t i = 0; i < (*tmp).size(); i++)
+		for (size_t i = 0; i < (*tmp).size(); ++i)
 		{
 			GameObject *t = dynamic_cast<GameObject*>((*tmp)[i]);
 			if (t)
@@ -109,7 +109,7 @@ SceneGraph::removeNodeWithRenderable(Renderable &renderable)
 		if (!renderableRemoved)
 		{
 			vector<Renderable*> *tmp = n.get()->getRenderables();
-			for (size_t i = 0; i < (*tmp).size(); i++)
+			for (size_t i = 0; i < (*tmp).size(); ++i)
 			{
 				if (&renderable == (*tmp)[i])
 				{

@@ -220,7 +220,7 @@ GameObject::setParentNode(shared_ptr<SceneNode> parent)
 {
 	this->parentNode = parent;
 
-	for (size_t i = 0; i < boundingBoxes.size(); i++)
+	for (size_t i = 0; i < boundingBoxes.size(); ++i)
 		boundingBoxes[i].get()->updateBounds(parent.get()->getModelMatrix());
 }
 
@@ -271,7 +271,7 @@ vector<BoundingBox*>
 GameObject::getBoundingBoxes()
 {
 	vector<BoundingBox*> bbs;
-	for (size_t i = 0; i < boundingBoxes.size(); i++)
+	for (size_t i = 0; i < boundingBoxes.size(); ++i)
 		bbs.push_back(boundingBoxes[i].get());
 	return bbs;
 }

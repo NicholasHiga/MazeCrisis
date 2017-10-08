@@ -18,15 +18,15 @@ PolyMesh::getUniqueVertices(vector<Vec3> *verts)
 	if (meshes.size() >= 1)
 	{
 		meshes[0]->getUniqueVertices(verts);
-		for (int i = 1; i < meshes.size(); i++)
+		for (int i = 1; i < meshes.size(); ++i)
 		{
 			bool isVertInExisting = false;
 			vector<Vec3> temp;
 			meshes[i]->getUniqueVertices(&temp);
 
-			for (int j = 0; j < temp.size(); j++)
+			for (int j = 0; j < temp.size(); ++j)
 			{
-				for (int k = 0; k < verts->size(); k++)
+				for (int k = 0; k < verts->size(); ++k)
 				{
 					if ((*verts)[k] == (temp)[j])
 					{
@@ -82,13 +82,13 @@ PolyMesh::PolyMesh(std::string modelFilePath)
 void 
 PolyMesh::loadNode(aiNode *node, const aiScene *scene)
 {
-	for (size_t i = 0; i < node->mNumMeshes; i++)
+	for (size_t i = 0; i < node->mNumMeshes; ++i)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(loadMesh(mesh, scene));
 	}
 
-	for (size_t i = 0; i < node->mNumChildren; i++)
+	for (size_t i = 0; i < node->mNumChildren; ++i)
 		loadNode(node->mChildren[i], scene);
 }
 
@@ -99,7 +99,7 @@ PolyMesh::loadMesh(aiMesh *mesh, const aiScene *scene)
 	vector<unsigned int> indices;
 	vector<Texture> textures;
 
-	for (size_t i = 0; i < mesh->mNumVertices; i++)
+	for (size_t i = 0; i < mesh->mNumVertices; ++i)
 	{
 		Vertex vertex;
 
@@ -120,10 +120,10 @@ PolyMesh::loadMesh(aiMesh *mesh, const aiScene *scene)
 	}
 
 	// process indices
-	for (size_t i = 0; i < mesh->mNumFaces; i++)
+	for (size_t i = 0; i < mesh->mNumFaces; ++i)
 	{
 		aiFace face = mesh->mFaces[i];
-		for (size_t j = 0; j < face.mNumIndices; j++)
+		for (size_t j = 0; j < face.mNumIndices; ++j)
 			indices.push_back(face.mIndices[j]);
 	}
 	

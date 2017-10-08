@@ -202,7 +202,7 @@ namespace MazeCrisis
 
 		moveSpeed = { 0.008f, 0.008f, 0.003f, 0.030f };
 
-		for (int i = 0; i < 18; i++)
+		for (int i = 0; i < 18; ++i)
 		{
 			nodes.push_back(std::make_shared<SceneNode>());
 			nodes[i]->addRenderable(*enemies[i]);

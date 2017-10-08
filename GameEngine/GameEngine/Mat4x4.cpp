@@ -95,8 +95,8 @@ Mat4x4
 Mat4x4::transpose(const Mat4x4 mat)
 {
 	Mat4x4 m;
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
+	for (int i = 0; i < 4; ++i)
+		for (int j = 0; j < 4; ++j)
 			m.matrix[i][j] = mat.matrix[j][i];
 	return m;
 }
@@ -347,8 +347,8 @@ vector<GLfloat>
 Mat4x4::getOpenGLValues(Mat4x4 m)
 {
 	vector<GLfloat> ret;
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
+	for (int i = 0; i < 4; ++i)
+		for (int j = 0; j < 4; ++j)
 			ret.push_back(m.matrix[i][j]);
 
 	return ret;
@@ -379,10 +379,10 @@ void
 Mat4x4::setZero()
 {
 	matrix.clear();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		vector<float> r;
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < 4; ++j)
 			r.push_back(0);
 		matrix.push_back(r);
 	}
@@ -545,9 +545,9 @@ Mat4x4
 Mat4x4::operator*(const Mat4x4& b)
 {
 	Mat4x4 m;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < 4; ++j)
 		{
 			m.matrix[i][j] = matrix[i][0] * b.matrix[0][j] + matrix[i][1] * b.matrix[1][j]
 				+ matrix[i][2] * b.matrix[2][j] + matrix[i][3] * b.matrix[3][j];
@@ -569,9 +569,9 @@ Mat4x4::operator*(const vec3& b)
 void
 Mat4x4::printMatrix()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < 4; ++j)
 		{
 			printf("%f\t", matrix[i][j]);
 		}

@@ -82,7 +82,7 @@ bool
 MeshManager::loadCubeMesh(const string &meshName)
 {
 	vector<Vertex> cubeVertices;
-	for (size_t i = 0; i < CUBE_POSITIONS.size() / 3; i++)
+	for (size_t i = 0; i < CUBE_POSITIONS.size() / 3; ++i)
 	{
 		Vertex v;
 		v.position = glm::vec3(CUBE_POSITIONS[i * 3], CUBE_POSITIONS[i * 3 + 1], CUBE_POSITIONS[i * 3 + 2]);
@@ -100,7 +100,7 @@ MeshManager::loadSkyboxMesh(const std::string &meshName)
 {
 	vector<Vertex> skyboxVerts;
 	vector<GLuint> empty;
-	for (size_t i = 0; i < SKYBOX_VERTS.size() / 3; i++)
+	for (size_t i = 0; i < SKYBOX_VERTS.size() / 3; ++i)
 	{
 		Vertex v;
 		v.position = glm::vec3(SKYBOX_VERTS[i * 3], SKYBOX_VERTS[i * 3 + 1], SKYBOX_VERTS[i * 3 + 2]);

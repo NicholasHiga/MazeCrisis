@@ -25,7 +25,7 @@ RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest, std::ve
 		[=, &intersections, &intersectionPoints](shared_ptr<SceneNode> n)
 	{
 		vector<Renderable*> *renderables = n.get()->getRenderables();
-		for (size_t i = 0; i < (*renderables).size(); i++)
+		for (size_t i = 0; i < (*renderables).size(); ++i)
 		{
 			if (GameObject* go = dynamic_cast<GameObject*>((*renderables)[i]))
 			{				

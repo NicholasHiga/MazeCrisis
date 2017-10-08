@@ -32,7 +32,7 @@ ShaderProgramManager::loadShader(const string &shaderName, const string &vertexF
 		return status;
 	}
 
-	for (ResourceIterator i = myInstance->begin(); i != myInstance->end(); i++)
+	for (ResourceIterator i = myInstance->begin(); i != myInstance->end(); ++i)
 	{
 		// Checking to see if the shader already exists.
 		if (i->second->getVertexShaderFilePath() == vertexFilePath

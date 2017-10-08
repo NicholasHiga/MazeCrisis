@@ -20,7 +20,7 @@ AudioManager::~AudioManager()
 {
 	ResourceIterator iterator;
 	for (ResourceIterator iterator = resources.begin();
-		iterator != resources.end(); iterator++)
+		iterator != resources.end(); ++iterator)
 	{
 		result = iterator->second.get()->sound->release();
 		errorCheck();

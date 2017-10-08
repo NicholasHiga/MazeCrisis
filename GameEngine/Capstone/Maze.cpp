@@ -37,11 +37,11 @@ namespace MazeCrisis
 			vector<vector<string>>(textureValues[0].size(),
 			vector<string>(textureValues[0][0].size())));
 
-		for (size_t i = 0; i < textureValues.size(); i++)
+		for (size_t i = 0; i < textureValues.size(); ++i)
 		{
-			for (size_t j = 0; j < textureValues[i].size(); j++)
+			for (size_t j = 0; j < textureValues[i].size(); ++j)
 			{
-				for (size_t k = 0; k < textureValues[i][j].size(); k++)
+				for (size_t k = 0; k < textureValues[i][j].size(); ++k)
 				{
 					if (textureValues[i][j][k] != 0)
 						textures[i][j][k] = textureNames[textureValues[i][j][k] - 1];
@@ -51,13 +51,13 @@ namespace MazeCrisis
 			}
 		}
 
-		for (size_t i = 0; i < textures.size(); i++)
+		for (size_t i = 0; i < textures.size(); ++i)
 		{
 			vector<vector<shared_ptr<SceneNode>>> temp1;
-			for (size_t j = 0; j < textures[i].size(); j++)
+			for (size_t j = 0; j < textures[i].size(); ++j)
 			{
 				vector<shared_ptr<SceneNode>> temp2;
-				for (size_t k = 0; k < textures[i][j].size(); k++)
+				for (size_t k = 0; k < textures[i][j].size(); ++k)
 				{
 					if (textures[i][j][k] != "")
 					{

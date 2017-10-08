@@ -120,7 +120,7 @@ TextureManager::loadCubeMap(const std::string &name,
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 6; ++i)
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, texture->images[i]->getWidth(), texture->images[i]->getHeight(),
 					0, GL_BGRA, GL_UNSIGNED_BYTE, texture->images[i]->getImageData());
 

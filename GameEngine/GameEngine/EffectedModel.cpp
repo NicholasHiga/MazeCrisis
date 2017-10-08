@@ -135,7 +135,7 @@ EffectedModel::bindAttributes()
 	vector<ShaderVariable> vars = getMaterials()[0]->getShader()
 		->getShaderVars();
 
-	for (size_t i = 0; i < vars.size(); i++)
+	for (size_t i = 0; i < vars.size(); ++i)
 	{	
 		glEnableVertexAttribArray(i);
 		glBindBuffer(GL_ARRAY_BUFFER, getMesh()->getVBO());

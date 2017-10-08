@@ -98,14 +98,14 @@ BoundingBox::doesCollide(SceneGraph *graph, const BoundingBox &bb)
 		[=, &intersections](shared_ptr<SceneNode> n)
 	{
 		vector<Renderable*> *renderables = n.get()->getRenderables();
-		for (size_t i = 0; i < (*renderables).size(); i++)
+		for (size_t i = 0; i < (*renderables).size(); ++i)
 		{
 			if (GameObject* go = dynamic_cast<GameObject*>((*renderables)[i]))
 			{
 				if (go->getIsEnabled())
 				{
 					vector<BoundingBox*> bbs = go->getBoundingBoxes();
-					for (size_t j = 0; j < go->getBoundingBoxes().size(); j++)
+					for (size_t j = 0; j < go->getBoundingBoxes().size(); ++j)
 					{
 						if (doesCollide(bb, *bbs[j]))
 						{
@@ -130,17 +130,17 @@ std::vector<std::shared_ptr<SceneNode>>
 BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, const BoundingBox &bb, std::vector<unsigned int> *indices)
 {
 	vector<shared_ptr<SceneNode>> intersections;
-	for (size_t z = 0; z < nodes.size(); z++)
+	for (size_t z = 0; z < nodes.size(); ++z)
 	{
 		vector<Renderable*> *renderables = nodes[z].get()->getRenderables();
-		for (size_t i = 0; i < (*renderables).size(); i++)
+		for (size_t i = 0; i < (*renderables).size(); ++i)
 		{
 			if (GameObject* go = dynamic_cast<GameObject*>((*renderables)[i]))
 			{
 				if (go->getIsEnabled())
 				{
 					vector<BoundingBox*> bbs = go->getBoundingBoxes();
-					for (size_t j = 0; j < bbs.size(); j++)
+					for (size_t j = 0; j < bbs.size(); ++j)
 					{
 						if (doesCollide(bb, *bbs[j]))
 						{
@@ -179,7 +179,7 @@ BoundingBox::calculateBaseBounds(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType)
 	baseMins = vec3(pos.x, pos.y, pos.z);
 	baseMaxes = vec3(pos.x, pos.y, pos.z);
 
-	for (size_t i = 1; i < verts.size(); i++)
+	for (size_t i = 1; i < verts.size(); ++i)
 	{
 		if (verts[i].position.x > baseMaxes.x)
 			baseMaxes.x = verts[i].position.x;

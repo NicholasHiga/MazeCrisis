@@ -167,7 +167,7 @@ namespace MazeCrisis
 	{
 		if (wiiControllerConnected)
 		{
-			for (size_t i = 0; i < NUM_PLAYERS; i++)
+			for (size_t i = 0; i < NUM_PLAYERS; ++i)
 				wiiuse_set_ir_vres(wiimotes[i], width, height);
 		}
 	}

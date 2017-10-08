@@ -64,7 +64,7 @@ Frustum::setCamera(const vec3 &_pos, const vec3 &_lookAt, const vec3 &_up)
 bool
 Frustum::isPointInFrustum(vec3 &point)
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		float temp = planes[i].signedDistance(point);
 		if (planes[i].signedDistance(point) < 0)
@@ -90,7 +90,7 @@ Frustum::isBoxInFrustum(BoundingBox &box)
 	// Initial check to see if each point of the box is on the outside.
 	// If all points of the box are on the outside of the frustum,
 	// that the box is not inside the frustum.
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		int out = 0;
 
@@ -112,37 +112,37 @@ Frustum::isBoxInFrustum(BoundingBox &box)
 	// better explanation.
 	int out;
 	out = 0; 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 		out += ((points[i].x > tmpMaxes.x) ? 1 : 0);
 	if (out == 8)
 		return false;
 
 	out = 0; 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 		out += ((points[i].x < tmpMins.x) ? 1 : 0); 
 	if (out == 8)
 		return false;
 
 	out = 0;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 		out += ((points[i].y > tmpMaxes.y) ? 1 : 0); 
 	if (out == 8)
 		return false;
 	
 	out = 0; 
-	for (int i = 0; i < 8; i++) 
+	for (int i = 0; i < 8; ++i) 
 		out += ((points[i].y < tmpMins.y) ? 1 : 0);
 	if (out == 8) 
 		return false;
 	
 	out = 0; 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 		out += ((points[i].z > tmpMaxes.z) ? 1 : 0);
 	if (out == 8) 
 		return false;
 	
 	out = 0; 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 		out += ((points[i].z < tmpMins.z) ? 1 : 0);
 	if (out == 8) 
 		return false;

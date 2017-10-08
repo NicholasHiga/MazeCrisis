@@ -37,7 +37,7 @@ bool
 SceneNode::removeChildNode(shared_ptr<SceneNode> node)
 {
 	vector<shared_ptr<SceneNode>>::iterator it;
-	for (it = children.begin(); it != children.end(); it++)
+	for (it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it).get() == node.get())
 		{
@@ -52,7 +52,7 @@ bool
 SceneNode::removeChildNode(SceneNode *node)
 {
 	vector<shared_ptr<SceneNode>>::iterator it;
-	for (it = children.begin(); it != children.end(); it++)
+	for (it = children.begin(); it != children.end(); ++it)
 	{
 		if ((*it).get() == node)
 		{
@@ -148,13 +148,13 @@ SceneNode::getModelMatrix()
 void
 SceneNode::updateBoundingBoxes()
 {
-	for (size_t i = 0; i < renderables.size(); i++)
+	for (size_t i = 0; i < renderables.size(); ++i)
 	{
 		if (GameObject* go = dynamic_cast<GameObject*>(renderables[i]))
 		{
 			std::vector<BoundingBox*> boundingBoxes
 				= go->getBoundingBoxes();
-			for (size_t j = 0; j < boundingBoxes.size(); j++)
+			for (size_t j = 0; j < boundingBoxes.size(); ++j)
 				boundingBoxes[j]->updateBounds(getModelMatrix());
 		}
 	}

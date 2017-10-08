@@ -155,7 +155,7 @@ void
 ShaderProgram::setShaderVars(vector<ShaderVariable> shaderVars)
 {
 	this->shaderVars = shaderVars; 
-	for (size_t i = 0; i < shaderVars.size(); i++) 
+	for (size_t i = 0; i < shaderVars.size(); ++i) 
 	{
 		if (shaderVars[i].getShaderVarType() == SHADER_VAR_TYPE::UNIFORM)
 		{

@@ -132,7 +132,7 @@ namespace MazeCrisis
 		gameOverQuitButton = gameOverWindow->getChild("QuitToMainButton");
 		victoryWindow = rootWindow->getChild("VictoryOverlay");
 
-		for (size_t i = 0; i < 3; i++)
+		for (size_t i = 0; i < 3; ++i)
 			healthImageWindows.push_back(hudWindow->getChild("HealthBG/HealthImg" + to_string(i)));
 
 		optionsMenuWindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
@@ -461,9 +461,9 @@ namespace MazeCrisis
 		unsigned int maxHealth = 3;
 		if (health <= maxHealth)
 		{
-			for (size_t i = 0; i < health; i++)
+			for (size_t i = 0; i < health; ++i)
 				healthImageWindows[i]->setVisible(true);
-			for (size_t i = health; i < maxHealth; i++)
+			for (size_t i = health; i < maxHealth; ++i)
 				healthImageWindows[i]->setVisible(false);
 		}
 	}
