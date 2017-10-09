@@ -61,18 +61,9 @@ public:
 		std::vector<ShaderVariable> shaderVars,
 		const std::string &diffuseTexture = "", 
 		bool printShaderLoadStatus = false);
-		
-	//void removeMaterial(const std::string &matName);
-	//void addMaterial(const std::string &matName);
-	std::vector<Material*> getMaterials();
 
 	void setGameObjectName(const std::string &name);
 	std::string getGameObjectName();
-
-	void setMeshName(const std::string &meshName);
-	std::string getMeshName();
-	SingleMesh* getMesh(); 	
-	// TODO: Change to MeshType when PolyMesh implemented.
 
 	void setModelName(const std::string &modelName);
 	std::string getModelName();
@@ -97,7 +88,7 @@ public:
 
 	void update(double deltaTime);
 
-	std::string name() const { return "GameObject"; }
+	std::string className() const { return "GameObject"; }
 
 protected:
 	void init(const std::string &gameObjectName, const std::string &modelName);

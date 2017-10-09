@@ -16,20 +16,20 @@ public:
 	EffectedModel() {};
 
 	// Doesn't initialize mesh, shader or material, assume all are loaded already.
-	EffectedModel(const std::string &meshName, const std::string &materialName);
+	EffectedModel(const std::string &name, const std::string &materialName);
 
 	// Doesn't initialize mesh or shader, but initializes the material 
 	// using the given shader and texture.
-	EffectedModel(const std::string &meshName, const std::string &materialName, 
+	EffectedModel(const std::string &name, const std::string &materialName,
 		const std::string &shaderName, const std::string &diffuseTexture = "");
 
 	// Initialize mesh, but not material or shader.
-	EffectedModel(const std::string &meshName, const std::string &materialName, 
+	EffectedModel(const std::string &name, const std::string &materialName,
 		PrimitiveType prim, const std::vector<Vertex> &vertices, 
 		const std::vector<GLuint> &indices);
 
 	// Initialize material and shader, but not mesh.
-	EffectedModel(const std::string &meshName, const std::string &materialName, 
+	EffectedModel(const std::string &name, const std::string &materialName,
 		const std::string &shaderName, const std::string &vertexShaderPath,
 		const std::string &fragmentShaderPath, 
 		const std::vector<ShaderVariable> &shaderVars,
@@ -37,7 +37,7 @@ public:
 		bool printShaderLoadStatus = false);
 
 	// Initialization of everything, mesh, material and shader.
-	EffectedModel(const std::string &meshName, 
+	EffectedModel(const std::string &name,
 		const std::string &materialName, const std::string &shaderName, 
 		PrimitiveType prim, const std::vector<Vertex> &vertices,
 		const std::vector<GLuint> &indices,
@@ -50,11 +50,11 @@ public:
 	void addExistingMaterial(const std::string &materialName);
 	std::vector<Material*> getMaterials() { return materials; }
 
-	void setMeshName(const std::string &meshName) { this->meshName = meshName; }
-	const std::string &getMeshName() { return meshName; }
+	void setName(const std::string &name) { this->name = name; }
+	std::string getName() { return name; }
 	SingleMesh* getMesh(); // TODO: Change to MeshType when PolyMesh implemented
 
-	const std::string &name() const { return "EffectedModel"; }
+	const std::string &className() const { return "EffectedModel"; }
 
 	//BoundingBox* getBoundingBox() { return boundingBox; }
 
@@ -69,12 +69,12 @@ protected:
 	void initMaterialWithLoadedShader(const std::string &materialName, 
 		const std::string &shaderName, const std::string &texturePath);
 
-	void initModel(PrimitiveType prim, const std::string &modelName,
+	void initModel(const std::string &name, PrimitiveType prim,
 		const std::vector<Vertex> &vertices,
 		const std::vector<GLuint> &indices);
 
 	void bindAttributes();
 
-	std::string meshName;
+	std::string name;
 	std::vector<Material*> materials;
 };

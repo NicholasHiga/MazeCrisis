@@ -161,12 +161,6 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	}
 }
 
-vector<Material*>
-GameObject::getMaterials()
-{
-	return getModel()->getMaterials();
-}
-
 void
 GameObject::setGameObjectName(const std::string &name)
 {
@@ -177,24 +171,6 @@ string
 GameObject::getGameObjectName()
 {
 	return gameObjectName;
-}
-
-void 
-GameObject::setMeshName(const string &meshName)
-{ 
-	getModel()->setMeshName(meshName);
-}
-
-string
-GameObject::getMeshName()
-{ 
-	return getModel()->getMeshName();
-}
-
-SingleMesh*
-GameObject::getMesh()
-{
-	return getModel()->getMesh();
 }
 
 void 
@@ -294,7 +270,7 @@ GameObject::init(const string &gameObjectName, const string &modelName)
 	isVisible = true;
 
 	// TODO: Change when PolyMesh implemented.
-	if (SingleMesh* m = dynamic_cast<SingleMesh*>(getMesh()))
+	if (SingleMesh* m = dynamic_cast<SingleMesh*>(getModel()->getMesh()))
 		boundingBoxes.push_back(std::make_unique<BoundingBox>(*m,
 			BOUNDING_BOX_TYPE::OBB));
 }

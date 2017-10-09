@@ -2,13 +2,15 @@
 
 using std::vector;
 
-SingleMesh::SingleMesh(PrimitiveType prim, const vector<Vertex> &vertices, const vector<GLuint> &indices)
+SingleMesh::SingleMesh(const std::string &name, PrimitiveType prim,
+	const vector<Vertex> &vertices, const vector<GLuint> &indices)
 {
-	init(prim, vertices, indices);
+	init(name, prim, vertices, indices);
 }
 
 void 
-SingleMesh::init(PrimitiveType prim, const vector<Vertex> &vertices, const vector<GLuint> &indices)
+SingleMesh::init(const std::string &name, PrimitiveType prim,
+	const vector<Vertex> &vertices, const vector<GLuint> &indices)
 {
 	setPrimitiveType(prim);
 	this->vertices = vertices;
@@ -20,8 +22,15 @@ SingleMesh::init(PrimitiveType prim, const vector<Vertex> &vertices, const vecto
 	if (!indices.empty())
 		glGenBuffers(1, &ibo);
 
+	setName(name);
 	setIndices(indices);
 	setVertices(vertices);
+}
+
+std::string
+SingleMesh::getName()
+{
+	return name;
 }
 
 vector<Vertex>
@@ -34,6 +43,12 @@ vector<GLuint>
 SingleMesh::getIndices()
 {
 	return indices;
+}
+
+void 
+SingleMesh::setName(const std::string &name)
+{
+	this->name = name;
 }
 
 void

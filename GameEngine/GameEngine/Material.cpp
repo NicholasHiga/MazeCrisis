@@ -4,13 +4,13 @@
 #include "ShaderVariable.h"
 #include "ShaderProgramManager.h"
 
-Material::Material(const std::string &materialName, const std::string &shaderName)
+Material::Material(const std::string &name, const std::string &shaderName)
 {
-	setMaterialName(materialName);
+	setName(name);
 	setShader(shaderName);
 }
 
-Material::Material(const std::string &materialName, const std::string &shaderName, 
+Material::Material(const std::string &name, const std::string &shaderName,
 	const std::string &vertexShaderPath, const std::string &fragmentShaderPath,
 	std::vector<ShaderVariable> shaderVars, bool printShaderLoadStatus)
 {
@@ -27,7 +27,7 @@ Material::Material(const std::string &materialName, const std::string &shaderNam
 			throw std::runtime_error(status.message);
 
 		setShader(shaderName);
-		setMaterialName(materialName);
+		setName(name);
 	}
 	catch (std::exception &e)
 	{
@@ -36,9 +36,9 @@ Material::Material(const std::string &materialName, const std::string &shaderNam
 }
 
 void 
-Material::setMaterialName(const std::string &materialName)
+Material::setName(const std::string &name)
 {
-	this->materialName = materialName;
+	this->name = name;
 }
 
 void 
@@ -65,8 +65,8 @@ Material::getShader()
 	return ShaderProgramManager::getInstance()->get(shaderName);
 }
 
-const std::string
-Material::getMaterialName()
+std::string
+Material::getName()
 {
-	return materialName;
+	return name;
 }

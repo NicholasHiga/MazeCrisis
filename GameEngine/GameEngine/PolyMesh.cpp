@@ -133,7 +133,7 @@ PolyMesh::loadMesh(aiMesh *mesh, const aiScene *scene)
 		/// TODO: Figure out where to input textures
 	}
 
-	return SingleMesh(PrimitiveType::PRIM_TRIANGLE, vertices, indices);
+	return SingleMesh(" ", PrimitiveType::PRIM_TRIANGLE, vertices, indices);
 }
 
 std::vector<SingleMesh>* 

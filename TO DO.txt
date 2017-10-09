@@ -13,8 +13,9 @@ Add resolution option
 Score
 Timer
 Remove Wii calibration menus.
-Change various iterators to ++i instead of i++
 Walking sound effect
 
 Change EffectedModel (Make this the PolyMesh)
 - Multiple meshes, multiple textures
+
+Delete PolyMesh when EffectedModel done.

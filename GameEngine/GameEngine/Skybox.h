@@ -13,12 +13,15 @@ class Skybox : public Renderable
 {
 public:
 	Skybox(const std::string &skyboxMeshName, const std::string &textureName,
-		const std::string &shaderName,
-		const std::string &vertexShaderPath, const std::string &fragmentShaderPath,
+		const std::string &shaderName, const std::string &vertexShaderPath,
+		const std::string &fragmentShaderPath,
 		const std::vector<ShaderVariable> &shaderVars,
-		const std::string &negativeXTexturePath, const std::string &positiveXTexturePath,
-		const std::string &negativeYTexturePath, const std::string &positiveYTexturePath,
-		const std::string &negativeZTexturePath, const std::string &positiveZTexturePath,
+		const std::string &negativeXTexturePath,
+		const std::string &positiveXTexturePath,
+		const std::string &negativeYTexturePath,
+		const std::string &positiveYTexturePath,
+		const std::string &negativeZTexturePath,
+		const std::string &positiveZTexturePath,
 		bool printShaderLoadStatus = "false");
 
 	void setMeshName(const std::string &meshName);
@@ -33,7 +36,7 @@ public:
 	SingleMesh* getMesh();
 	Texture* getTexture();
 
-	std::string name() const { return "Skybox"; }
+	std::string className() const { return "Skybox"; }
 
 protected:
 	std::string meshName;

@@ -13,12 +13,14 @@ class Material
 {
 public:
 	Material() {};
-	Material(const std::string &materialName, const std::string &shaderName);
-	Material(const std::string &materialName, const std::string &shaderName, const std::string &vertexShaderPath,
-		const std::string &fragmentShaderPath, std::vector<ShaderVariable> shaderVars, 
+	Material(const std::string &name, const std::string &shaderName);
+	Material(const std::string &name, const std::string &shaderName, 
+		const std::string &vertexShaderPath, 
+		const std::string &fragmentShaderPath, 
+		std::vector<ShaderVariable> shaderVars, 
 		bool printShaderLoadStatus = false);
 
-	void setMaterialName(const std::string &materialName);
+	void setName(const std::string &name);
 	void setShader(const std::string &shaderName);	
 	void setDiffuseTexture(const std::string &textureName);
 
@@ -26,10 +28,11 @@ public:
 	Texture* getDiffuseTexture() { return textures["diffuse"]; }
 	GLuint getShaderID();
 	ShaderProgram* getShader();
-	const std::string getMaterialName();
+	std::string getName();
 
 private:
-	std::map<std::string, Texture*> textures; // Alpha, ambient, bumpmap, diffuse, emmisive, specular
+	std::map<std::string, Texture*> textures; 
+	// Alpha, ambient, bumpmap, diffuse, emmisive, specular
 	// map<string, vec3> colors ?
-	std::string materialName, shaderName;
+	std::string name, shaderName;
 };

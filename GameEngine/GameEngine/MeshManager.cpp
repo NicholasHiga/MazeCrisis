@@ -73,9 +73,11 @@ MeshManager::loadMesh(const string &meshName, shared_ptr<SingleMesh> model)
 }
 
 bool
-MeshManager::loadMesh(const string &meshName, PrimitiveType prim, const vector<Vertex> &vertices, const vector<GLuint> &indices)
+MeshManager::loadMesh(const string &meshName, PrimitiveType prim,
+	const vector<Vertex> &vertices, const vector<GLuint> &indices)
 {
-	return store(meshName, std::make_shared<SingleMesh>(prim, vertices, indices));
+	return store(meshName, std::make_shared<SingleMesh>(meshName, prim, 
+		vertices, indices));
 }
 
 bool 
@@ -92,7 +94,7 @@ MeshManager::loadCubeMesh(const string &meshName)
 	}
 
 	return store(meshName, std::make_shared<SingleMesh>
-		(PrimitiveType::PRIM_TRIANGLE, cubeVertices, CUBE_INDICES));
+		(meshName, PrimitiveType::PRIM_TRIANGLE, cubeVertices, CUBE_INDICES));
 }
 
 bool 
@@ -108,5 +110,5 @@ MeshManager::loadSkyboxMesh(const std::string &meshName)
 	}
 
 	return store(meshName, std::make_shared<SingleMesh>
-		(PrimitiveType::PRIM_TRIANGLE, skyboxVerts, empty));
+		(meshName, PrimitiveType::PRIM_TRIANGLE, skyboxVerts, empty));
 }
