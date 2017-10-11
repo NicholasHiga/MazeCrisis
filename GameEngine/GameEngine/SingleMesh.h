@@ -32,7 +32,7 @@ protected:
 		const std::vector<Vertex> &vertices, 
 		const std::vector<GLuint> &indices);
 
-	std::string name;
+	std::string name; 
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 };

@@ -52,6 +52,7 @@ public:
 
 	void setName(const std::string &name) { this->name = name; }
 	std::string getName() { return name; }
+
 	SingleMesh* getMesh(); // TODO: Change to MeshType when PolyMesh implemented
 
 	const std::string &className() const { return "EffectedModel"; }

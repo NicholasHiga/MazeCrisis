@@ -87,9 +87,11 @@ MeshManager::loadCubeMesh(const string &meshName)
 	for (size_t i = 0; i < CUBE_POSITIONS.size() / 3; ++i)
 	{
 		Vertex v;
-		v.position = glm::vec3(CUBE_POSITIONS[i * 3], CUBE_POSITIONS[i * 3 + 1], CUBE_POSITIONS[i * 3 + 2]);
+		v.position = glm::vec3(CUBE_POSITIONS[i * 3], CUBE_POSITIONS[i * 3 + 1],
+			CUBE_POSITIONS[i * 3 + 2]);
 		v.uv = glm::vec2(CUBE_UVS[i * 2], CUBE_UVS[i * 2 + 1]);
-		v.color = glm::vec3(CUBE_COLORS[i * 3], CUBE_COLORS[i * 3 + 1], CUBE_COLORS[i * 3 + 2]);
+		v.color = glm::vec3(CUBE_COLORS[i * 3], CUBE_COLORS[i * 3 + 1],
+			CUBE_COLORS[i * 3 + 2]);
 		cubeVertices.push_back(v);
 	}
 
@@ -105,7 +107,8 @@ MeshManager::loadSkyboxMesh(const std::string &meshName)
 	for (size_t i = 0; i < SKYBOX_VERTS.size() / 3; ++i)
 	{
 		Vertex v;
-		v.position = glm::vec3(SKYBOX_VERTS[i * 3], SKYBOX_VERTS[i * 3 + 1], SKYBOX_VERTS[i * 3 + 2]);
+		v.position = glm::vec3(SKYBOX_VERTS[i * 3], SKYBOX_VERTS[i * 3 + 1],
+			SKYBOX_VERTS[i * 3 + 2]);
 		skyboxVerts.push_back(v);
 	}
 
