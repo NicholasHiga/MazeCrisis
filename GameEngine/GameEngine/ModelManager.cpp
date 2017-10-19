@@ -1,7 +1,4 @@
 #include "ModelManager.h"
-#include "ShaderVariable.h"
-#include "MaterialManager.h"
-#include "ShaderProgramManager.h"
 
 using std::string;
 using std::vector;
@@ -9,17 +6,6 @@ using std::unique_ptr;
 using std::shared_ptr;
 
 unique_ptr<ModelManager> ModelManager::myInstance = nullptr;
-
-// TODO: Add pathing such that the shaders are found regardless of the project
-// location.
-const std::string ModelManager::defaultMeshName = "DefaultCubeMesh.mesh";
-const std::string ModelManager::defaultMaterialName = "DefaultCubeMaterial.mat";
-const std::string ModelManager::defaultShaderName = "DefaultCubeShader.shader";
-const std::string ModelManager::defaultVertexShaderPath 
-= "../GameEngine/DefaultShaders/DefaultVertex.vert";
-const std::string ModelManager::defaultFragmentShaderPath 
-= "../GameEngine/DefaultShaders/DefaultFragment.frag";
-int ModelManager::materialIndex = 0;
 
 ModelManager*
 ModelManager::getInstance()
@@ -41,132 +27,6 @@ ModelManager::loadModel(const string &modelName,
 	shared_ptr<EffectedModel> model)
 {
 	return store(modelName, std::move(model));
-}
-
-// Initialize neither - assume both model, material are already loaded.
-bool 
-ModelManager::loadModel(const string &modelName, const string &meshName,
-	const string &materialName)
-{
-	return store(modelName, std::make_shared<EffectedModel>(meshName,
-		materialName));
-}
-
-// Doesn't initialize mesh or shader, but initializes the material using the
-// given shader and texture.
-bool
-ModelManager::loadModel(const string &modelName, const string &meshName, 
-	const string &materialName, const string &shaderName, 
-	const string &diffuseTexture)
-{
-	return store(modelName,
-		std::make_shared<EffectedModel>(meshName, materialName, shaderName, 
-			diffuseTexture));
-}
-
-// Initialize mesh, but not material.
-bool
-ModelManager::loadModel(const string &modelName, const string &meshName, 
-	const string &materialName, PrimitiveType prim,
-	const vector<Vertex> &vertices, const vector<GLuint> &indices)
-{
-	return store(modelName,
-		std::make_shared<EffectedModel>(meshName, materialName, prim, vertices, 
-			indices));
-}
-
-// Initialize material, but not mesh.
-bool
-ModelManager::loadModel(const string &modelName, const string &meshName,
-	const string &materialName, const string &shaderName,
-	const string &vertexShaderPath, const string &fragmentShaderPath,
-	const vector<ShaderVariable> &shaderVars, const string &diffuseTexture,
-	bool printShaderLoadStatus)
-{
-	return store(modelName, 
-		std::make_shared<EffectedModel>(meshName, materialName, shaderName,
-			vertexShaderPath, fragmentShaderPath, shaderVars,
-			diffuseTexture, printShaderLoadStatus));
-}
-
-// Initialization of everything.
-bool 
-ModelManager::loadModel(const string &modelName, const string &meshName,
-	const string &materialName, const string &shaderName, PrimitiveType prim, 
-	const vector<Vertex> &vertices, const vector<GLuint> &indices,
-	const string &vertexShaderPath, const string &fragmentShaderPath, 
-	const vector<ShaderVariable> &shaderVars, const string &diffuseTexture, 
-	bool printShaderLoadStatus)
-{
-	return store(modelName,
-		std::make_shared<EffectedModel>(meshName, materialName,
-			shaderName, prim, vertices, indices, vertexShaderPath,
-			fragmentShaderPath, shaderVars, diffuseTexture,
-			printShaderLoadStatus));
-}
-
-bool 
-ModelManager::loadCubeModel(const std::string &modelName, 
-	const std::string &diffuseTexture)
-{
-	vector<ShaderVariable> defaultCubeShaderVars;
-	defaultCubeShaderVars.push_back(ShaderVariable(
-		ENGINE_VAR::VERTEX_POSITION, "position"));
-	defaultCubeShaderVars.push_back(ShaderVariable(
-		ENGINE_VAR::VERTEX_UV, "uv"));
-	defaultCubeShaderVars.push_back(ShaderVariable(
-		ENGINE_VAR::SAMPLER_2D, "textureIn"));
-	defaultCubeShaderVars.push_back(ShaderVariable(
-		ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
-	defaultCubeShaderVars.push_back(ShaderVariable(
-		ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
-
-	if (!MeshManager::getInstance()->get(defaultMeshName))
-		MeshManager::getInstance()->loadCubeMesh(defaultMeshName);
-
-	std::string matName = defaultMaterialName + std::to_string(materialIndex);
-	if (!MaterialManager::getInstance()->get(matName))
-	{
-		MaterialManager::getInstance()->loadMaterial(matName,
-			defaultShaderName, diffuseTexture);
-		ModelManager::materialIndex++;
-	}
-
-	if (!ShaderProgramManager::getInstance()->get(defaultShaderName))
-		ShaderProgramManager::getInstance()->loadShader(defaultShaderName,
-			defaultVertexShaderPath, defaultFragmentShaderPath,
-			defaultCubeShaderVars);
-		
-	return loadModel(modelName, defaultMeshName, matName);
-}
-
-// Load cube, shader already loaded, just need material with texture
-bool
-ModelManager::loadCubeModel(const string &modelName, const string &meshName,
-	const string &materialName, const string &shaderName,
-	const string &diffuseTexture)
-{
-	if (!MeshManager::getInstance()->get(meshName))
-		MeshManager::getInstance()->loadCubeMesh(meshName);
-
-	return loadModel(modelName, meshName, materialName, shaderName,
-		diffuseTexture);
-}
-
-// Load cube, first time shader loading.
-bool
-ModelManager::loadCubeModel(const string &modelName, const string &meshName,
-	const string &materialName, const string &shaderName,
-	const string &vertexShaderPath, const string &fragmentShaderPath,
-	const vector<ShaderVariable> &shaderVars, const string &diffuseTexture,
-	bool printShaderLoadStatus)
-{
-	if (!MeshManager::getInstance()->get(meshName))
-		MeshManager::getInstance()->loadCubeMesh(meshName);
-
-	return loadModel(modelName, meshName, materialName, shaderName, 
-		vertexShaderPath, fragmentShaderPath, shaderVars, diffuseTexture,
-		printShaderLoadStatus);
 }
 
 /*MeshType*

@@ -11,6 +11,7 @@
 #include "Skybox.h"
 #include "Material.h"
 #include "SceneNode.h"
+#include "SingleMesh.h"
 #include "SceneGraph.h"
 #include "GameObject.h"
 #include "EffectedModel.h"
@@ -103,6 +104,73 @@ OpenGLRenderer::renderMesh(MeshType &meshType)
 }*/
 
 void
+OpenGLRenderer::renderSingleMesh(SingleMesh &mesh, BoundingBox *boundingBox,
+	shared_ptr<SceneNode> node, Camera &camera)
+{
+	Material *material = mesh.getMaterials()[0];
+	vector<ShaderVariable> samplerVars =
+		material->getShader()->getSamplerVars();
+
+	mat4 modelM = node.get()->getModelMatrix();
+	matrixStack.pushModelStack(modelM);
+
+	if (camera.getFrustum()->isBoxInFrustum(*boundingBox))
+	{
+		glUseProgram(material->getShader()->getProgramID());
+
+		if (boundingBox->getIsVisible())
+		{
+
+		}
+
+		// Only diffuse texture.
+		if (!samplerVars.empty())
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glUniform1i(samplerVars[0].getUniformLocation(), 0);
+			// Might be buggy with multiple textures.
+			glBindTexture(GL_TEXTURE_2D, 
+				material->getDiffuseTexture()->textureID);
+		}
+
+		glUniformMatrix4fv(material->getShader()->getModelViewMatrixID(),
+			1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix()
+				* matrixStack.getModelMatrix()));
+
+		glUniformMatrix4fv(material->getShader()->getProjectionID(),
+			1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
+
+		glBindVertexArray(mesh.getVAO());
+
+		if (!mesh.getIndices().empty())
+			glDrawElements(GL_TRIANGLES, mesh.getIndices().size(),
+				GL_UNSIGNED_INT, 0);
+		else
+			glDrawArrays(GL_TRIANGLES, 0, mesh.getVertices().size());
+
+		glBindVertexArray(0);
+		node.get()->isBeingRendered = true;
+		glUseProgram(0);
+	}
+	else
+		node.get()->isBeingRendered = false;
+
+	matrixStack.popModelStack();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void 
+OpenGLRenderer::renderEffectedModel(EffectedModel &model,
+	BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
+{
+	vector<SingleMesh*> meshes = model.getMeshes();
+	for (size_t i = 0; i < meshes.size(); ++i)
+		renderSingleMesh(*meshes[i], boundingBox, node, camera);
+}
+
+/*void
 OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
 {
 	Material *material = model.getMaterials()[0];
@@ -117,7 +185,7 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 
 		if (boundingBox->getIsVisible())
 		{
-			
+
 		}
 
 		// Only diffuse texture.
@@ -129,7 +197,7 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 		}
 
 		glUniformMatrix4fv(material->getShader()->getModelViewMatrixID(),
-			1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix() * matrixStack.getModelMatrix() ));
+			1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix() * matrixStack.getModelMatrix()));
 
 		glUniformMatrix4fv(material->getShader()->getProjectionID(),
 			1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
@@ -153,7 +221,7 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
-}
+}*/
 
 void 
 OpenGLRenderer::renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node)
@@ -225,7 +293,18 @@ OpenGLRenderer::renderSceneNode(shared_ptr<SceneNode> node, Camera &camera)
 		if (GameObject *go = dynamic_cast<GameObject*>((*renderables)[i]))
 		{
 			if (go->getIsVisible())
-				renderEffectedModel(*go->getModel(), go->getBoundingBoxes()[i], node, camera);
+			{
+				if (EffectedModel *em 
+					= dynamic_cast<EffectedModel*>(go->getModel()))
+						renderEffectedModel(*em, go->getBoundingBoxes()[i],
+							node, camera);
+				else if (SingleMesh *sm = 
+					dynamic_cast<SingleMesh*>(go->getModel()))
+				{
+					renderSingleMesh(*sm, go->getBoundingBoxes()[i],
+						node, camera);
+				}
+			}
 		}
 		else if (Skybox *sky = dynamic_cast<Skybox*>((*renderables)[i]))
 		{

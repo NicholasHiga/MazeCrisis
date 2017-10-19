@@ -2,6 +2,7 @@
 
 #include "SceneNode.h"
 #include "BoundingBox.h"
+#include "MeshManager.h"
 #include "ModelManager.h"
 #include "ShaderVariable.h"
 
@@ -13,18 +14,19 @@ using std::shared_ptr;
 
 GameObject::GameObject()
 {
-	init("", "");
+	init("", "", MESH_TYPE::UNINITIALIZED);
 }
 
-GameObject::GameObject(const string &gameObjectName, const string &modelName)
+GameObject::GameObject(const string &gameObjectName, const string &modelName,
+	MESH_TYPE meshType)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, meshType);
 }
 
 GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	shared_ptr<EffectedModel> model)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::EFFECTED_MODEL);
 	try
 	{
 		bool success = ModelManager::getInstance()->loadModel(modelName, model);
@@ -42,10 +44,10 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	const string &meshName, const string &materialName)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName, 
+		bool success = MeshManager::getInstance()->loadModel(modelName,
 			meshName, materialName);
 		if (!success)
 			throw std::runtime_error("Model " + modelName +
@@ -63,15 +65,15 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	const string &meshName, const string &materialName,
 	const string &shaderName, const string &diffuseTexture, bool loadAsCube)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
 	try
 	{
 		bool success;
 		if (loadAsCube)
-			success = ModelManager::getInstance()->loadModel(modelName, 
+			success = MeshManager::getInstance()->loadModel(modelName, 
 				meshName, materialName, shaderName, diffuseTexture);
 		else
-			success = ModelManager::getInstance()->loadCubeModel(modelName, 
+			success = MeshManager::getInstance()->loadCubeModel(modelName,
 				meshName, materialName, shaderName, diffuseTexture);
 
 		if (!success)
@@ -89,10 +91,10 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	const string &meshName, const string &materialName, PrimitiveType prim, 
 	vector<Vertex> vertices, vector<GLuint> indices)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName,
+		bool success = MeshManager::getInstance()->loadModel(modelName,
 			meshName, materialName, prim, vertices, indices);
 		if (!success)
 			throw std::runtime_error("Model " + modelName + 
@@ -111,17 +113,17 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	const string &fragmentShaderPath, vector<ShaderVariable> shaderVars, 
 	const string &diffuseTexture, bool loadAsCube, bool printShaderLoadStatus)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
 	try
 	{
 		bool success;
 		if (loadAsCube)
-			success = ModelManager::getInstance()->loadCubeModel(modelName, 
+			success = MeshManager::getInstance()->loadCubeModel(modelName,
 				meshName, materialName, shaderName, vertexShaderPath, 
 				fragmentShaderPath, shaderVars, diffuseTexture,
 				printShaderLoadStatus);
 		else
-			success = ModelManager::getInstance()->loadModel(modelName,
+			success = MeshManager::getInstance()->loadModel(modelName,
 				meshName, materialName, shaderName, vertexShaderPath,
 				fragmentShaderPath, shaderVars, diffuseTexture,
 				printShaderLoadStatus);
@@ -144,10 +146,10 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 	const string &fragmentShaderPath, vector<ShaderVariable> shaderVars,
 	const string &diffuseTexture, bool printShaderLoadStatus)
 {
-	init(gameObjectName, modelName);
+	init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
 	try
 	{
-		bool success = ModelManager::getInstance()->loadModel(modelName, 
+		bool success = MeshManager::getInstance()->loadModel(modelName,
 			meshName, materialName, shaderName, prim, vertices, indices,
 			vertexShaderPath, fragmentShaderPath, shaderVars, diffuseTexture, 
 			printShaderLoadStatus);
@@ -173,10 +175,17 @@ GameObject::getGameObjectName()
 	return gameObjectName;
 }
 
+MESH_TYPE 
+GameObject::getMeshType()
+{
+	return meshType;
+}
+
 void 
-GameObject::setModelName(const string &modelName)
+GameObject::setModelName(const string &modelName, MESH_TYPE meshType)
 { 
 	this->modelName = modelName;
+	this->meshType = meshType;
 }
 
 string
@@ -185,10 +194,13 @@ GameObject::getModelName()
 	return modelName; 
 }
 
-EffectedModel*
+MeshType*
 GameObject::getModel()
 {
-	return ModelManager::getInstance()->get(modelName);
+	if (meshType == MESH_TYPE::SINGLE_MESH)
+		return MeshManager::getInstance()->get(modelName);
+	else if (meshType == MESH_TYPE::EFFECTED_MODEL)
+		return ModelManager::getInstance()->get(modelName);
 }
 
 void
@@ -260,9 +272,10 @@ GameObject::update(double deltaTime)
 }
 
 void 
-GameObject::init(const string &gameObjectName, const string &modelName)
+GameObject::init(const string &gameObjectName, const string &modelName,
+	MESH_TYPE meshType)
 {
-	this->modelName = modelName;
+	setModelName(modelName, meshType);
 	this->gameObjectName = gameObjectName;
 
 	script = [](SceneNode*, double) {};
@@ -270,7 +283,7 @@ GameObject::init(const string &gameObjectName, const string &modelName)
 	isVisible = true;
 
 	// TODO: Change when PolyMesh implemented.
-	if (SingleMesh* m = dynamic_cast<SingleMesh*>(getModel()->getMesh()))
+	if (SingleMesh* m = dynamic_cast<SingleMesh*>(getModel()))
 		boundingBoxes.push_back(std::make_unique<BoundingBox>(*m,
 			BOUNDING_BOX_TYPE::OBB));
 }

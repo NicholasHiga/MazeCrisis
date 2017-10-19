@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "RayQuery.h"
 #include "Enemy.h"
-#include "ModelManager.h"
+#include "MeshManager.h"
 #include "Common.h"
 
 namespace MazeCrisis
@@ -14,9 +14,10 @@ namespace MazeCrisis
 	AutomaticCamera::AutomaticCamera(GLuint windowWidth, GLuint windowHeight)
 		: Camera(windowWidth, windowHeight)
 	{
-		ModelManager::getInstance()->loadCubeModel("CameraBox",
+		MeshManager::getInstance()->loadCubeModel("CameraBox",
 			TEXTURES_PATH + "bcrate.jpg");
-		go = std::make_shared<GameObject>("CameraBox", "CameraBox");
+		go = std::make_shared<GameObject>("CameraBox", "CameraBox",
+			MESH_TYPE::SINGLE_MESH);
 		invisBoundingBoxNode = std::make_shared<SceneNode>();
 		invisBoundingBoxNode->setScale(vec3(20, 20, 20));
 		invisBoundingBoxNode->addRenderable(*go);
@@ -46,7 +47,8 @@ namespace MazeCrisis
 	}
 
 	void
-	AutomaticCamera::setCameraPosition(glm::vec3 &position, bool updateImmediately)
+	AutomaticCamera::setCameraPosition(glm::vec3 &position,
+		bool updateImmediately)
 	{
 		Camera::setCameraPosition(position, updateImmediately);
 		invisBoundingBoxNode->setPosition(position);
@@ -55,7 +57,8 @@ namespace MazeCrisis
 	BoundingBox*
 	AutomaticCamera::getBoundingBox()
 	{
-		std::vector<Renderable*> *renderables = invisBoundingBoxNode.get()->getRenderables();
+		std::vector<Renderable*> *renderables = invisBoundingBoxNode.get()
+			->getRenderables();
 		// Guaranteed only 1 game object.
 		if (GameObject* go = dynamic_cast<GameObject*>((*renderables)[0]))
 			return go->getBoundingBoxes()[0];

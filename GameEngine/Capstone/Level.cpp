@@ -144,19 +144,19 @@ namespace MazeCrisis
 	void
 	Level::initGameObjects()
 	{
-		game->getModelManager()->loadCubeModel("Enemy1", "Cube",
+		game->getMeshManager()->loadCubeModel("Enemy1", "Cube",
 			"CrateEnemy", "TexturedCube", TEXTURES_PATH + "aCrate.bmp");
-		game->getModelManager()->loadCubeModel("Enemy2", "Cube",
+		game->getMeshManager()->loadCubeModel("Enemy2", "Cube",
 			"CrateEnemy2", "TexturedCube", TEXTURES_PATH + "bCrate.jpg");
-		game->getModelManager()->loadCubeModel("Enemy3", "Cube", "ZombieEnemy",
+		game->getMeshManager()->loadCubeModel("Enemy3", "Cube", "ZombieEnemy",
 			"TexturedCube", TEXTURES_PATH + "zombie.png");
-		game->getModelManager()->loadCubeModel("Blacksmith", "Cube", "Blacksmith",
+		game->getMeshManager()->loadCubeModel("Blacksmith", "Cube", "Blacksmith",
 			"TexturedCube", TEXTURES_PATH + "blacksmith.png");
-		game->getModelManager()->loadCubeModel("Footballer", "Cube", "Footballer",
+		game->getMeshManager()->loadCubeModel("Footballer", "Cube", "Footballer",
 			"TexturedCube", TEXTURES_PATH + "football.png");
-		game->getModelManager()->loadCubeModel("Boss", "Cube", "Boss", "TexturedCube",
+		game->getMeshManager()->loadCubeModel("Boss", "Cube", "Boss", "TexturedCube",
 			TEXTURES_PATH + "boss.png");
-		game->getModelManager()->loadCubeModel("Buckets", "Cube", "Buckets", "TexturedCube",
+		game->getMeshManager()->loadCubeModel("Buckets", "Cube", "Buckets", "TexturedCube",
 			TEXTURES_PATH + "buckets.png");
 
 		enemies.push_back(std::make_shared<Enemy>("E1", "Enemy1", 30));

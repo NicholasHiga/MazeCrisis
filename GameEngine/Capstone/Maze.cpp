@@ -16,17 +16,20 @@ namespace MazeCrisis
 	Maze::Maze(GLuint sizePerCube, vec3 startPos,
 		const string &meshName, const string &shaderName,
 		const string &vertShaderPath, const string &fragShaderPath,
-		const vector<ShaderVariable> &shaderVars, const vector<string> &textureNames,
+		const vector<ShaderVariable> &shaderVars,
+		const vector<string> &textureNames,
 		const vector<vector<vector<GLint>>> &textureValues)
 	{
 		if (!ShaderProgramManager::getInstance()->get(shaderName))
-			ShaderProgramManager::getInstance()->loadShader(shaderName, vertShaderPath,
+			ShaderProgramManager::getInstance()->loadShader(shaderName, 
+				vertShaderPath,
 			fragShaderPath, shaderVars);
 
 		this->shaderName = shaderName;
 		//this->textures = textureValues;
 		origin = startPos;
-		dimensions = vec3(textureValues[0][0].size(), textureValues[0].size(), textureValues.size());
+		dimensions = vec3(textureValues[0][0].size(), textureValues[0].size(),
+			textureValues.size());
 		mazeRoot = std::make_shared<SceneNode>();
 
 		int a = textureValues.size();			//	3	// Height
@@ -44,7 +47,8 @@ namespace MazeCrisis
 				for (size_t k = 0; k < textureValues[i][j].size(); ++k)
 				{
 					if (textureValues[i][j][k] != 0)
-						textures[i][j][k] = textureNames[textureValues[i][j][k] - 1];
+						textures[i][j][k] = textureNames[
+							textureValues[i][j][k] - 1];
 					else
 						textures[i][j][k] = "";
 				}
@@ -61,25 +65,34 @@ namespace MazeCrisis
 				{
 					if (textures[i][j][k] != "")
 					{
-						if (!TextureManager::getInstance()->get(textures[i][j][k]))
+						if (!TextureManager::getInstance()->
+							get(textures[i][j][k]))
 						{
-							TextureManager::getInstance()->loadTexture(textures[i][j][k]);
-							// Making the material, and texture name the same which is the path of the texture.
+							TextureManager::getInstance()->loadTexture(
+								textures[i][j][k]);
+							// Making the material, and texture name the same
+							// which is the path of the texture.
 							// Model will simply be the texturepath + "Cube"
-							ModelManager::getInstance()->loadCubeModel(textures[i][j][k] + "Cube",
+							MeshManager::getInstance()->loadCubeModel(
+								textures[i][j][k] + "Cube",
 								meshName, textures[i][j][k],
 								shaderName, textures[i][j][k]);
 						}
 
-						shared_ptr<SceneNode> node = std::make_shared<SceneNode>();
-						gameObjects.push_back(std::make_shared<GameObject>(textures[i][j][k] + "Cube", textures[i][j][k] + "Cube"));
+						shared_ptr<SceneNode> node =
+							std::make_shared<SceneNode>();
+						gameObjects.push_back(std::make_shared<GameObject>(
+							textures[i][j][k] + "Cube",
+							textures[i][j][k] + "Cube",
+							MESH_TYPE::SINGLE_MESH));
 						gameObjects.back().get()->setIsEnabled(false);
 						node->addRenderable(*gameObjects.back());
 						node->setPosition(
 							vec3(startPos.x + k * sizePerCube,	// 1
 								startPos.y + i * sizePerCube - 2,		// 3
 								startPos.z - j * sizePerCube - 4));	// 2
-						node->setScale(vec3(sizePerCube, sizePerCube, sizePerCube));
+						node->setScale(vec3(sizePerCube, sizePerCube, 
+							sizePerCube));
 						mazeRoot->appendChildNode(node);
 						temp2.push_back(node);
 					}

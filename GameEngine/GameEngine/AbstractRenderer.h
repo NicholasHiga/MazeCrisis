@@ -7,6 +7,7 @@
 class EffectedModel;
 class BoundingBox;
 class SceneGraph;
+class SingleMesh;
 class SceneNode;
 class Camera;
 
@@ -26,17 +27,25 @@ public:
 	///
 	virtual void renderFixedPrimitve(PrimitiveType prim) = 0;
 
-	virtual void renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox, std::shared_ptr<SceneNode> node, Camera &camera) = 0;
+	virtual void renderSingleMesh(SingleMesh &mesh,
+		BoundingBox *boundingBox, std::shared_ptr<SceneNode> node,
+		Camera &camera) = 0;
+
+	virtual void renderEffectedModel(EffectedModel &model,
+		BoundingBox *boundingBox, std::shared_ptr<SceneNode> node,
+		Camera &camera) = 0;
 
 	virtual void renderSceneGraph(SceneGraph &graph, Camera &cam) = 0;
 
-	virtual void renderSceneNode(std::shared_ptr<SceneNode> node, Camera &camera) = 0;
+	virtual void renderSceneNode(std::shared_ptr<SceneNode> node,
+		Camera &camera) = 0;
 
 	virtual void setWireframeMode(bool isOn) { isWireframe = isOn; }
 
 	virtual bool getWireframeMode() { return isWireframe; }
 
-	virtual void setWindowSize(int width, int height, Camera *cam = nullptr) = 0;
+	virtual void setWindowSize(int width, int height,
+		Camera *cam = nullptr) = 0;
 
 	virtual void prepareToRender(Camera &camera) = 0;
 

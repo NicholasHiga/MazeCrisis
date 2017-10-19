@@ -4,6 +4,7 @@
 #include <memory>
 #include <functional>
 
+#include "MeshType.h"
 #include "Renderable.h"
 #include "BasicTypes.h"
 
@@ -20,7 +21,8 @@ public:
 	GameObject();
 
 	// Model with given name already loaded.
-	GameObject(const std::string &gameObjectName, const std::string &modelName);
+	GameObject(const std::string &gameObjectName, const std::string &modelName,
+		MESH_TYPE meshType);
 
 	GameObject(const std::string &gameObjectName, const std::string &modelName,
 		std::shared_ptr<EffectedModel> model);
@@ -65,9 +67,10 @@ public:
 	void setGameObjectName(const std::string &name);
 	std::string getGameObjectName();
 
-	void setModelName(const std::string &modelName);
+	void setModelName(const std::string &modelName, MESH_TYPE meshType);
+	MESH_TYPE getMeshType();
 	std::string getModelName();
-	EffectedModel* getModel();
+	MeshType* getModel();
 
 	void setParentNode(std::shared_ptr<SceneNode> parent);
 	SceneNode* getParentNode();
@@ -91,11 +94,14 @@ public:
 	std::string className() const { return "GameObject"; }
 
 protected:
-	void init(const std::string &gameObjectName, const std::string &modelName);
+	void init(const std::string &gameObjectName, const std::string &modelName,
+		MESH_TYPE meshType);
+
 	std::shared_ptr<SceneNode> parentNode;
 	std::string gameObjectName, modelName;
 	std::function<void(SceneNode*, double)> script;
 	std::vector<std::unique_ptr<BoundingBox>> boundingBoxes;
 	bool isVisible;		// Determines if being rendered.
 	bool isEnabled;		// Determines if scripts active/inactive, collisions.
+	MESH_TYPE meshType;
 };

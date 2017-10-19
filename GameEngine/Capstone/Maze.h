@@ -5,9 +5,10 @@
 #include <string>
 #include <memory>
 
-#include "ModelManager.h"
+#include "MeshManager.h"
 
 class GameObject;
+class SceneNode;
 
 namespace MazeCrisis
 {

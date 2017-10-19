@@ -13,7 +13,7 @@ namespace MazeCrisis
 
 	Enemy::Enemy(const std::string &gameObjectName,
 		const std::string &modelName, int maxHealth) 
-		: GameObject(gameObjectName, modelName)
+		: GameObject(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH)
 	{
 		setMaxHealth(maxHealth);
 		setCurrentHealth(maxHealth);

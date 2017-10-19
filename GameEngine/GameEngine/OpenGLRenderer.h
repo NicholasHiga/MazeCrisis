@@ -8,6 +8,7 @@ class Camera;
 class Skybox;
 class SceneNode;
 class SceneGraph;
+class SingleMesh;
 class BoundingBox;
 class EffectedModel;
 
@@ -31,7 +32,11 @@ public:
 
 	//void renderMesh(MeshType &meshType);
 
-	void renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox, std::shared_ptr<SceneNode> node, Camera &camera);
+	void renderSingleMesh(SingleMesh &mesh, BoundingBox *boundingBox,
+		std::shared_ptr<SceneNode> node, Camera &camera);
+
+	void renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox,
+		std::shared_ptr<SceneNode> node, Camera &camera);
 
 	void renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node);
 	//void renderMesh(Mesh &mesh);
