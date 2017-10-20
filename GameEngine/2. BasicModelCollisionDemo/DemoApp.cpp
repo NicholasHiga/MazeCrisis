@@ -142,11 +142,11 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 
 		// Cube five, top right
 		modelManager->loadModel(modelNames[4], meshNames[1], materialNames[4],
-			shaderNames[2], "crate.bmp");
+		shaderNames[2], "crate.bmp");
 		
 		// Cube six, bottom center
-		modelManager->loadCubeModel(modelNames[5], meshNames[1], 
-			materialNames[5], shaderNames[2], "grass.png");
+		modelManager->loadCubeModel(modelNames[5], meshNames[1],
+		materialNames[5], shaderNames[2], "grass.png");
 
 		//ren->setWireframeMode(true);
 		for (size_t i = 0; i < modelNames.size(); ++i)
@@ -157,13 +157,17 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 			nodes[i]->addRenderable(*gameObjects[i]);
 			scene->appendChildNode(nodes[i]);
 		}*/
-		modelManager->loadCubeModel("Test", "floor.png");
-		gameObjects.push_back(std::make_shared<GameObject>("Test"));
+		meshManager->loadCubeModel("Test", "floor.png");
+		//modelManager->loadCubeModel("Test", "floor.png");
+		gameObjects.push_back(std::make_shared<GameObject>("Object1", "Test",
+			MESH_TYPE::SINGLE_MESH));
 		nodes[0]->addRenderable(*gameObjects[0]);
 		scene->appendChildNode(nodes[0]);
 	
-		modelManager->loadCubeModel("Test2", "grass.png");
-		gameObjects.push_back(std::make_shared<GameObject>("Test2"));
+		meshManager->loadCubeModel("Test2", "grass.png");
+		//modelManager->loadCubeModel("Test2", "grass.png");
+		gameObjects.push_back(std::make_shared<GameObject>("Object1", "Test2",
+			MESH_TYPE::SINGLE_MESH));
 		nodes[1]->addRenderable(*gameObjects[1]);
 		scene->appendChildNode(nodes[1]);
 	}
@@ -197,8 +201,17 @@ DemoApp::update(double t)
 	bb2= go2->getBoundingBoxes()[0];
 
 	if (BoundingBox::doesCollide(*bb1, *bb2))
-		std::cout << go->getMaterialName() << " " 
-		<< go2->getMaterialName() << std::endl;	
+	{
+		if (SingleMesh* sm1 = dynamic_cast<SingleMesh*>(go->getModel()))
+		{
+			if (SingleMesh* sm2 = dynamic_cast<SingleMesh*>(go2->getModel()))
+			{
+				std::cout << sm1->getMaterials()[0]->getName() << " "
+					<< sm2->getMaterials()[0]->getName() << std::endl;
+			}
+		}
+	}
+
 
 	nodes[5]->setOrientation(Quaternion(0, ang3, ang3, false));
 }
@@ -321,7 +334,8 @@ mouseHandler(GLFWwindow* window, int button, int action, int mods)
 
 			if (go)
 			{
-				std::cout << go->getMaterialName() << std::endl;
+				if (SingleMesh* sm = dynamic_cast<SingleMesh*>(go->getModel()))
+					std::cout << sm->getMaterials()[0]->getName() << std::endl;
 				//engine->getSceneGraph()->removeChildNode(intersections[0]);
 			}
 		}
