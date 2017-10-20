@@ -36,9 +36,6 @@
     <ClInclude Include="AutomaticCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pistol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Gun.h">
       <Filter>Header Files</Filter>
     </ClInclude>

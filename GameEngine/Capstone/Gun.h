@@ -18,40 +18,42 @@ namespace MazeCrisis
 			const std::string &reloadSoundFilePath,
 			const std::string &emptyClipSoundFilePath,
 			bool hasInfiniteAmmo = false);
-		bool shoot(Ray *lastRay);	// Returns true if reload initiated by shoot.
-		bool reload();				// Returns true if reload still needs to continue.
+		bool shoot(Ray *lastRay);	// Returns true if reload initiated by 
+									// shoot.
+		bool reload();				// Returns true if reload still needs to
+									// continue.
 
-		Player *getPlayer();
+		Player *getPlayer() const;
 		void setPlayer(Player *p);
 
-		unsigned int getTotalAmmo();
+		unsigned int getTotalAmmo() const;
 		void setTotalAmmo(unsigned int totalAmmo);
 
-		unsigned int getAmmoPerClip();
+		unsigned int getAmmoPerClip() const;
 		void setAmmoPerClip(unsigned int ammoPerClip);
 
-		unsigned int getCurrentClipAmmo();
+		unsigned int getCurrentClipAmmo() const;
 		void setCurrentClipAmmo(unsigned int currentClipAmmo);
 
-		unsigned int getDamagePerShot();
+		unsigned int getDamagePerShot() const;
 		void setDamagePerShot(unsigned int damagePerShot);
 
-		float getTimeBetweenShots();
+		float getTimeBetweenShots() const;
 		void setTimeBetweenShots(float timeBetweenShots);
 
-		float getTimeToReload();
+		float getTimeToReload() const;
 		void setTimeToReload(float timeToReload);
 
-		bool getHasInfiniteAmmo();
+		bool getHasInfiniteAmmo() const;
 		void setHasInfiniteAmmo(bool hasInfiniteAmmo);
 
-		std::string getEmptySoundFilePath();
+		std::string getEmptySoundFilePath() const;
 		void setEmptySoundFilePath(const std::string &emptyClipSoundFilePath);
 
-		std::string getShootingSoundFilePath();
+		std::string getShootingSoundFilePath() const;
 		void setShootingSoundFilePath(const std::string &shootingSoundFilePath);
 
-		std::string getReloadSoundFilePath();
+		std::string getReloadSoundFilePath() const;
 		void setReloadSoundFilePath(const std::string &reloadSoundFilePath);
 
 	protected:
@@ -61,7 +63,8 @@ namespace MazeCrisis
 		float timeToReload, timeBetweenShots, shootingTimeStart, 
 			reloadTimeStart, emptyClipTimeStart, emptyClipLength;
 		bool reloadInitiated, hasInfiniteAmmo;
-		std::string emptyClipSoundFilePath, shootingSoundFilePath, reloadSoundFilePath;
+		std::string emptyClipSoundFilePath, shootingSoundFilePath, 
+			reloadSoundFilePath;
 		bool emptySoundPlaying;
 	};
 }

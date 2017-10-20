@@ -19,39 +19,48 @@ namespace MazeCrisis
 		Player(UserInterface *ui, WEAPON startingWeapon, int maxHealth,
 			const std::string &gruntSoundPrefix, unsigned int numGruntSounds, 
 			const std::string &gruntSoundFiletype, std::string &deathSoundPath,
-			const std::string &pistolSoundPath, const std::string &rifleSoundPath, 
-			const std::string &sniperSoundPath,	const std::string &emptyClipSoundPath, 
-			const std::string &reloadSoundPath, const std::string &sayReloadSoundFilePath);
+			const std::string &pistolSoundPath, 
+			const std::string &rifleSoundPath, 
+			const std::string &sniperSoundPath,	
+			const std::string &emptyClipSoundPath, 
+			const std::string &reloadSoundPath,
+			const std::string &sayReloadSoundFilePath);
 
-		int getMaxHealth();
+		int getMaxHealth() const;
 		void setMaxHealth(int maxHealth);
 
-		int getCurrentHealth();
+		int getCurrentHealth() const;
 		void setCurrentHealth(int currentHealth);
 
-		WEAPON getCurrentWeapon();
+		WEAPON getCurrentWeapon() const;
 		void setCurrentWeapon(WEAPON newGun);
 
-		UserInterface *getUserInterface();
+		UserInterface *getUserInterface() const;
 		void setUserInterface(UserInterface *ui);
 
-		std::string getSayReloadSoundFilePath();
-		void setSayReloadSoundFilePath(const std::string &sayReloadSoundFilePath);
+		std::string getSayReloadSoundFilePath() const;
+		void setSayReloadSoundFilePath(
+			const std::string &sayReloadSoundFilePath);
 			
-		std::string getDeathSoundFilePath();
+		std::string getDeathSoundFilePath() const;
 		void setDeathSoundFilePath(const std::string &deathSoundFilePath);
 
-		void getGruntSoundParameters(std::string &gruntSoundPrefix, std::string &gruntSoundFiletype, unsigned int &numGruntSounds);
-		void setGruntSoundParameters(const std::string &gruntSoundPrefix, const std::string &gruntSoundFiletype, unsigned int numGruntSounds);
+		void getGruntSoundParameters(std::string &gruntSoundPrefix, 
+			std::string &gruntSoundFiletype, unsigned int &numGruntSounds) 
+			const;
+		void setGruntSoundParameters(const std::string &gruntSoundPrefix,
+			const std::string &gruntSoundFiletype, unsigned int numGruntSounds);
 
 		void playRandomGruntSound();
 
-		Gun getCurrentGun();
-		bool getIsShooting();
+		Gun getCurrentGun() const;
+		bool getIsShooting() const;
 
 		void update(float deltaTime);
-		void mouseHandler(GLFWwindow* window, int button, int action, int mods, Ray *ray);
-		void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+		void mouseHandler(GLFWwindow* window, int button, int action, int mods,
+			Ray *ray);
+		void keyHandler(GLFWwindow* window, int key, int scancode, int action, 
+			int mods);
 		void cursorPosHandler(GLFWwindow* window, double x, double y, Ray *ray);
 
 	private:
@@ -63,11 +72,13 @@ namespace MazeCrisis
 		UserInterface *ui;
 
 		// Sounds
-		std::string sayReloadSoundPath, gruntSoundPrefix, gruntSoundFiletype, deathSoundPath;
+		std::string sayReloadSoundPath, gruntSoundPrefix, gruntSoundFiletype,
+			deathSoundPath;
 		unsigned int numGruntSounds;
 
 		void initWeapons(const std::string &pistolSound,
 			const std::string &rifleSound, const std::string &sniperSound,
-			const std::string &emptyClipSound, const std::string &reloadSoundPath);
+			const std::string &emptyClipSound,
+			const std::string &reloadSoundPath);
 	};
 }

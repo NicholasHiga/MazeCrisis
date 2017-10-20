@@ -12,7 +12,7 @@ EffectedModel::EffectedModel(const string &name, vector<SingleMesh*> meshes)
 }
 
 string 
-EffectedModel::getName()
+EffectedModel::getName() const
 {
 	return name;
 }
@@ -30,7 +30,7 @@ EffectedModel::addExistingMesh(const string &meshName)
 }
 
 vector<SingleMesh*> 
-EffectedModel::getMeshes()
+EffectedModel::getMeshes() const
 {
 	return meshes;
 }

@@ -9,11 +9,11 @@ public:
 	EffectedModel() {};
 	EffectedModel(const std::string &name, std::vector<SingleMesh*> meshes);
 
-	std::string getName();
+	std::string getName() const;
 	void setName(const std::string &name);
 
 	void addExistingMesh(const std::string &meshName);
-	std::vector<SingleMesh*> getMeshes();
+	std::vector<SingleMesh*> getMeshes() const;
 
 	std::string className() const { return "PolyMesh"; }
 

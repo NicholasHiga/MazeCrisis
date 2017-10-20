@@ -208,7 +208,7 @@ public:
 	/// determinant()
 	/// Calculate the determinant of the current matrix.
 	///
-	float determinant();
+	float determinant() const;
 
 	/// transpose()
 	/// Tranpose the matrix in place.
@@ -313,5 +313,5 @@ public:
 	/// printMatrix()
 	/// Print the current matrix.
 	///
-	void printMatrix();
+	void printMatrix() const;
 };

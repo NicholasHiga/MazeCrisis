@@ -170,13 +170,13 @@ GameObject::setGameObjectName(const std::string &name)
 }
 
 string
-GameObject::getGameObjectName()
+GameObject::getGameObjectName() const
 {
 	return gameObjectName;
 }
 
 MESH_TYPE 
-GameObject::getMeshType()
+GameObject::getMeshType() const
 {
 	return meshType;
 }
@@ -189,13 +189,13 @@ GameObject::setModelName(const string &modelName, MESH_TYPE meshType)
 }
 
 string
-GameObject::getModelName()
+GameObject::getModelName() const
 {
 	return modelName; 
 }
 
 MeshType*
-GameObject::getModel()
+GameObject::getModel() const
 {
 	if (meshType == MESH_TYPE::SINGLE_MESH)
 		return MeshManager::getInstance()->get(modelName);
@@ -225,7 +225,7 @@ GameObject::setIsVisible(bool visible)
 }
 
 bool
-GameObject::getIsVisible()
+GameObject::getIsVisible() const
 {
 	return isVisible;
 }
@@ -237,7 +237,7 @@ GameObject::setIsEnabled(bool enabled)
 }
 
 bool
-GameObject::getIsEnabled()
+GameObject::getIsEnabled() const
 {
 	return isEnabled;
 }
@@ -250,13 +250,13 @@ GameObject::setScript(function<void(SceneNode*, double)> script)
 }
 
 function<void(SceneNode*, double)>
-GameObject::getScript()
+GameObject::getScript() const
 {
 	return script;
 }
 
 vector<BoundingBox*>
-GameObject::getBoundingBoxes()
+GameObject::getBoundingBoxes() const
 {
 	vector<BoundingBox*> bbs;
 	for (size_t i = 0; i < boundingBoxes.size(); ++i)

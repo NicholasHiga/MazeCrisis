@@ -9,14 +9,14 @@ public:
 	Image(std::string _filename);
 	~Image();
 
-	std::string getFileName();
+	std::string getFileName() const;
 	void getDimensions(unsigned int &_width, unsigned int &_height);
-	unsigned int getHeight();
-	unsigned int getWidth();
-	FREE_IMAGE_FORMAT getImgFormat();
-	BYTE getBitsPerPixel();
-	int getNumBytes();
-	BYTE* getImageData();
+	unsigned int getHeight() const;
+	unsigned int getWidth() const;
+	FREE_IMAGE_FORMAT getImgFormat() const;
+	BYTE getBitsPerPixel() const;
+	int getNumBytes() const;
+	BYTE* getImageData() const;
 	//bool getIsPacked();
 
 protected:

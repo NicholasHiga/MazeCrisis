@@ -25,8 +25,11 @@ class ShaderProgram
 {
 public:
 	ShaderProgram() {};
-	ShaderProgram(const std::string &vertexFilePath, const std::string &fragmentFilePath, const std::vector<ShaderVariable> &shaderVars);
-	ShaderLoadStatus loadShaders(const std::string &vertexFilePath, const std::string &fragmentFilePath);
+	ShaderProgram(const std::string &vertexFilePath,
+		const std::string &fragmentFilePath, 
+		const std::vector<ShaderVariable> &shaderVars);
+	ShaderLoadStatus loadShaders(const std::string &vertexFilePath, 
+		const std::string &fragmentFilePath);
 
 	GLuint getProgramID() const { return programID; }
 	GLuint getModelViewMatrixID() const { return modelViewMatrixID; }
@@ -37,7 +40,8 @@ public:
 	std::vector<ShaderVariable> getSamplerVars() const { return samplerVars; }
 
 	void pushShaderVar(ShaderVariable shaderVar); 
-	void setShaderVars(std::vector<ShaderVariable> shaderVars); // Make sure the order is same as the Shader.
+	void setShaderVars(std::vector<ShaderVariable> shaderVars);
+		// Make sure the order is same as the Shader.
 	void clearShaderVars() { shaderVars.clear(); samplerVars.clear(); }
 
 private:

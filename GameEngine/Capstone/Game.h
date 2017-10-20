@@ -25,16 +25,19 @@ namespace MazeCrisis
 
 		void update();
 
-		void mouseHandlerCallback(GLFWwindow* window, int button, int action, int mods);
-		void keyHandlerCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		void mouseHandlerCallback(GLFWwindow* window, int button, int action, 
+			int mods);
+		void keyHandlerCallback(GLFWwindow* window, int key, int scancode,
+			int action, int mods);
 		void windowResizedCallback(GLFWwindow* window, int width, int height);
 		void cursorPosCallback(GLFWwindow* window, double x, double y);
 		void charCallback(GLFWwindow* window, unsigned int char_pressed);
 
-		GLFWwindow* getWindow();
-		WiiHandler* getWiiHandler();
-		UserInterface* getUserInterface();
-		void getWindowDimensions(unsigned int &refWidth, unsigned int &refHeight);
+		GLFWwindow* getWindow() const;
+		WiiHandler* getWiiHandler() const;
+		UserInterface* getUserInterface() const;
+		void getWindowDimensions(unsigned int &refWidth,
+			unsigned int &refHeight) const;
 
 		void setFullscreen(bool value);
 
@@ -55,14 +58,16 @@ namespace MazeCrisis
 		void initSound();
 
 		GLFWwindow* window;
-		Game* myGame;			// Needed to bypass requirement for static GLFW event handling methods.
+		Game* myGame;			// Needed to bypass requirement for static 
+								// GLFW event handling methods.
 		std::unique_ptr<WiiHandler> wiiHandler;
 		GLushort windowWidth, windowHeight;
 		int desktopResWidth, desktopResHeight;
 		GLuint sizePerCube = 30;
 
 		// Sound related
-		bool inGameMusicStarted, gameOverTunePlayed, gameOverSaid, victoryMusicStarted;
+		bool inGameMusicStarted, gameOverTunePlayed, gameOverSaid,
+			victoryMusicStarted;
 		unsigned int musicFadeDuration;
 		float gameOverTuneDuration, gameOverTuneStartTime;
 

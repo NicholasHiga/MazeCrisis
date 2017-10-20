@@ -87,7 +87,8 @@ private:
 	static int materialIndex;
 
 	MeshManager();
-	//	Mesh* buildSingleModel(const string &path, ImageManager &im, int _index = 0);
+	//	Mesh* buildSingleModel(const string &path, ImageManager &im,
+	// int _index = 0);
 	//PolyMesh* buildPolyModel(const string &path, ImageManager &im);
 	
 	// Predone cube

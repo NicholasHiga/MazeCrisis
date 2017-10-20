@@ -17,13 +17,19 @@ class AudioManager : public ResourceManager<SoundWrapper>
 public:
 	static AudioManager* getInstance();
 	bool loadSound(const std::string &soundPath);
-	bool loadStream(const std::string &streamPath);  // Stream related functions are used for music
+	bool loadStream(const std::string &streamPath); 
+		// Stream related functions are used for music
 	void playSound(const std::string &soundPath, float volume = 1.0f);
 
 	// Music functions
-	void playStream(const std::string &streamPath, float volume = 1.0f); // For music, no fadein.
-	void playStreamFadeIn(const std::string &streamPath, unsigned int fadeDurationMS, float volume = 1.0f); // Start playing music with fadein
-	void playNextStream(const std::string &streamPath, unsigned int fadeDurationMS, float volume); // Fade duration is combination of both fade in and out.
+	void playStream(const std::string &streamPath, float volume = 1.0f);
+		// For music, no fadein.
+	void playStreamFadeIn(const std::string &streamPath, 
+		unsigned int fadeDurationMS, float volume = 1.0f); 
+		// Start playing music with fadein
+	void playNextStream(const std::string &streamPath, 
+		unsigned int fadeDurationMS, float volume);
+		// Fade duration is combination of both fade in and out.
 	void fadeStreamIn(unsigned int fadeDurationMS, float endVolume);
 	void fadeStreamOut(unsigned int fadeDurationMS); // In milliseconds
 	void setStreamVolume(float volume);	// Currently playing song.

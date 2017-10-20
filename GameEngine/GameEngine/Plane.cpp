@@ -40,31 +40,33 @@ Plane::setPlane(float _a, float _b, float _c, float _d)
 }
 
 Plane
-Plane::calculatePlane(const vec3 &normal, float _d)
+Plane::calculatePlane(const vec3 &normal, float _d) const
 {
 	vec3 temp = glm::normalize(normal);
 	return Plane(temp.x, temp.y, temp.z, _d);
 }
 
 Plane
-Plane::calculatePlane(const vec3 &point1, const vec3 &point2, const vec3 &point3)
+Plane::calculatePlane(const vec3 &point1, const vec3 &point2,
+	const vec3 &point3) const
 {
 	vec3 p12 = vec3(point2 - point1);
 	vec3 p23 = vec3(point3 - point2);
 	vec3 cross = glm::cross(p12, p23);
-	float newD = cross.x * -point1.x + cross.y * -point1.y + cross.z * -point1.z;
+	float newD = cross.x * -point1.x + cross.y * -point1.y
+		+ cross.z * -point1.z;
 	return Plane(cross.x, cross.y, cross.z, newD);
 }
 
 Plane 
-Plane::calculatePlane(const vec3 &point, const vec3 &normal)
+Plane::calculatePlane(const vec3 &point, const vec3 &normal) const
 {
 	vec3 temp = glm::normalize(normal);
 	return Plane(temp.x, temp.y, temp.z, -glm::dot(point, temp));
 }
 
 float
-Plane::signedDistance(vec3 &pt)
+Plane::signedDistance(vec3 &pt) const
 {
 	vec3 N(a, b, c);
 	return glm::dot(N, pt) + d;

@@ -40,7 +40,8 @@ class AbstractRenderer;
 class GameEngine
 {
 public:
-	GameEngine(AbstractRenderer &renderer, GLuint windowWidth, GLuint windowHeight);
+	GameEngine(AbstractRenderer &renderer, GLuint windowWidth, 
+		GLuint windowHeight);
 	~GameEngine();
 
 	virtual void onStart();
@@ -86,19 +87,23 @@ public:
 	///
 	virtual void error(const std::string &message);
 
-	SceneGraph* getSceneGraph() { return scene; }
-	MeshManager* getMeshManager() { return meshManager; }
-	AbstractRenderer* getRenderer() { return renderer; }
-	ModelManager* getModelManager() { return modelManager; }
-	MaterialManager* getMaterialManager() { return materialManager; }
-	ShaderProgramManager* getShaderProgramManager() { return shaderManager; }
-	Camera* getCamera() { return camera.get(); }
+	SceneGraph* getSceneGraph() const { return scene; }
+	MeshManager* getMeshManager() const { return meshManager; }
+	AbstractRenderer* getRenderer() const { return renderer; }
+	ModelManager* getModelManager() const { return modelManager; }
+	MaterialManager* getMaterialManager()const  { return materialManager; }
+	ShaderProgramManager* getShaderProgramManager() const 
+		{ return shaderManager; }
+	Camera* getCamera()  const { return camera.get(); }
 
 	void setCamera() { }
 
-	static bool loadTexture(const std::string &path, const std::string &name = "");
-	static bool loadMaterial(const std::string &materialName, const std::string &shaderName, const std::string &diffuseTexture);
-	MeshType* loadModel(const std::string &name, const std::string &path, int _index = 0);
+	static bool loadTexture(const std::string &path,
+		const std::string &name = "");
+	static bool loadMaterial(const std::string &materialName, 
+		const std::string &shaderName, const std::string &diffuseTexture);
+	MeshType* loadModel(const std::string &name,
+		const std::string &path, int _index = 0);
 
 	double numMilliseconds;
 

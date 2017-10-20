@@ -14,7 +14,8 @@ public:
 
 	vector<Mesh*>* getMeshes() { return &meshes; }
 	int getNumMeshes() { return meshes.size(); }
-	int getUniqueVertices(vector<Vec3> *verts); // Populates verts with all the unique vertices.
+	int getUniqueVertices(vector<Vec3> *verts); // Populates verts with all 
+	the unique vertices.
 
 	void setMeshes(vector<Mesh*> _meshes);
 
@@ -30,7 +31,7 @@ class PolyMesh : public MeshType
 public:
 	PolyMesh(std::string modelFilePath);
 	std::vector<SingleMesh>* getMeshes();
-	int getNumMeshes();
+	int getNumMeshes() const;
 
 private:
 	std::vector<SingleMesh> meshes;

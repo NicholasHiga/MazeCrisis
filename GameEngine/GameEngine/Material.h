@@ -24,11 +24,11 @@ public:
 	void setShader(const std::string &shaderName);	
 	void setDiffuseTexture(const std::string &textureName);
 
-	GLuint getNumTextures() { return textures.size(); }
+	GLuint getNumTextures() const { return textures.size(); }
 	Texture* getDiffuseTexture() { return textures["diffuse"]; }
-	GLuint getShaderID();
-	ShaderProgram* getShader();
-	std::string getName();
+	GLuint getShaderID() const;
+	ShaderProgram* getShader() const;
+	std::string getName() const;
 
 private:
 	std::map<std::string, Texture*> textures; 

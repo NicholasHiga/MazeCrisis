@@ -55,7 +55,7 @@ namespace MazeCrisis
 	}
 
 	BoundingBox*
-	AutomaticCamera::getBoundingBox()
+	AutomaticCamera::getBoundingBox() const
 	{
 		std::vector<Renderable*> *renderables = invisBoundingBoxNode.get()
 			->getRenderables();

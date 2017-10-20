@@ -171,7 +171,8 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model,
 }
 
 /*void
-OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
+OpenGLRenderer::renderEffectedModel(EffectedModel &model,
+BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
 {
 	Material *material = model.getMaterials()[0];
 	vector<ShaderVariable> samplerVars = material->getShader()->getSamplerVars();
@@ -192,12 +193,15 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 		if (!samplerVars.empty())
 		{
 			glActiveTexture(GL_TEXTURE0);
-			glUniform1i(samplerVars[0].getUniformLocation(), 0); // Might be buggy with multiple textures.
-			glBindTexture(GL_TEXTURE_2D, material->getDiffuseTexture()->textureID);
+			glUniform1i(samplerVars[0].getUniformLocation(), 0); 
+			// Might be buggy with multiple textures.
+			glBindTexture(GL_TEXTURE_2D, 
+				material->getDiffuseTexture()->textureID);
 		}
 
 		glUniformMatrix4fv(material->getShader()->getModelViewMatrixID(),
-			1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix() * matrixStack.getModelMatrix()));
+			1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix() 
+			* matrixStack.getModelMatrix()));
 
 		glUniformMatrix4fv(material->getShader()->getProjectionID(),
 			1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
@@ -206,7 +210,8 @@ OpenGLRenderer::renderEffectedModel(EffectedModel &model, BoundingBox *boundingB
 		glBindVertexArray(m->getVAO());
 
 		if (!m->getIndices().empty())
-			glDrawElements(GL_TRIANGLES, m->getIndices().size(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, m->getIndices().size(), 
+			GL_UNSIGNED_INT, 0);
 		else
 			glDrawArrays(GL_TRIANGLES, 0, m->getVertices().size());
 
@@ -325,11 +330,13 @@ OpenGLRenderer::setWindowSize(int width, int height, Camera *cam)
 	}
 	glViewport(0, 0, winWidth, winHeight);			// set Viewport size
 
-	mat4 projection = glm::perspective(45.0f, (GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
+	mat4 projection = glm::perspective(45.0f, 
+		(GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
 	matrixStack.setProjectionMatrix(projection);
 
 	if (cam)
-		cam->getFrustum()->setWindowSize(45.0f, (GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
+		cam->getFrustum()->setWindowSize(45.0f,
+		(GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
 }
 
 void OpenGLRenderer::prepareToRender(Camera &camera)
@@ -346,5 +353,6 @@ void OpenGLRenderer::prepareToRender(Camera &camera)
 	look = camera.getSceneCenter();
 	up = camera.getCameraUp();
 	matrixStack.setViewMatrix(glm::lookAt(pos, look, up));
-	//matrixStack.setUntranslatedViewMatrix(glm::lookAt(vec3(0, 0, 0), look, up));
+	//matrixStack.setUntranslatedViewMatrix(glm::lookAt(vec3(0, 0, 0),
+	//	look, up));
 }

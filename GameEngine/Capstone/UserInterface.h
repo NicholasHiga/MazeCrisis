@@ -36,11 +36,14 @@ namespace MazeCrisis
 	class UserInterface
 	{
 	public:
-		UserInterface(const std::string &settingsFilePath, Game *game, GLFWwindow* window);
+		UserInterface(const std::string &settingsFilePath, Game *game,
+			GLFWwindow* window);
 		~UserInterface();
 
-		void mouseHandlerCallback(GLFWwindow* window, int button, int action, int mods);
-		void keyHandlerCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		void mouseHandlerCallback(GLFWwindow* window, int button, int action,
+			int mods);
+		void keyHandlerCallback(GLFWwindow* window, int key, int scancode,
+			int action, int mods);
 		void windowResizedCallback(GLFWwindow* window, int width, int height);
 		void cursorPosCallback(GLFWwindow* window, double x, double y);
 		void charCallback(GLFWwindow* window, unsigned int char_pressed);
@@ -56,23 +59,28 @@ namespace MazeCrisis
 		void setMusicVolume(unsigned char value);
 		void setMusicVolume(std::string value);
 
-		// Infinite ammo takes priority over total ammo, so total ammo will not be shown if infinite.
-		void setAmmoCount(unsigned int currentClipAmmo, unsigned int totalAmmo, bool infiniteAmmo = false);
+		// Infinite ammo takes priority over total ammo, so total ammo will
+		// not be shown if infinite.
+		void setAmmoCount(unsigned int currentClipAmmo, unsigned int totalAmmo,
+			bool infiniteAmmo = false);
 		void setWeapon(WEAPON weapon);
 		void setHealth(unsigned int health);
 
 		Settings getSettings();
-		bool getIsCrosshairEnabled();
-		bool getIsFullscreen();
-		unsigned char getGameVolume();
-		unsigned char getMusicVolume();
-		float getGameVolumeFloat();
-		float getMusicVolumeFloat();
+		bool getIsCrosshairEnabled() const;
+		bool getIsFullscreen() const;
+		unsigned char getGameVolume() const;
+		unsigned char getMusicVolume() const;
+		float getGameVolumeFloat() const;
+		float getMusicVolumeFloat() const;
 
-		CEGUI::Vector2<unsigned int> setTargetLocation(TargetLocation loc); // Returns center of the target location.
-		CEGUI::Vector2f getRelativeDimensions(unsigned int width, unsigned int height);
+		CEGUI::Vector2<unsigned int> setTargetLocation(TargetLocation loc); 
+			// Returns center of the target location.
+		CEGUI::Vector2f getRelativeDimensions(unsigned int width, 
+			unsigned int height) const;
 
-		void pulseReloadMessage(unsigned int fadeDurationMS); // Fade duration is combination of both fade in and out.
+		void pulseReloadMessage(unsigned int fadeDurationMS);
+			// Fade duration is combination of both fade in and out.
 		void stopPulsingReloadMessage();
 
 		void fadeToGameOverScreen(unsigned int fadeDurationMS);
@@ -126,9 +134,12 @@ namespace MazeCrisis
 		void musicVolumeSliderChanged(const CEGUI::EventArgs& e);
 
 		// Returns true on successful cast, false on failure.
-		bool passStringToBool(std::string value, std::string functionName, bool *valueToModify);
+		bool passStringToBool(std::string value, std::string functionName,
+			bool *valueToModify);
+
 		// Returns true on successful cast, false on failure.
-		bool passStringToUChar(std::string value, std::string functionName, unsigned char *valueToModify);
+		bool passStringToUChar(std::string value, std::string functionName,
+			unsigned char *valueToModify);
 		std::string getStringFromBool(bool value);
 
 		void openOptionsMenu();
@@ -146,7 +157,8 @@ namespace MazeCrisis
 		bool loadSettings();
 		bool saveSettings();
 		void syncUIWithSettings(Settings setting);
-		void setMouseCursorInGame(); // Set mouse cursor depending on current setting.
+		void setMouseCursorInGame(); // Set mouse cursor depending on 
+									 // current setting.
 
 		CEGUI::MouseButton toCEGUIButton(int button);
 		CEGUI::Key::Scan toCEGUIKey(int glfwKey);

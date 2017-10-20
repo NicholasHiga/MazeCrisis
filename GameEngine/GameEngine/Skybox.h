@@ -28,13 +28,13 @@ public:
 	void setShaderName(const std::string &shaderName);
 	void setTextureName(const std::string &textureName);
 
-	std::string getMeshName() { return meshName; }
-	std::string getShaderName() { return shaderName; }
-	std::string getTextureName() { return textureName; }
+	std::string getMeshName() const { return meshName; }
+	std::string getShaderName() const { return shaderName; }
+	std::string getTextureName() const { return textureName; }
 
-	ShaderProgram* getShader();
-	SingleMesh* getMesh();
-	Texture* getTexture();
+	ShaderProgram* getShader() const;
+	SingleMesh* getMesh() const;
+	Texture* getTexture() const;
 
 	std::string className() const { return "Skybox"; }
 

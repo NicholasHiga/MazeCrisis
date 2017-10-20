@@ -18,7 +18,7 @@ namespace MazeCrisis
 	}
 
 	bool
-	WiiHandler::getWiimoteConnected()
+	WiiHandler::getWiimoteConnected() const
 	{
 		return wiiControllerConnected;
 	}
@@ -44,7 +44,8 @@ namespace MazeCrisis
 		connected = wiiuse_connect(wiimotes, NUM_PLAYERS);
 		if (connected)
 		{
-			printf("Connected to %i wiimotes (of %i found).\n", connected, found);
+			printf("Connected to %i wiimotes (of %i found).\n", connected, 
+				found);
 			printf("Battery level %f.\n", wiimotes[0]->battery_level);
 		}
 		else 
@@ -140,25 +141,30 @@ namespace MazeCrisis
 
 		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
 		{
-			game->mouseHandlerCallback(game->getWindow(), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0);
+			game->mouseHandlerCallback(game->getWindow(), 
+				GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0);
 		}
 
 		if (IS_RELEASED(wm, WIIMOTE_BUTTON_B))
 		{
-			game->mouseHandlerCallback(game->getWindow(), GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE, 0);
+			game->mouseHandlerCallback(game->getWindow(),
+				GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE, 0);
 		}
 
 		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_HOME))
 		{
-			game->keyHandlerCallback(game->getWindow(), GLFW_KEY_ESCAPE, 0, GLFW_PRESS, 0);
+			game->keyHandlerCallback(game->getWindow(),
+				GLFW_KEY_ESCAPE, 0, GLFW_PRESS, 0);
 		}
 
 		unsigned int wWidth, wHeight, tenPercentHeight;
 		game->getWindowDimensions(wWidth, wHeight);
 		tenPercentHeight = wHeight / 10;
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y < tenPercentHeight )
+		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
+			< tenPercentHeight )
 		{
-			game->keyHandlerCallback(game->getWindow(), GLFW_KEY_R, 0, GLFW_PRESS, 0);
+			game->keyHandlerCallback(game->getWindow(), 
+				GLFW_KEY_R, 0, GLFW_PRESS, 0);
 		}
 	}
 

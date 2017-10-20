@@ -35,7 +35,8 @@ namespace MazeCrisis
 			initWindow();
 			initEngine();
 			wiiHandler = std::make_unique<WiiHandler>(this);
-			ui = std::make_unique<UserInterface>(SETTINGS_PATH + "Settings.xml", this, window);
+			ui = std::make_unique<UserInterface>(SETTINGS_PATH + "Settings.xml",
+				this, window);
 			loadLevels();
 			Common::gameStates.push(GameState::MENU_MAIN);
 			initSound();
@@ -43,8 +44,10 @@ namespace MazeCrisis
 #ifdef _DEBUG
 			if (GLEW_ARB_debug_output) {
 				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
-				glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-				glDebugMessageCallbackARB((GLDEBUGPROCARB)ETB_GL_ERROR_CALLBACK, NULL);
+				glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE,
+					GL_DONT_CARE, 0, NULL, GL_TRUE);
+				glDebugMessageCallbackARB((GLDEBUGPROCARB)ETB_GL_ERROR_CALLBACK,
+					NULL);
 			}
 #endif
 		}
@@ -73,9 +76,14 @@ namespace MazeCrisis
 				if (!inGameMusicStarted)
 				{
 					inGameMusicStarted = true;
-					AudioManager::getInstance()->playNextStream(SOUNDS_PATH + IN_GAME_MUSIC, musicFadeDuration, ui->getMusicVolumeFloat());
-					// AudioManager::getInstance()->fadeStreamOut(musicFadeDuration);
-					//AudioManager::getInstance()->playStreamFadeIn(SOUNDS_PATH + IN_GAME_MUSIC, musicFadeDuration, ui->getMusicVolumeFloat());
+					AudioManager::getInstance()->playNextStream(SOUNDS_PATH
+						+ IN_GAME_MUSIC, musicFadeDuration,
+						ui->getMusicVolumeFloat());
+					// AudioManager::getInstance()->
+					// fadeStreamOut(musicFadeDuration);
+					//AudioManager::getInstance()->playStreamFadeIn(
+					// SOUNDS_PATH + IN_GAME_MUSIC, musicFadeDuration, 
+					// ui->getMusicVolumeFloat());
 				}
 
 				render();
@@ -83,15 +91,18 @@ namespace MazeCrisis
 			}
 			else if (Common::gameStates.top() == GameState::MENU_MAIN_QUIT)
 			{
-				// Quitting the game from in-game. Reloading the level for one frame.
+				// Quitting the game from in-game. Reloading the level for one 
+				// frame.
 				Common::gameStates.pop();
 				Common::gameStates.push(GameState::MENU_MAIN);
 				reloadLevel(currentLevel);
 				if (AudioManager::getInstance()->isStreamPlaying)
-					AudioManager::getInstance()->playNextStream(SOUNDS_PATH + MENU_MUSIC, musicFadeDuration,
+					AudioManager::getInstance()->playNextStream(
+						SOUNDS_PATH + MENU_MUSIC, musicFadeDuration,
 						ui->getMusicVolumeFloat());
 				else
-					AudioManager::getInstance()->playStream(SOUNDS_PATH + MENU_MUSIC, ui->getMusicVolumeFloat());
+					AudioManager::getInstance()->playStream(
+						SOUNDS_PATH + MENU_MUSIC, ui->getMusicVolumeFloat());
 				inGameMusicStarted = false;
 				gameOverSaid = false;
 				gameOverTunePlayed = false;
@@ -106,17 +117,22 @@ namespace MazeCrisis
 				render();
 				if (!gameOverTunePlayed)
 				{
-					AudioManager::getInstance()->fadeStreamOut(musicFadeDuration / 2);
+					AudioManager::getInstance()->fadeStreamOut(
+						musicFadeDuration / 2);
 					gameOverTuneStartTime = Clock::getMilliseconds();
-					AudioManager::getInstance()->playSound(SOUNDS_PATH + GAME_OVER_TUNE, ui->getMusicVolumeFloat());
+					AudioManager::getInstance()->playSound(
+						SOUNDS_PATH + GAME_OVER_TUNE,
+						ui->getMusicVolumeFloat());
 					gameOverTunePlayed = true;
 					ui->fadeToGameOverScreen(gameOverTuneDuration);
 				}
 
 				if (!gameOverSaid &&
-					Clock::getMilliseconds() - gameOverTuneStartTime > gameOverTuneDuration)
+					Clock::getMilliseconds() - gameOverTuneStartTime >
+					gameOverTuneDuration)
 				{
-					AudioManager::getInstance()->playSound(SOUNDS_PATH + SAY_GAME_OVER, ui->getGameVolumeFloat());
+					AudioManager::getInstance()->playSound(
+						SOUNDS_PATH + SAY_GAME_OVER, ui->getGameVolumeFloat());
 					gameOverSaid = true;
 				}
 			}
@@ -126,10 +142,12 @@ namespace MazeCrisis
 
 				if (!victoryMusicStarted)
 				{
-					AudioManager::getInstance()->fadeStreamOut(musicFadeDuration / 2);
+					AudioManager::getInstance()->fadeStreamOut(
+						musicFadeDuration / 2);
 					ui->fadeToVictoryScreen(2000);
 					victoryMusicStarted = true;
-					AudioManager::getInstance()->playStream(SOUNDS_PATH + VICTORY_MUSIC, ui->getMusicVolumeFloat());
+					AudioManager::getInstance()->playStream(
+						SOUNDS_PATH + VICTORY_MUSIC, ui->getMusicVolumeFloat());
 				}
 			}
 
@@ -151,7 +169,8 @@ namespace MazeCrisis
 
 
 	void
-	Game::mouseHandlerCallback(GLFWwindow* window, int button, int action, int mods)
+	Game::mouseHandlerCallback(GLFWwindow* window, int button, int action,
+		int mods)
 	{
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
@@ -167,10 +186,12 @@ namespace MazeCrisis
 	}
 
 	void
-	Game::keyHandlerCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	Game::keyHandlerCallback(GLFWwindow* window, int key, int scancode, 
+		int action, int mods)
 	{
 		ui->keyHandlerCallback(window, key, scancode, action, mods);
-		levels[currentLevel].get()->keyHandler(window, key, scancode, action, mods);
+		levels[currentLevel].get()->keyHandler(window, key, scancode, action,
+			mods);
 	}
 
 	void
@@ -198,25 +219,26 @@ namespace MazeCrisis
 	}
 
 	GLFWwindow*
-	Game::getWindow()
+	Game::getWindow() const
 	{
 		return window;
 	}
 
 	WiiHandler*
-	Game::getWiiHandler()
+	Game::getWiiHandler() const
 	{
 		return wiiHandler.get();
 	}
 
 	UserInterface* 
-	Game::getUserInterface()
+	Game::getUserInterface() const
 	{
 		return ui.get();
 	}
 
 	void
 	Game::getWindowDimensions(unsigned int &refWidth, unsigned int &refHeight)
+		const
 	{
 		refWidth = windowWidth;
 		refHeight = windowHeight;
@@ -226,11 +248,14 @@ namespace MazeCrisis
 	Game::setFullscreen(bool isFullscreen)
 	{
 		if (isFullscreen)
-			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, windowWidth, windowHeight, GLFW_DONT_CARE);
+			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0,
+				windowWidth, windowHeight, GLFW_DONT_CARE);
 		else
 		{
-			glfwSetWindowMonitor(window, NULL, desktopResWidth / 2 - windowWidth / 2,
-				desktopResHeight / 2 - windowHeight / 2, windowWidth, windowHeight, GLFW_DONT_CARE);
+			glfwSetWindowMonitor(window, NULL,
+				desktopResWidth / 2 - windowWidth / 2,
+				desktopResHeight / 2 - windowHeight / 2,
+				windowWidth, windowHeight, GLFW_DONT_CARE);
 		}
 	}
 
@@ -274,17 +299,21 @@ namespace MazeCrisis
 			glfwWindowHint(GLFW_SAMPLES, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
+				// To make MacOS happy; should not be needed
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
-			window = glfwCreateWindow(windowWidth, windowHeight, GAME_NAME.c_str(), NULL, NULL);
+			window = glfwCreateWindow(windowWidth, windowHeight,
+				GAME_NAME.c_str(), NULL, NULL);
 			
 			const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 			desktopResWidth = mode->width;
 			desktopResHeight = mode->height;
-			glfwSetWindowMonitor(window, NULL, desktopResWidth / 2 - windowWidth / 2,
-				desktopResHeight / 2 - windowHeight / 2, windowWidth, windowHeight, GLFW_DONT_CARE);
+			glfwSetWindowMonitor(window, NULL,
+				desktopResWidth / 2 - windowWidth / 2,
+				desktopResHeight / 2 - windowHeight / 2, windowWidth, 
+				windowHeight, GLFW_DONT_CARE);
 
 			if (window == NULL) {
 				glfwTerminate();
@@ -310,31 +339,37 @@ namespace MazeCrisis
 			auto func = [](GLFWwindow* window, int button, int action, int mods)
 			{
 				static_cast<Game*>
-					(glfwGetWindowUserPointer(window))->mouseHandlerCallback(window, button, action, mods);
+					(glfwGetWindowUserPointer(window))->mouseHandlerCallback(
+						window, button, action, mods);
 			};
 
-			auto func2 = [](GLFWwindow* window, int key, int scancode, int action, int mods)
+			auto func2 = [](GLFWwindow* window, int key, int scancode,
+				int action, int mods)
 			{
 				static_cast<Game*>
-					(glfwGetWindowUserPointer(window))->keyHandlerCallback(window, key, scancode, action, mods);
+					(glfwGetWindowUserPointer(window))->keyHandlerCallback(
+						window, key, scancode, action, mods);
 			};
 
 			auto func3 = [](GLFWwindow* window, int width, int height)
 			{
 				static_cast<Game*>
-					(glfwGetWindowUserPointer(window))->windowResizedCallback(window, width, height);
+					(glfwGetWindowUserPointer(window))->windowResizedCallback(
+						window, width, height);
 			};
 
 			auto func4 = [](GLFWwindow* window, unsigned int char_pressed)
 			{
 				static_cast<Game*>
-					(glfwGetWindowUserPointer(window))->charCallback(window, char_pressed);
+					(glfwGetWindowUserPointer(window))->charCallback(window,
+						char_pressed);
 			};
 
 			auto func5 = [](GLFWwindow* window, double x, double y)
 			{
 				static_cast<Game*>
-					(glfwGetWindowUserPointer(window))->cursorPosCallback(window, x, y);
+					(glfwGetWindowUserPointer(window))->cursorPosCallback(
+						window, x, y);
 			};
 
 			glfwSetMouseButtonCallback(window, func);
@@ -361,9 +396,11 @@ namespace MazeCrisis
 		AudioManager::getInstance()->loadSound(SOUNDS_PATH + SAY_GAME_OVER);
 		AudioManager::getInstance()->loadSound(SOUNDS_PATH + GAME_OVER_TUNE);
 		AudioManager::getInstance()->loadStream(SOUNDS_PATH + VICTORY_MUSIC);
-		AudioManager::getInstance()->playStream(SOUNDS_PATH + MENU_MUSIC, ui->getMusicVolumeFloat());
+		AudioManager::getInstance()->playStream(SOUNDS_PATH + MENU_MUSIC, 
+			ui->getMusicVolumeFloat());
 
-		gameOverTuneDuration = AudioManager::getInstance()->getSoundLengthMS(SOUNDS_PATH + GAME_OVER_TUNE);
+		gameOverTuneDuration = AudioManager::getInstance()->getSoundLengthMS(
+			SOUNDS_PATH + GAME_OVER_TUNE);
 
 		inGameMusicStarted = false;
 		musicFadeDuration = 2000;

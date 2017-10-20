@@ -21,7 +21,8 @@ Image::Image(string _filename)
 	{
 		// check the file signature and deduce its format
 		imgFormat = FreeImage_GetFileType(_filename.c_str(), 0);
-		// if still unknown, try to guess the file format from the file extension
+		// if still unknown, try to guess the file format from the file 
+		// extension
 		if (imgFormat == FIF_UNKNOWN)
 			imgFormat = FreeImage_GetFIFFromFilename(_filename.c_str());
 		// if still unkown, return failure
@@ -52,9 +53,10 @@ Image::Image(string _filename)
 		bitsPerPixel = FreeImage_GetBPP(dib);
 		
 		// From FreeImage documentation:
-		// Calculates(or at least estimates) the total memory usage of a FreeImage bitmap.This
-		// includes the ICC profile size, the size of the embedded thumbnail(if any), the memory
-		// required for all the metadata, as well as any FreeImage internal (housekeeping)memory.
+		// Calculates(or at least estimates) the total memory usage of a 
+		// FreeImage bitmap.This includes the ICC profile size, the size of the
+		// embedded thumbnail(if any), the memory required for all the metadata, 
+		// as well as any FreeImage internal (housekeeping)memory.
 		numBytes = FreeImage_GetMemorySize(dib);
 
 		FreeImage_FlipVertical(dib);
@@ -81,7 +83,7 @@ Image::~Image()
 }
 
 string 
-Image::getFileName()
+Image::getFileName() const
 {
 	return filename;
 }
@@ -94,37 +96,37 @@ Image::getDimensions(unsigned int &_width, unsigned int &_height)
 }
 
 unsigned int
-Image::getWidth()
+Image::getWidth() const
 {
 	return width;
 }
 
 unsigned int
-Image::getHeight()
+Image::getHeight() const
 {
 	return height;
 }
 
 FREE_IMAGE_FORMAT
-Image::getImgFormat()
+Image::getImgFormat() const
 {
 	return imgFormat;
 }
 
 BYTE
-Image::getBitsPerPixel()
+Image::getBitsPerPixel() const
 {
 	return bitsPerPixel;
 }
 
 int
-Image::getNumBytes()
+Image::getNumBytes() const
 {
 	return numBytes;
 }
 
 BYTE*
-Image::getImageData()
+Image::getImageData() const
 {
 	return bits;
 }

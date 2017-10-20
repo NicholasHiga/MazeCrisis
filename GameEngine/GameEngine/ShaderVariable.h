@@ -30,9 +30,12 @@ class ShaderVariable
 public:
 	ShaderVariable();
 	ShaderVariable(ENGINE_VAR engineVar, const std::string &_shaderVar);
-	//ShaderVariable(const std::string &_shaderVarName, const std::string &_gameEngineVarName, SHADER_VAR_TYPE _varType)
-	//	: shaderVarName(_shaderVarName), gameEngineVarName(_gameEngineVarName), shaderVarType(_varType) { };
-	ShaderVariable(const std::string &_shaderVarName, const std::string &_gameEngineVarName, SHADER_VAR_TYPE _varType)
+	//ShaderVariable(const std::string &_shaderVarName, 
+	// const std::string &_gameEngineVarName, SHADER_VAR_TYPE _varType)
+	//	: shaderVarName(_shaderVarName), gameEngineVarName(_gameEngineVarName),
+	// shaderVarType(_varType) { };
+	ShaderVariable(const std::string &_shaderVarName,
+		const std::string &_gameEngineVarName, SHADER_VAR_TYPE _varType)
 		: shaderVarName(_shaderVarName), shaderVarType(_varType) { };
 
 	void setAsVertexPositionShaderVar(const std::string &_shaderVarName);
@@ -47,17 +50,18 @@ public:
 
 	void setUniformLocation(GLint value) { uniformLocation = value; }
 
-	SHADER_VAR_TYPE getShaderVarType() { return shaderVarType; }
-	ENGINE_VAR getEngineVarType() { return engineVarType; }
-	const std::string &getShaderVarName() {	return shaderVarName; };
+	SHADER_VAR_TYPE getShaderVarType() const { return shaderVarType; }
+	ENGINE_VAR getEngineVarType() const { return engineVarType; }
+	const std::string &getShaderVarName() const {	return shaderVarName; };
 	//const std::string &getGameEngineVarName() { return gameEngineVarName; }
-	GLint getUniformLocation() { return uniformLocation; }
+	GLint getUniformLocation() const { return uniformLocation; }
 
 private:
 	std::string shaderVarName;// , gameEngineVarName;
 	SHADER_VAR_TYPE shaderVarType;
 	ENGINE_VAR engineVarType;
-	GLint  uniformLocation;			// If -1, doesn't have an associated location.
+	GLint  uniformLocation;			// If -1, doesn't have an 
+								    // associated location.
 
 	// These will always be the name of certain attribs/uniforms when
 	// referred to within the game engine.

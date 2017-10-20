@@ -24,8 +24,10 @@ namespace MazeCrisis
 		void initGameObjects();
 		//bool loadLevel(string levelPath);
 		void update(float deltaTime);
-		void mouseHandler(GLFWwindow* window, int button, int action, int mods);
-		void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+		void mouseHandler(GLFWwindow* window, int button, int action, 
+			int mods);
+		void keyHandler(GLFWwindow* window, int key, int scancode, int action,
+			int mods);
 		void cursorPosHandler(GLFWwindow* window, double x, double y);
 
 	private:

@@ -59,9 +59,9 @@ public:
 	std::vector<Vertex> getVertices() const;
 	std::vector<GLuint> getIndices() const;
 
-	GLuint getVAO() { return vao; }
-	GLuint getVBO() { return vbo; }
-	GLuint getIBO() { return ibo; }
+	GLuint getVAO() const { return vao; }
+	GLuint getVBO() const { return vbo; }
+	GLuint getIBO() const { return ibo; }
 	PrimitiveType getPrimitiveType() const { return primitiveType; }
 
 	void setName(const std::string &name);

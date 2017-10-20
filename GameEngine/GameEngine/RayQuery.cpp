@@ -17,7 +17,8 @@ SceneGraph* RayQuery::graph;
 AbstractRenderer* RayQuery::ren;
 
 vector<shared_ptr<SceneNode>>
-RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest, std::vector<float> *intersectionPts)
+RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest,
+	std::vector<float> *intersectionPts)
 {
 	vector<shared_ptr<SceneNode>> intersections;
 	vector<float> intersectionPoints;
@@ -32,8 +33,9 @@ RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest, std::ve
 				if (go->getIsEnabled())
 				{
 					float intersectionLocation;
-					if (RayQuery::doesRayIntersect(origin, direction, n.get()->getScale(),
-						n.get()->getModelMatrix(), go->getBoundingBoxes()[i], &intersectionLocation))
+					if (RayQuery::doesRayIntersect(origin, direction, 
+						n.get()->getScale(), n.get()->getModelMatrix(), 
+						go->getBoundingBoxes()[i], &intersectionLocation))
 					{
 						if (!sortListFromClosest)
 						{
@@ -42,11 +44,15 @@ RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest, std::ve
 						}
 						else
 						{
-							auto lowBound = std::lower_bound(intersectionPoints.begin(), intersectionPoints.end(),
+							auto lowBound = std::lower_bound(
+								intersectionPoints.begin(),
+								intersectionPoints.end(),
 								intersectionLocation);
 							int index = lowBound - intersectionPoints.begin();
-							intersectionPoints.insert(lowBound, intersectionLocation);
-							intersections.insert(intersections.begin() + index, n);
+							intersectionPoints.insert(lowBound, 
+								intersectionLocation);
+							intersections.insert(intersections.begin() + index,
+								n);
 						}
 					}
 				}
@@ -59,9 +65,11 @@ RayQuery::Raycast(vec3 origin, vec3 direction, bool sortListFromClosest, std::ve
 }
 
 vector<shared_ptr<SceneNode>>
-RayQuery::Raycast(Ray ray, bool sortListFromClosest, std::vector<float> *intersectionPts)
+RayQuery::Raycast(Ray ray, bool sortListFromClosest, 
+	std::vector<float> *intersectionPts)
 {
-	return Raycast(ray.origin, ray.direction, sortListFromClosest, intersectionPts);
+	return Raycast(ray.origin, ray.direction, sortListFromClosest,
+		intersectionPts);
 }
 
 Ray 
@@ -69,44 +77,56 @@ RayQuery::getRayFromMouseClick(int mouseX, int mouseY)
 {
 	Ray r;
 	glm::vec2 winDimensions = ren->getWindowSize();
-	glm::vec4 viewport = glm::vec4(0.0f, 0.0f, winDimensions.x, winDimensions.y);
+	glm::vec4 viewport = glm::vec4(0.0f, 0.0f, winDimensions.x,
+		winDimensions.y);
 	int dy = (int)winDimensions.y - mouseY;
 
 	glm::vec2 normalizedCoords(
-		((float)mouseX / (float)winDimensions.x - 0.5f) * 2.0f, // [0,1024] -> [-1,1]
-		((float)dy / (float)winDimensions.y - 0.5f) * 2.0f // [0, 768] -> [-1,1]
+		((float)mouseX / (float)winDimensions.x - 0.5f) * 2.0f, 
+		// [0,1024] -> [-1,1]
+		((float)dy / (float)winDimensions.y - 0.5f) * 2.0f 
+		// [0, 768] -> [-1,1]
 	);
 
 	r.origin = glm::unProject(glm::vec3(float(mouseX), dy, 0.0f),
-		ren->getMatrixStack().getViewMatrix(), ren->getMatrixStack().getProjectionMatrix(), viewport);
+		ren->getMatrixStack().getViewMatrix(),
+		ren->getMatrixStack().getProjectionMatrix(), viewport);
 	vec3 t = glm::unProject(glm::vec3(float(mouseX), dy, 1.0f),
-		ren->getMatrixStack().getViewMatrix(), ren->getMatrixStack().getProjectionMatrix(), viewport);
+		ren->getMatrixStack().getViewMatrix(), 
+		ren->getMatrixStack().getProjectionMatrix(), viewport);
 	r.direction = glm::normalize(t - r.origin);
 	return r;
 }
 
 bool 
-RayQuery::doesRayIntersect(vec3 origin, vec3 direction, vec3 scale, mat4 modelMatrix, BoundingBox* bb, float *location)
+RayQuery::doesRayIntersect(vec3 origin, vec3 direction, vec3 scale,
+	mat4 modelMatrix, BoundingBox* bb, float *location)
 {
 	if (bb->getBoundingBoxType() == BOUNDING_BOX_TYPE::SPHERE)
 		return raySphere(origin, direction, modelMatrix, bb, location);
 	else if (bb->getBoundingBoxType() == BOUNDING_BOX_TYPE::AABB)
-		return rayAABB(origin, direction, bb->aabbMins, bb->aabbMaxes, location);
+		return rayAABB(origin, direction, bb->aabbMins, bb->aabbMaxes,
+			location);
 	else // OBB
 	{
 		vec3 axes[3];
-		axes[0] = glm::normalize(vec3(modelMatrix[0].x, modelMatrix[0].y, modelMatrix[0].z));
-		axes[1] = glm::normalize(vec3(modelMatrix[1].x, modelMatrix[1].y, modelMatrix[1].z));
-		axes[2] = glm::normalize(vec3(modelMatrix[2].x, modelMatrix[2].y, modelMatrix[2].z));
+		axes[0] = glm::normalize(vec3(modelMatrix[0].x, modelMatrix[0].y,
+			modelMatrix[0].z));
+		axes[1] = glm::normalize(vec3(modelMatrix[1].x, modelMatrix[1].y,
+			modelMatrix[1].z));
+		axes[2] = glm::normalize(vec3(modelMatrix[2].x, modelMatrix[2].y, 
+			modelMatrix[2].z));
 
 		return rayOBB(origin, direction, bb->center, axes, scale, location);
 	}
 }
 
 bool
-RayQuery::doesRayIntersect(Ray ray, vec3 scale, mat4 modelMatrix, BoundingBox* bb, float *location)
+RayQuery::doesRayIntersect(Ray ray, vec3 scale, mat4 modelMatrix,
+	BoundingBox* bb, float *location)
 {
-	return doesRayIntersect(ray.origin, ray.direction, scale, modelMatrix, bb, location);
+	return doesRayIntersect(ray.origin, ray.direction, scale, modelMatrix,
+		bb, location);
 }
 
 bool
@@ -131,7 +151,8 @@ RayQuery::raySlab(float origin, float direction, float min,
 }
 
 bool
-RayQuery::rayAABB(vec3 origin, vec3 direction, vec3 min, vec3 max, float *location)
+RayQuery::rayAABB(vec3 origin, vec3 direction, vec3 min, vec3 max, 
+	float *location)
 {
 	float tfirst = 0.0f, tlast = 100000.0f;
 
@@ -148,15 +169,22 @@ RayQuery::rayAABB(vec3 origin, vec3 direction, vec3 min, vec3 max, float *locati
 }
 
 bool
-RayQuery::rayOBB(vec3 origin, vec3 dir, vec3 center, vec3 axes[3], vec3 dimensions, float *location)
+RayQuery::rayOBB(vec3 origin, vec3 dir, vec3 center, vec3 axes[3], 
+	vec3 dimensions, float *location)
 {
 	float tfirst = 0.0f, tlast = 100000.0f;
 
-	if (!raySlab(glm::dot(origin, axes[0]), glm::dot(dir, axes[0]), glm::dot(center, axes[0]) - dimensions.x / 2.0f, glm::dot(center, axes[0]) + dimensions.x / 2.0f, &tfirst, &tlast))
+	if (!raySlab(glm::dot(origin, axes[0]), glm::dot(dir, axes[0]), 
+		glm::dot(center, axes[0]) - dimensions.x / 2.0f, 
+		glm::dot(center, axes[0]) + dimensions.x / 2.0f, &tfirst, &tlast))
 		return false;
-	if (!raySlab(glm::dot(origin, axes[1]), glm::dot(dir, axes[1]), glm::dot(center, axes[1]) - dimensions.y / 2.0f, glm::dot(center, axes[1]) + dimensions.y / 2.0f, &tfirst, &tlast))
+	if (!raySlab(glm::dot(origin, axes[1]), glm::dot(dir, axes[1]),
+		glm::dot(center, axes[1]) - dimensions.y / 2.0f,
+		glm::dot(center, axes[1]) + dimensions.y / 2.0f, &tfirst, &tlast))
 		return false;
-	if (!raySlab(glm::dot(origin, axes[2]), glm::dot(dir, axes[2]), glm::dot(center, axes[2]) - dimensions.z / 2.0f, glm::dot(center, axes[2]) + dimensions.z / 2.0f, &tfirst, &tlast))
+	if (!raySlab(glm::dot(origin, axes[2]), glm::dot(dir, axes[2]), 
+		glm::dot(center, axes[2]) - dimensions.z / 2.0f, 
+		glm::dot(center, axes[2]) + dimensions.z / 2.0f, &tfirst, &tlast))
 		return false;
 
 	if (location != nullptr)
@@ -165,7 +193,8 @@ RayQuery::rayOBB(vec3 origin, vec3 dir, vec3 center, vec3 axes[3], vec3 dimensio
 }
 
 bool 
-RayQuery::raySphere(vec3 origin, vec3 direction, mat4 ModelMatrix, BoundingBox* bb, float *location)
+RayQuery::raySphere(vec3 origin, vec3 direction, mat4 ModelMatrix,
+	BoundingBox* bb, float *location)
 {
 	// TODO: Implement ray-sphere collision detection.
 	return true;

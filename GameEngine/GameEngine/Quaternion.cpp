@@ -100,17 +100,20 @@ Quaternion::convertToMatrix4(Quaternion q)
 	Mat4x4 result;
 	Quaternion temp = Quaternion(q.W(), q.X(), q.Y(), q.Z());
 	temp.normalize();
-	result.matrix[0][0] = 1.0f - 2.0f * temp.y * temp.y - 2.0f * temp.z * temp.z;
+	result.matrix[0][0] = 1.0f - 2.0f * temp.y * temp.y 
+		- 2.0f * temp.z * temp.z;
 	result.matrix[0][1] = 2.0f * temp.x * temp.y - 2.0f * temp.z * temp.w;
 	result.matrix[0][2] = 2.0f * temp.x * temp.z + 2.0f * temp.y * temp.w;
 	result.matrix[0][3] = 0.0f;
 	result.matrix[1][0] = 2.0f * temp.x * temp.y + 2.0f * temp.z * temp.w;
-	result.matrix[1][1] = 1.0f - 2.0f * temp.x * temp.x - 2.0f * temp.z * temp.z;
+	result.matrix[1][1] = 1.0f - 2.0f * temp.x * temp.x 
+		- 2.0f * temp.z * temp.z;
 	result.matrix[1][2] = 2.0f * temp.y * temp.z - 2.0f * temp.x * temp.w;
 	result.matrix[1][3] = 0.0f;
 	result.matrix[2][0] = 2.0f * temp.x * temp.z - 2.0f * temp.y * temp.w;
 	result.matrix[2][1] = 2.0f * temp.y * temp.z + 2.0f * temp.x * temp.w;
-	result.matrix[2][2] = 1.0f - 2.0f * temp.x * temp.x - 2.0f * temp.y * temp.y;
+	result.matrix[2][2] = 1.0f - 2.0f * temp.x * temp.x 
+		- 2.0f * temp.y * temp.y;
 	result.matrix[2][3] = 0.0f;
 	result.matrix[3][0] = 0.0f;
 	result.matrix[3][1] = 0.0f;
@@ -142,7 +145,8 @@ Quaternion
 Quaternion::normalized(Quaternion q)
 {
 	float magnitude = Quaternion::magnitude(q);
-	return Quaternion(q.W() / magnitude, q.X() / magnitude, q.Y() / magnitude, q.Z() / magnitude);
+	return Quaternion(q.W() / magnitude, q.X() / magnitude, q.Y() / magnitude,
+		q.Z() / magnitude);
 }
 
 float 
@@ -152,7 +156,7 @@ Quaternion::magnitude(Quaternion q)
 }
 
 Mat4x4 
-Quaternion::convertToMatrix4()
+Quaternion::convertToMatrix4() const
 {
 	return Quaternion::convertToMatrix4(*this);
 }
@@ -166,7 +170,7 @@ Quaternion::toConjugate()
 }
 
 Quaternion
-Quaternion::getConjugate()
+Quaternion::getConjugate() const
 {
 	return Quaternion::conjugate(*this);
 }
@@ -184,7 +188,7 @@ Quaternion::normalize()
 }
 
 float 
-Quaternion::magnitude()
+Quaternion::magnitude() const
 {
 	return Quaternion::magnitude(*this);
 }
@@ -192,7 +196,8 @@ Quaternion::magnitude()
 Quaternion
 Quaternion::rotationAndVectorToQuatDegrees(float degrees, vec3 axis)
 {
-	return rotationAndVectorToQuatRadians((float)(degrees * M_PI / 180.0f), axis);
+	return rotationAndVectorToQuatRadians((float)(degrees * M_PI / 180.0f),
+		axis);
 }
 
 Quaternion
@@ -209,7 +214,7 @@ Quaternion::rotationAndVectorToQuatRadians(float radians, vec3 axis)
 }
 
 void 
-Quaternion::toRotationAndVectorDegrees(float &degrees, vec3 &axis)
+Quaternion::toRotationAndVectorDegrees(float &degrees, vec3 &axis) const
 {
 	/*Quaternion q = Quaternion(w, x, y, z);
 	float num, radians;
@@ -228,7 +233,7 @@ Quaternion::toRotationAndVectorDegrees(float &degrees, vec3 &axis)
 }
 
 void
-Quaternion::toRotationAndVectorRadians(float &radians, vec3 &axis)
+Quaternion::toRotationAndVectorRadians(float &radians, vec3 &axis) const
 {
 	Quaternion q = Quaternion(w, x, y, z);
 	float num;
@@ -282,13 +287,14 @@ Quaternion::eulerToQuatDegrees(float yaw, float pitch, float roll)
 }
 
 void
-Quaternion::quatToEulerRadians(float &yaw, float &pitch, float &roll)
+Quaternion::quatToEulerRadians(float &yaw, float &pitch, float &roll) const
 {
 	double sqw = w * w;
 	double sqx = x * x;
 	double sqy = y * y;
 	double sqz = z * z;
-	double unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+	double unit = sqx + sqy + sqz + sqw; // if normalised is one, 
+									 	 // otherwise is correction factor
 	double test = x * y + z * w;
 	if (test > 0.499*unit) { // singularity at north pole
 		yaw = (float)(2.0f * atan2(x, w));
@@ -308,7 +314,7 @@ Quaternion::quatToEulerRadians(float &yaw, float &pitch, float &roll)
 }
 
 void
-Quaternion::quatToEulerDegrees(float &yaw, float &pitch, float &roll)
+Quaternion::quatToEulerDegrees(float &yaw, float &pitch, float &roll) const
 {
 	quatToEulerRadians(yaw, pitch, roll);
 	yaw *= (float)(180.0f / M_PI);
@@ -371,6 +377,7 @@ Quaternion::toString()
 
 ostream& operator<<(ostream& os, const Quaternion& q)
 {
-	os << "[ " << q.W() << " ( " << q.X() << ", " << q.Y() << ", " << q.Z() << " ) ]";
+	os << "[ " << q.W() << " ( " << q.X() << ", " << q.Y() << ", " << q.Z() 
+		<< " ) ]";
 	return os;
 }

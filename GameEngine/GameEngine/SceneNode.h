@@ -22,7 +22,8 @@ public:
 	void appendChildNode(std::shared_ptr<SceneNode> node);
 	bool removeChildNode(std::shared_ptr<SceneNode> node);
 	bool removeChildNode(SceneNode *node);
-	std::vector<std::shared_ptr<SceneNode>> *getChildren() { return &children; };
+	std::vector<std::shared_ptr<SceneNode>> *getChildren() 
+		{ return &children; };
 
 	void addRenderable(Renderable &renderable);
 	bool removeRenderable(Renderable &renderable);
@@ -34,14 +35,14 @@ public:
 	void setOrientation(Quaternion &quat);
 	void setScale(glm::vec3 &_scale);
 
-	glm::vec3 getPosition();
-	Quaternion getOrientation();
-	glm::vec3 getScale();
+	glm::vec3 getPosition() const;
+	Quaternion getOrientation() const;
+	glm::vec3 getScale() const;
 	std::vector<Renderable*> *getRenderables();
 	//std::vector<std::unique_ptr<BoundingBox>> *getBoundingBoxes();
-	SceneNode* getParentNode() { return parent.get(); }
+	SceneNode* getParentNode() const { return parent.get(); }
 
-	glm::mat4 getModelMatrix();
+	glm::mat4 getModelMatrix() const;
 
 	bool isBeingRendered = true;
 

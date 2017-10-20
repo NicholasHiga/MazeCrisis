@@ -14,8 +14,9 @@ namespace MazeCrisis
 
 	Gun::Gun(Player *player, unsigned int totalAmmo, unsigned int ammoPerClip,
 		unsigned int damagePerShot, float timeBetweenShots, float timeToReload,
-		const std::string &shootingSoundFilePath, const std::string &reloadSoundFilePath,
-		const std::string &emptySoundFilePath,bool hasInfiniteAmmo)
+		const std::string &shootingSoundFilePath,
+		const std::string &reloadSoundFilePath,
+		const std::string &emptySoundFilePath, bool hasInfiniteAmmo)
 	{
 		setPlayer(player);
 		setTotalAmmo(totalAmmo);
@@ -32,42 +33,51 @@ namespace MazeCrisis
 		reloadTimeStart = 0;
 		reloadInitiated = false;
 		emptySoundPlaying = false;
-		emptyClipLength = AudioManager::getInstance()->getSoundLengthMS(emptySoundFilePath);
+		emptyClipLength = AudioManager::getInstance()->getSoundLengthMS(
+			emptySoundFilePath);
 		ui = player->getUserInterface();
 	}
 
 	bool
 	Gun::shoot(Ray *lastRay)
 	{
-		if (currentClipAmmo != 0 && Clock::getMilliseconds() - shootingTimeStart > timeBetweenShots)
+		if (currentClipAmmo != 0 && Clock::getMilliseconds() - shootingTimeStart 
+			> timeBetweenShots)
 		{
 			currentClipAmmo--;
 			std::cout << currentClipAmmo << " / " << totalAmmo << std::endl;
-			player->getUserInterface()->setAmmoCount(currentClipAmmo, totalAmmo, hasInfiniteAmmo);
+			player->getUserInterface()->setAmmoCount(currentClipAmmo, totalAmmo,
+				hasInfiniteAmmo);
 			shootingTimeStart = Clock::getMilliseconds();
-			AudioManager::getInstance()->playSound(shootingSoundFilePath, ui->getGameVolumeFloat());
+			AudioManager::getInstance()->playSound(shootingSoundFilePath, 
+				ui->getGameVolumeFloat());
 
 			vector<shared_ptr<SceneNode>> intersections =
 				RayQuery::Raycast(*lastRay, true);
 
 			if (!intersections.empty())
 			{
-				Enemy* enemy = dynamic_cast<Enemy*>((*intersections[0]->getRenderables())[0]);
+				Enemy* enemy = dynamic_cast<Enemy*>((
+					*intersections[0]->getRenderables())[0]);
 
 				if (enemy)
 				{
 					std::cout << enemy->getGameObjectName() << " " <<
-						(int)(enemy->getCurrentHealth() - damagePerShot) << " hp" << std::endl;
+						(int)(enemy->getCurrentHealth() - damagePerShot)
+						<< " hp" << std::endl;
 					if (enemy->getGameObjectName() == "Boss"
 						&& enemy->getCurrentHealth() - damagePerShot <= 0)
 						Common::gameStates.push(GameState::VICTORY);
-					enemy->setCurrentHealth(enemy->getCurrentHealth() - damagePerShot);			
+					enemy->setCurrentHealth(enemy->getCurrentHealth() 
+						- damagePerShot);			
 				}
 			}
 
 			if (currentClipAmmo == 0)
 			{
-				AudioManager::getInstance()->playSound(player->getSayReloadSoundFilePath(), ui->getGameVolumeFloat());
+				AudioManager::getInstance()->playSound(
+					player->getSayReloadSoundFilePath(),
+					ui->getGameVolumeFloat());
 				player->getUserInterface()->pulseReloadMessage(1500);
 			}
 		}
@@ -81,15 +91,18 @@ namespace MazeCrisis
 			}
 			return true;
 		}*/
-		else if (!emptySoundPlaying && Clock::getMilliseconds() - shootingTimeStart > timeBetweenShots)
+		else if (!emptySoundPlaying && Clock::getMilliseconds() -
+			shootingTimeStart > timeBetweenShots)
 		{
 			// Empty clip
-			AudioManager::getInstance()->playSound(emptyClipSoundFilePath, ui->getGameVolumeFloat());
+			AudioManager::getInstance()->playSound(emptyClipSoundFilePath,
+				ui->getGameVolumeFloat());
 			emptyClipTimeStart = Clock::getMilliseconds();
 			emptySoundPlaying = true;
 		}
 		// Bit of a hacky way to prevent repeating empty clip sound.
-		else if (Clock::getMilliseconds() - emptyClipTimeStart > emptyClipLength)
+		else if (Clock::getMilliseconds() - emptyClipTimeStart > 
+			emptyClipLength)
 		{
 			emptySoundPlaying = false;
 		}
@@ -105,7 +118,8 @@ namespace MazeCrisis
 		{
 			if (!reloadInitiated)
 			{
-				AudioManager::getInstance()->playSound(reloadSoundFilePath, ui->getGameVolumeFloat());
+				AudioManager::getInstance()->playSound(reloadSoundFilePath, 
+					ui->getGameVolumeFloat());
 				reloadTimeStart = Clock::getMilliseconds();
 				reloadInitiated = true;		
 				player->getUserInterface()->stopPulsingReloadMessage();
@@ -129,7 +143,8 @@ namespace MazeCrisis
 				reloadInitiated = false;
 				std::cout << "Reload finished" << std::endl;
 				std::cout << currentClipAmmo << " / " << totalAmmo << std::endl;
-				player->getUserInterface()->setAmmoCount(currentClipAmmo, totalAmmo, hasInfiniteAmmo);
+				player->getUserInterface()->setAmmoCount(currentClipAmmo,
+					totalAmmo, hasInfiniteAmmo);
 				return false; 
 			}
 			return true;
@@ -139,7 +154,7 @@ namespace MazeCrisis
 	}
 
 	Player*
-	Gun::getPlayer()
+	Gun::getPlayer() const
 	{
 		return player;
 	}
@@ -151,7 +166,7 @@ namespace MazeCrisis
 	}
 
 	unsigned int
-	Gun::getTotalAmmo()
+	Gun::getTotalAmmo() const
 	{
 		return totalAmmo;
 	}
@@ -163,7 +178,7 @@ namespace MazeCrisis
 	}
 
 	unsigned int
-	Gun::getAmmoPerClip()
+	Gun::getAmmoPerClip() const
 	{
 		return ammoPerClip;
 	}
@@ -175,7 +190,7 @@ namespace MazeCrisis
 	}
 
 	unsigned int
-	Gun::getCurrentClipAmmo()
+	Gun::getCurrentClipAmmo() const
 	{
 		return currentClipAmmo;
 	}
@@ -187,7 +202,7 @@ namespace MazeCrisis
 	}
 
 	unsigned int
-	Gun::getDamagePerShot()
+	Gun::getDamagePerShot() const
 	{
 		return damagePerShot;
 	}
@@ -199,13 +214,13 @@ namespace MazeCrisis
 	}
 
 	float
-	Gun::getTimeToReload()
+	Gun::getTimeToReload() const
 	{
 		return timeToReload;
 	}
 
 	float 
-	Gun::getTimeBetweenShots()
+	Gun::getTimeBetweenShots() const
 	{
 		return timeBetweenShots;
 	}
@@ -223,7 +238,7 @@ namespace MazeCrisis
 	}
 
 	bool 
-	Gun::getHasInfiniteAmmo()
+	Gun::getHasInfiniteAmmo() const
 	{
 		return hasInfiniteAmmo;
 	}
@@ -235,7 +250,7 @@ namespace MazeCrisis
 	}
 
 	string 
-	Gun::getEmptySoundFilePath()
+	Gun::getEmptySoundFilePath() const
 	{
 		return emptyClipSoundFilePath;
 	}
@@ -248,7 +263,7 @@ namespace MazeCrisis
 	}
 
 	string 
-	Gun::getShootingSoundFilePath()
+	Gun::getShootingSoundFilePath() const
 	{
 		return shootingSoundFilePath;
 	}
@@ -261,7 +276,7 @@ namespace MazeCrisis
 	}
 
 	string 
-	Gun::getReloadSoundFilePath()
+	Gun::getReloadSoundFilePath() const
 	{
 		return reloadSoundFilePath;
 	}

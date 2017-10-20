@@ -6,7 +6,8 @@
 using glm::vec3;
 
 void 
-Frustum::setWindowSize(float _fieldOfView, float _aspectRatio, float _nearPlaneDistance, float _farPlaneDistance)
+Frustum::setWindowSize(float _fieldOfView, float _aspectRatio, 
+	float _nearPlaneDistance, float _farPlaneDistance)
 {
 	fieldOfView = _fieldOfView;
 	aspectRatio = _aspectRatio;
@@ -40,25 +41,39 @@ Frustum::setCamera(const vec3 &_pos, const vec3 &_lookAt, const vec3 &_up)
 	farHalfHeight = farHeight * 0.5f;
 
 	// Calculate the position of each point on the frustum.
-	points[NEAR_TOP_LEFT] = nearCenter + cameraUp * nearHalfHeight - rightVector * nearHalfWidth;
-	points[NEAR_TOP_RIGHT] = nearCenter + cameraUp * nearHalfHeight + rightVector * nearHalfWidth;
-	points[NEAR_BOTTOM_LEFT] = nearCenter - cameraUp * nearHalfHeight - rightVector * nearHalfWidth;
-	points[NEAR_BOTTOM_RIGHT] = nearCenter - cameraUp * nearHalfHeight + rightVector * nearHalfWidth;
-	points[FAR_TOP_LEFT] = farCenter + cameraUp * farHalfHeight - rightVector * farHalfWidth;
-	points[FAR_TOP_RIGHT] = farCenter + cameraUp * farHalfHeight + rightVector * farHalfWidth;
-	points[FAR_BOTTOM_LEFT] = farCenter - cameraUp * farHalfHeight - rightVector * farHalfWidth;
-	points[FAR_BOTTOM_RIGHT] = farCenter - cameraUp * farHalfHeight + rightVector * farHalfWidth;
+	points[NEAR_TOP_LEFT] = nearCenter + cameraUp * nearHalfHeight 
+		- rightVector * nearHalfWidth;
+	points[NEAR_TOP_RIGHT] = nearCenter + cameraUp * nearHalfHeight 
+		+ rightVector * nearHalfWidth;
+	points[NEAR_BOTTOM_LEFT] = nearCenter - cameraUp * nearHalfHeight
+		- rightVector * nearHalfWidth;
+	points[NEAR_BOTTOM_RIGHT] = nearCenter - cameraUp * nearHalfHeight
+		+ rightVector * nearHalfWidth;
+	points[FAR_TOP_LEFT] = farCenter + cameraUp * farHalfHeight
+		- rightVector * farHalfWidth;
+	points[FAR_TOP_RIGHT] = farCenter + cameraUp * farHalfHeight
+		+ rightVector * farHalfWidth;
+	points[FAR_BOTTOM_LEFT] = farCenter - cameraUp * farHalfHeight 
+		- rightVector * farHalfWidth;
+	points[FAR_BOTTOM_RIGHT] = farCenter - cameraUp * farHalfHeight
+		+ rightVector * farHalfWidth;
 
-	// Create each plane using the 3 parameter constructor from the points calculated in the previous set
-	// of calculations.
-	planes[PLANE::LEFT] = Plane(points[NEAR_TOP_LEFT], points[NEAR_BOTTOM_LEFT], points[FAR_BOTTOM_LEFT]);
-	planes[PLANE::RIGHT] = Plane(points[NEAR_BOTTOM_RIGHT], points[NEAR_TOP_RIGHT], points[FAR_BOTTOM_RIGHT]);
+	// Create each plane using the 3 parameter constructor from the points
+	// calculated in the previous set of calculations.
+	planes[PLANE::LEFT] = Plane(points[NEAR_TOP_LEFT], 
+		points[NEAR_BOTTOM_LEFT], points[FAR_BOTTOM_LEFT]);
+	planes[PLANE::RIGHT] = Plane(points[NEAR_BOTTOM_RIGHT],
+		points[NEAR_TOP_RIGHT], points[FAR_BOTTOM_RIGHT]);
 
-	planes[PLANE::TOP] = Plane(points[NEAR_TOP_RIGHT], points[NEAR_TOP_LEFT], points[FAR_TOP_LEFT]);
-	planes[PLANE::BOTTOM] = Plane(points[NEAR_BOTTOM_LEFT], points[NEAR_BOTTOM_RIGHT], points[FAR_BOTTOM_RIGHT]);
+	planes[PLANE::TOP] = Plane(points[NEAR_TOP_RIGHT], 
+		points[NEAR_TOP_LEFT], points[FAR_TOP_LEFT]);
+	planes[PLANE::BOTTOM] = Plane(points[NEAR_BOTTOM_LEFT],
+		points[NEAR_BOTTOM_RIGHT], points[FAR_BOTTOM_RIGHT]);
 
-	planes[PLANE::NEARP] = Plane(points[NEAR_TOP_LEFT], points[NEAR_TOP_RIGHT], points[NEAR_BOTTOM_RIGHT]);
-	planes[PLANE::FARP] = Plane(points[FAR_TOP_RIGHT], points[FAR_TOP_LEFT], points[FAR_BOTTOM_LEFT]);
+	planes[PLANE::NEARP] = Plane(points[NEAR_TOP_LEFT],
+		points[NEAR_TOP_RIGHT], points[NEAR_BOTTOM_RIGHT]);
+	planes[PLANE::FARP] = Plane(points[FAR_TOP_RIGHT], 
+		points[FAR_TOP_LEFT], points[FAR_BOTTOM_LEFT]);
 }
 
 bool
@@ -77,15 +92,18 @@ Frustum::isPointInFrustum(vec3 &point)
 bool
 Frustum::isBoxInFrustum(BoundingBox &box)
 {
-	// Algorithm from http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
+	// Algorithm from 
+	// http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
 
-	// TODO: Figure out real reason why objects aren't being rendered when they should be.
-	// However, this fix is really effective for little performance loss.
-	// Using this buffer because objects that should be rendering are not being rendered
-	// without the buffer.
+	// TODO: Figure out real reason why objects aren't being rendered when they
+	// should be. However, this fix is really effective for little performance 
+	// loss. Using this buffer because objects that should be rendering are not 
+	// being rendered without the buffer.
 	float buffer = 15.0f;
-	vec3 tmpMins = vec3(box.aabbMins.x - buffer, box.aabbMins.y - buffer, box.aabbMins.z - buffer);
-	vec3 tmpMaxes = vec3(box.aabbMaxes.x + buffer, box.aabbMaxes.y + buffer, box.aabbMaxes.z + buffer);
+	vec3 tmpMins = vec3(box.aabbMins.x - buffer, box.aabbMins.y - buffer,
+		box.aabbMins.z - buffer);
+	vec3 tmpMaxes = vec3(box.aabbMaxes.x + buffer, box.aabbMaxes.y + buffer,
+		box.aabbMaxes.z + buffer);
 
 	// Initial check to see if each point of the box is on the outside.
 	// If all points of the box are on the outside of the frustum,
@@ -94,22 +112,30 @@ Frustum::isBoxInFrustum(BoundingBox &box)
 	{
 		int out = 0;
 
-		out += ((planes[i].signedDistance(vec3(tmpMins.x, tmpMins.y, tmpMins.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMaxes.x, tmpMins.y, tmpMins.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMins.x, tmpMaxes.y, tmpMins.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMaxes.x, tmpMaxes.y, tmpMins.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMins.x, tmpMins.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMaxes.x, tmpMins.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMins.x, tmpMaxes.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
-		out += ((planes[i].signedDistance(vec3(tmpMaxes.x, tmpMaxes.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMins.x, tmpMins.y, tmpMins.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMaxes.x, tmpMins.y, tmpMins.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMins.x, tmpMaxes.y, tmpMins.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMaxes.x, tmpMaxes.y, tmpMins.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMins.x, tmpMins.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMaxes.x, tmpMins.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMins.x, tmpMaxes.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
+		out += ((planes[i].signedDistance(
+			vec3(tmpMaxes.x, tmpMaxes.y, tmpMaxes.z)) < 0.0) ? 1 : 0);
 
 		if (out == 8) 
 			return false;
 	}
 
-	// Now do the reversed roles, where we check to see if all the points of the frustum are
-	// outside the visibility of each of the box vertices. Read the above link for a 
-	// better explanation.
+	// Now do the reversed roles, where we check to see if all the points of the 
+	// frustum are outside the visibility of each of the box vertices. Read the 
+	// above link for a better explanation.
 	int out;
 	out = 0; 
 	for (int i = 0; i < 8; ++i)

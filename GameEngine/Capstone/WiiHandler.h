@@ -15,7 +15,7 @@ namespace MazeCrisis
 		~WiiHandler();
 
 		bool connectWiimotes();
-		bool getWiimoteConnected();
+		bool getWiimoteConnected() const;
 		void setWiimoteConnected(bool value);
 
 		void update();

@@ -20,7 +20,7 @@ namespace MazeCrisis
 	}
 
 	int
-	Enemy::getMaxHealth()
+	Enemy::getMaxHealth() const
 	{
 		return maxHealth;
 	}
@@ -32,7 +32,7 @@ namespace MazeCrisis
 	}
 
 	int
-	Enemy::getCurrentHealth()
+	Enemy::getCurrentHealth() const
 	{
 		return currentHealth;
 	}

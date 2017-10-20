@@ -5,13 +5,17 @@
 #include "TextureManager.h"
 #include "ShaderProgramManager.h"
 
-Skybox::Skybox(const std::string &skyboxMeshName, const std::string &textureName, 
+Skybox::Skybox(const std::string &skyboxMeshName,
+	const std::string &textureName, 
 	const std::string &shaderName,
 	const std::string &vertexShaderPath, const std::string &fragmentShaderPath,
 	const std::vector<ShaderVariable> &shaderVars,
-	const std::string &negativeXTexturePath, const std::string &positiveXTexturePath,
-	const std::string &negativeYTexturePath, const std::string &positiveYTexturePath,
-	const std::string &negativeZTexturePath, const std::string &positiveZTexturePath,
+	const std::string &negativeXTexturePath, 
+	const std::string &positiveXTexturePath,
+	const std::string &negativeYTexturePath, 
+	const std::string &positiveYTexturePath,
+	const std::string &negativeZTexturePath,
+	const std::string &positiveZTexturePath,
 	bool printShaderLoadStatus)
 {
 	try
@@ -19,7 +23,8 @@ Skybox::Skybox(const std::string &skyboxMeshName, const std::string &textureName
 		ShaderManagerLoadStatus status;
 		status.shaderLoadStatus = OK;
 		if (!ShaderProgramManager::getInstance()->get(shaderName))
-			status = ShaderProgramManager::getInstance()->loadShader(shaderName, vertexShaderPath,
+			status = ShaderProgramManager::getInstance()
+				->loadShader(shaderName, vertexShaderPath,
 				fragmentShaderPath, shaderVars);
 
 		if (printShaderLoadStatus)
@@ -33,8 +38,10 @@ Skybox::Skybox(const std::string &skyboxMeshName, const std::string &textureName
 		setTextureName(textureName);
 
 		if (!TextureManager::getInstance()->get(textureName))
-			TextureManager::getInstance()->loadCubeMap(textureName, negativeXTexturePath, positiveXTexturePath,
-				negativeYTexturePath, positiveYTexturePath, negativeZTexturePath, positiveZTexturePath);
+			TextureManager::getInstance()->loadCubeMap(textureName,
+				negativeXTexturePath, positiveXTexturePath,
+				negativeYTexturePath, positiveYTexturePath,
+				negativeZTexturePath, positiveZTexturePath);
 
 		if (!MeshManager::getInstance()->get(skyboxMeshName))
 			MeshManager::getInstance()->loadSkyboxMesh(skyboxMeshName);
@@ -72,19 +79,19 @@ Skybox::setTextureName(const std::string &textureName)
 }
 
 ShaderProgram* 
-Skybox::getShader()
+Skybox::getShader() const
 {
 	return ShaderProgramManager::getInstance()->get(shaderName);
 }
 
 SingleMesh* 
-Skybox::getMesh()
+Skybox::getMesh() const
 {
 	return MeshManager::getInstance()->get(meshName);
 }
 
 Texture* 
-Skybox::getTexture()
+Skybox::getTexture() const
 {
 	return TextureManager::getInstance()->get(textureName);
 }

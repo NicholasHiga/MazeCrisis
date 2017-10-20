@@ -51,22 +51,26 @@ TextureManager::loadTexture(const string &path, const string &name)
 			glGenTextures(1, &texture->textureID);
 
 			glBindTexture(GL_TEXTURE_2D, texture->textureID);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, texture->images[0]->getWidth(), texture->images[0]->getHeight(),
-				0, GL_BGRA, GL_UNSIGNED_BYTE, texture->images[0]->getImageData());
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 
+				texture->images[0]->getWidth(), texture->images[0]->getHeight(),
+				0, GL_BGRA, GL_UNSIGNED_BYTE,
+				texture->images[0]->getImageData());
 			glGenerateMipmap(GL_TEXTURE_2D);
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+				GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glBindTexture(GL_TEXTURE_2D, 0);
 
 			//error = glGetError();
 
-			//if (error != GL_NO_ERROR) // For some reason GL_INVALID_ENUM keeps being returned
-										// even when there is no instance of this occuring.
+			//if (error != GL_NO_ERROR) // For some reason GL_INVALID_ENUM
+										// keeps being returned even when there
+										// is no instance of this occuring.
 										// Hence this was commented out.
 			//	throw std::runtime_error("Image failed to load.");
 
@@ -98,31 +102,45 @@ TextureManager::loadCubeMap(const std::string &name,
 		{
 			shared_ptr<Texture> texture = std::make_shared<Texture>();
 			texture->paths.push_back(negativeXTexturePath);
-			texture->images.push_back(std::make_shared<Image>(negativeXTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(negativeXTexturePath));
 			texture->paths.push_back(positiveXTexturePath);
-			texture->images.push_back(std::make_shared<Image>(positiveXTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(positiveXTexturePath));
 			texture->paths.push_back(negativeYTexturePath);
-			texture->images.push_back(std::make_shared<Image>(negativeYTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(negativeYTexturePath));
 			texture->paths.push_back(positiveYTexturePath);
-			texture->images.push_back(std::make_shared<Image>(positiveYTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(positiveYTexturePath));
 			texture->paths.push_back(negativeZTexturePath);
-			texture->images.push_back(std::make_shared<Image>(negativeZTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(negativeZTexturePath));
 			texture->paths.push_back(positiveZTexturePath);
-			texture->images.push_back(std::make_shared<Image>(positiveZTexturePath));
+			texture->images.push_back(
+				std::make_shared<Image>(positiveZTexturePath));
 
 			texture->textureType = TextureType::CUBEMAP;
 			glGenTextures(1, &texture->textureID);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, texture->textureID);
 
-			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER,
+				GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER,
+				GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S,
+				GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T,
+				GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, 
+				GL_CLAMP_TO_EDGE);
 
 			for (int i = 0; i < 6; ++i)
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, texture->images[i]->getWidth(), texture->images[i]->getHeight(),
-					0, GL_BGRA, GL_UNSIGNED_BYTE, texture->images[i]->getImageData());
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8,
+					texture->images[i]->getWidth(),
+					texture->images[i]->getHeight(),
+					0, GL_BGRA, GL_UNSIGNED_BYTE,
+					texture->images[i]->getImageData());
 
 			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 

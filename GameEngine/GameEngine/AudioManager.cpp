@@ -33,7 +33,7 @@ AudioManager::~AudioManager()
 
 AudioManager::AudioManager()
 {
-	result = FMOD::System_Create(&system);      // Create the main system object.
+	result = FMOD::System_Create(&system);  // Create the main system object.
 	errorCheck();
 	result = system->init(64, FMOD_INIT_NORMAL, 0);    // Initialize FMOD.
 	errorCheck();
@@ -70,7 +70,8 @@ AudioManager::loadStream(const std::string &streamPath)
 	if (it == resources.end())
 	{
 		FMOD::Sound *tmp;
-		result = system->createStream(streamPath.c_str(), FMOD_LOOP_NORMAL | FMOD_2D, 0, &tmp);
+		result = system->createStream(streamPath.c_str(), FMOD_LOOP_NORMAL 
+			| FMOD_2D, 0, &tmp);
 		errorCheck();
 		store(streamPath, std::make_shared<SoundWrapper>(tmp));
 		return true;
@@ -97,7 +98,8 @@ AudioManager::playStream(const std::string &streamPath, float volume)
 }
 
 void 
-AudioManager::playStreamFadeIn(const std::string &streamPath, unsigned int fadeDurationMS, float volume)
+AudioManager::playStreamFadeIn(const std::string &streamPath,
+	unsigned int fadeDurationMS, float volume)
 {
 	SoundWrapper *sw = get(streamPath);
 	playStream(streamPath, volume);
@@ -109,7 +111,8 @@ AudioManager::playStreamFadeIn(const std::string &streamPath, unsigned int fadeD
 }
 
 void 
-AudioManager::playNextStream(const std::string &streamPath, unsigned int fadeDurationMS, float volume)
+AudioManager::playNextStream(const std::string &streamPath, 
+	unsigned int fadeDurationMS, float volume)
 {
 	nextStream = streamPath;
 	fadeStreamOut(fadeDurationMS / 2);
@@ -128,14 +131,17 @@ AudioManager::fadeStreamIn(unsigned int fadeDurationMS, float endVolume)
 	unsigned int fadeDurationSecs = fadeDurationMS / 1000.0f;
 	int rate;
 
-	result = system->getSoftwareFormat(&rate, 0, 0);                // Get mixer rate
+	result = system->getSoftwareFormat(&rate, 0, 0); // Get mixer rate
 	errorCheck();
 
-	result = sw->channel->getDSPClock(0, &dspclock);                    // Get the reference clock, which is the parent channel group
+	result = sw->channel->getDSPClock(0, &dspclock); // Get the reference clock,
+		// which is the parent channel group
 	errorCheck();
-	result = sw->channel->addFadePoint(dspclock, 0.0f);                 // Add a fade point at 'now' with full volume.
+	result = sw->channel->addFadePoint(dspclock, 0.0f); // Add a fade point at
+		// 'now' with full volume.
 	errorCheck();
-	result = sw->channel->addFadePoint(dspclock + (rate * fadeDurationSecs), endVolume);    // Add a fade point 5 seconds later at 0 volume.
+	result = sw->channel->addFadePoint(dspclock + (rate * fadeDurationSecs),
+		endVolume); // Add a fade point 5 seconds later at 0 volume.
 	errorCheck();
 }
 
@@ -150,18 +156,23 @@ AudioManager::fadeStreamOut(unsigned int fadeDurationMS)
 
 	if (sw)
 	{
-		result = system->getSoftwareFormat(&rate, 0, 0);                // Get mixer rate
+		result = system->getSoftwareFormat(&rate, 0, 0); // Get mixer rate
 		errorCheck();
 
-		result = sw->channel->getDSPClock(0, &dspclock);                    // Get the reference clock, which is the parent channel group
+		result = sw->channel->getDSPClock(0, &dspclock); // Get the reference
+			// clock, which is the parent channel group
 		errorCheck();
 		result = sw->channel->getVolume(&currentVolume);
 		errorCheck();
-		result = sw->channel->addFadePoint(dspclock, currentVolume);                 // Add a fade point at 'now' with full volume.
+		result = sw->channel->addFadePoint(dspclock, currentVolume); // Add a 
+			// fade point at 'now' with full volume.
 		errorCheck();
-		result = sw->channel->addFadePoint(dspclock + (rate * fadeDurationSecs), 0.0f);    // Add a fade point 5 seconds later at 0 volume.
+		result = sw->channel->addFadePoint(dspclock + (rate * fadeDurationSecs),
+			0.0f); // Add a fade point 5 seconds later at 0 volume.
 		errorCheck();
-		result = sw->channel->setDelay(0, dspclock + (rate * fadeDurationSecs), true);     // Add a delayed stop command at 5 seconds ('stopchannels = true')
+		result = sw->channel->setDelay(0, dspclock + (rate * fadeDurationSecs),
+			true);  // Add a delayed stop command at 5 seconds 
+					// ('stopchannels = true')
 		errorCheck();
 	}
 	isStreamPlaying = false;
@@ -181,7 +192,8 @@ AudioManager::update()
 	result = system->update();
 	errorCheck();
 
-	if (fadingOut && Clock::getMilliseconds() - fadeOutStartTime > fadeOutDuration)
+	if (fadingOut && Clock::getMilliseconds() - fadeOutStartTime > 
+		fadeOutDuration)
 	{
 		fadingOut = false;
 		playStreamFadeIn(nextStream, fadeOutDuration, fadeInVolume);

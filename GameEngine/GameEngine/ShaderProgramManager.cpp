@@ -12,13 +12,15 @@ ShaderProgramManager*
 ShaderProgramManager::getInstance()
 {
 	if (myInstance == nullptr)
-		myInstance = unique_ptr<ShaderProgramManager>(new ShaderProgramManager());
+		myInstance = unique_ptr<ShaderProgramManager>
+		(new ShaderProgramManager());
 
 	return myInstance.get();
 }
 
 ShaderManagerLoadStatus
-ShaderProgramManager::loadShader(const string &shaderName, const string &vertexFilePath, const string &fragmentFilePath,
+ShaderProgramManager::loadShader(const string &shaderName,
+	const string &vertexFilePath, const string &fragmentFilePath,
 	const vector<ShaderVariable> &shaderVars)
 {
 	ShaderManagerLoadStatus status;
@@ -28,7 +30,8 @@ ShaderProgramManager::loadShader(const string &shaderName, const string &vertexF
 	if (get(shaderName) != nullptr)
 	{
 		status.shaderLoadStatus = SHADER_NAME_TAKEN;
-		status.message = "Shader name \"" + shaderName + "\" already taken, use a different name.";
+		status.message = "Shader name \"" + shaderName + 
+			"\" already taken, use a different name.";
 		return status;
 	}
 
@@ -46,7 +49,8 @@ ShaderProgramManager::loadShader(const string &shaderName, const string &vertexF
 
 	try
 	{
-		shared_ptr<ShaderProgram> prog = std::make_shared<ShaderProgram>(vertexFilePath, fragmentFilePath, shaderVars);
+		shared_ptr<ShaderProgram> prog = std::make_shared<ShaderProgram>
+			(vertexFilePath, fragmentFilePath, shaderVars);
 		if (!store(shaderName, prog))
 		{
 			status.shaderLoadStatus = LOAD_FAILED;

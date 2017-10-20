@@ -35,14 +35,16 @@ namespace MazeCrisis
 	const string UserInterface::PLAY_BUTTON_CLICK_SOUND = "say_action.wav";
 
 	// Needs to be called after Window has been created.
-	UserInterface::UserInterface(const std::string &settingsFilePath, Game* game, GLFWwindow* window)
+	UserInterface::UserInterface(const std::string &settingsFilePath, 
+		Game* game, GLFWwindow* window)
 	{
 		this->settingsFilePath = settingsFilePath;
 		this->game = game;
 		this->window = window;
 
 		guiRenderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
-		DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
+		DefaultResourceProvider* rp = static_cast<
+			CEGUI::DefaultResourceProvider*>
 			(CEGUI::System::getSingleton().getResourceProvider());
 		guiRenderer->enableExtraStateSettings(true);
 
@@ -63,58 +65,77 @@ namespace MazeCrisis
 		SchemeManager::getSingleton().createFromFile("AlfiskoSkin.scheme");
 		FontManager::getSingleton().createFromFile("DejaVuSans-14.font");
 		FontManager::getSingleton().createFromFile("BroshK.font");
-		System::getSingleton().getDefaultGUIContext().setDefaultFont("DejaVuSans-14");
+		System::getSingleton().getDefaultGUIContext().setDefaultFont(
+			"DejaVuSans-14");
 		System::getSingleton().getDefaultGUIContext().
 			getMouseCursor().setDefaultImage("AlfiskoSkin/MouseArrow");
 		System::getSingleton().getDefaultGUIContext().
 			setDefaultTooltipType("TaharezLook/Tooltip");
 
 		if (!ImageManager::getSingleton().isDefined("MainBackground"))
-			ImageManager::getSingleton().addFromImageFile("MainBackground", "MazeCrisisBackground.jpg");
+			ImageManager::getSingleton().addFromImageFile("MainBackground", 
+				"MazeCrisisBackground.jpg");
 
 		if (!ImageManager::getSingleton().isDefined("ControlsImage"))
-			ImageManager::getSingleton().addFromImageFile("ControlsImage", "Controls.jpg");
+			ImageManager::getSingleton().addFromImageFile("ControlsImage",
+				"Controls.jpg");
 
 		if (!ImageManager::getSingleton().isDefined(CROSSHAIR_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(CROSSHAIR_IMAGE, "crosshair32.png");
+			ImageManager::getSingleton().addFromImageFile(CROSSHAIR_IMAGE, 
+				"crosshair32.png");
 
 		if (!ImageManager::getSingleton().isDefined(NO_CROSSHAIR))
-			ImageManager::getSingleton().addFromImageFile(NO_CROSSHAIR, "no-crosshair.png");
+			ImageManager::getSingleton().addFromImageFile(NO_CROSSHAIR,
+				"no-crosshair.png");
 
 		if (!ImageManager::getSingleton().isDefined(PISTOL_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(PISTOL_IMAGE, "pistol.png");
+			ImageManager::getSingleton().addFromImageFile(PISTOL_IMAGE, 
+				"pistol.png");
 
 		if (!ImageManager::getSingleton().isDefined(WEAPON_BG_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(WEAPON_BG_IMAGE, "weaponBG.png");
+			ImageManager::getSingleton().addFromImageFile(WEAPON_BG_IMAGE,
+				"weaponBG.png");
 
 		if (!ImageManager::getSingleton().isDefined(RIFLE_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(RIFLE_IMAGE, "rifle.png");
+			ImageManager::getSingleton().addFromImageFile(RIFLE_IMAGE,
+				"rifle.png");
 
 		if (!ImageManager::getSingleton().isDefined(TARGET_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(TARGET_IMAGE, "target.png");
+			ImageManager::getSingleton().addFromImageFile(TARGET_IMAGE,
+				"target.png");
 
 		if (!ImageManager::getSingleton().isDefined(RELOAD_MSG_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(RELOAD_MSG_IMAGE, "reloadText.png");
+			ImageManager::getSingleton().addFromImageFile(RELOAD_MSG_IMAGE,
+				"reloadText.png");
 
 		if (!ImageManager::getSingleton().isDefined(INFINITY_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(INFINITY_IMAGE, "infinity.png");
+			ImageManager::getSingleton().addFromImageFile(INFINITY_IMAGE,
+				"infinity.png");
 
 		if (!ImageManager::getSingleton().isDefined(HEALTH_IMAGE))
-			ImageManager::getSingleton().addFromImageFile(HEALTH_IMAGE, "health.png");
+			ImageManager::getSingleton().addFromImageFile(HEALTH_IMAGE, 
+				"health.png");
 
 		if (!ImageManager::getSingleton().isDefined(GAME_OVER_SCREEN))
-			ImageManager::getSingleton().addFromImageFile(GAME_OVER_SCREEN, "gameOver.png");
+			ImageManager::getSingleton().addFromImageFile(GAME_OVER_SCREEN, 
+				"gameOver.png");
 
 		if (!ImageManager::getSingleton().isDefined(VICTORY_SCREEN))
-			ImageManager::getSingleton().addFromImageFile(VICTORY_SCREEN, "levelComplete.png");
+			ImageManager::getSingleton().addFromImageFile(VICTORY_SCREEN,
+				"levelComplete.png");
 
-		if (!AudioManager::getInstance()->get(SOUNDS_PATH + MOUSE_OVER_SOUND))
-			AudioManager::getInstance()->loadSound(SOUNDS_PATH + MOUSE_OVER_SOUND);
+		if (!AudioManager::getInstance()->get(SOUNDS_PATH
+			+ MOUSE_OVER_SOUND))
+			AudioManager::getInstance()->loadSound(SOUNDS_PATH
+				+ MOUSE_OVER_SOUND);
 
-		if (!AudioManager::getInstance()->get(SOUNDS_PATH + PLAY_BUTTON_CLICK_SOUND))
-			AudioManager::getInstance()->loadSound(SOUNDS_PATH + PLAY_BUTTON_CLICK_SOUND);
+		if (!AudioManager::getInstance()->get(SOUNDS_PATH
+			+ PLAY_BUTTON_CLICK_SOUND))
+			AudioManager::getInstance()->loadSound(SOUNDS_PATH 
+				+ PLAY_BUTTON_CLICK_SOUND);
 
-		rootWindow = WindowManager::getSingleton().loadLayoutFromFile("FullGUI.layout");
+		rootWindow = WindowManager::getSingleton().loadLayoutFromFile(
+			"FullGUI.layout");
 		System::getSingleton().getDefaultGUIContext().setRootWindow(rootWindow);
 		mainMenuWindow = rootWindow->getChild("MainMenuWindow");
 		controlsWindow = rootWindow->getChild("ControlsWindow");
@@ -124,81 +145,122 @@ namespace MazeCrisis
 		reloadMessageWindow = hudWindow->getChild("ReloadMessageArea");
 		invisibleFullbuffer = rootWindow->getChild("InvisibleFullscreen");
 		optionsMenuWindow = invisibleFullbuffer->getChild("OptionsWindow");
-		optionsMenuMessageWindow = invisibleFullbuffer->getChild("InstructionsMenu");
+		optionsMenuMessageWindow = invisibleFullbuffer->getChild(
+			"InstructionsMenu");
 		calibrationWindow = rootWindow->getChild("CalibrationWindow");
-		calibInstructionsWindow = calibrationWindow->getChild("InstructionsMenu");
+		calibInstructionsWindow = calibrationWindow->getChild(
+			"InstructionsMenu");
 		targetImageWindow = calibrationWindow->getChild("TargetWindow");
 		gameOverWindow = rootWindow->getChild("GameOverBG");
 		gameOverQuitButton = gameOverWindow->getChild("QuitToMainButton");
 		victoryWindow = rootWindow->getChild("VictoryOverlay");
 
 		for (size_t i = 0; i < 3; ++i)
-			healthImageWindows.push_back(hudWindow->getChild("HealthBG/HealthImg" + to_string(i)));
+			healthImageWindows.push_back(hudWindow->getChild(
+				"HealthBG/HealthImg" + to_string(i)));
 
 		optionsMenuWindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
 			Event::Subscriber(&UserInterface::cancelSettingsButtonClick, this));
 
 		// Main Menu Buttons
 		mainMenuWindow->getChild("PlayButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::playButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(
+				&UserInterface::playButtonClick, this));
 		mainMenuWindow->getChild("OptionsButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::optionsButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(
+				&UserInterface::optionsButtonClick, this));
 		mainMenuWindow->getChild("ControlsButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::controlsButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(
+				&UserInterface::controlsButtonClick, this));
 		mainMenuWindow->getChild("QuitButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::quitButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(
+				&UserInterface::quitButtonClick, this));
 		
 		// Mouse Over
 		mainMenuWindow->getChild("PlayButton")->
-			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, Event::Subscriber(&UserInterface::hoverOverMainMenuButton, this));
+			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, 
+				Event::Subscriber(&UserInterface::hoverOverMainMenuButton,
+					this));
 		mainMenuWindow->getChild("OptionsButton")->
-			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, Event::Subscriber(&UserInterface::hoverOverMainMenuButton, this));
+			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface,
+				Event::Subscriber(&UserInterface::hoverOverMainMenuButton,
+					this));
 		mainMenuWindow->getChild("ControlsButton")->
-			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, Event::Subscriber(&UserInterface::hoverOverMainMenuButton, this));
+			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface,
+				Event::Subscriber(&UserInterface::hoverOverMainMenuButton,
+					this));
 		mainMenuWindow->getChild("QuitButton")->
-			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, Event::Subscriber(&UserInterface::hoverOverMainMenuButton, this));
+			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface,
+				Event::Subscriber(&UserInterface::hoverOverMainMenuButton,
+					this));
 		
 		// Options Menu
 		optionsMenuWindow->getChild("CalibrateWiimote")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::calibrateWiiButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, 
+				Event::Subscriber(&UserInterface::calibrateWiiButtonClick,
+					this));
 		optionsMenuWindow->getChild("ApplySettings")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::applySettingsButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked,
+				Event::Subscriber(&UserInterface::applySettingsButtonClick, 
+					this));
 		optionsMenuWindow->getChild("Cancel")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::cancelSettingsButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked,
+				Event::Subscriber(&UserInterface::cancelSettingsButtonClick,
+					this));
 		optionsMenuWindow->getChild("QuitToMain")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::quitToMainButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked,
+				Event::Subscriber(&UserInterface::quitToMainButtonClick, this));
 		optionsMenuMessageWindow->getChild("OkayToPromptButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::optionsOkayToMessageButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, 
+				Event::Subscriber(
+					&UserInterface::optionsOkayToMessageButtonClick, this));
 		calibInstructionsWindow->getChild("StartCalibrationButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::startCalibrationButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, 
+				Event::Subscriber(&UserInterface::startCalibrationButtonClick,
+					this));
 		calibInstructionsWindow->getChild("CancelCalibrationButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::cancelCalibrationButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked,
+				Event::Subscriber(&UserInterface::cancelCalibrationButtonClick,
+					this));
 
 		// Status Message for Game Over / Victory
 		gameOverWindow->getChild("QuitToMainButton")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&UserInterface::quitToMainButtonClick, this));
+			subscribeEvent(CEGUI::PushButton::EventClicked, 
+				Event::Subscriber(&UserInterface::quitToMainButtonClick, this));
 		gameOverWindow->getChild("QuitToMainButton")->
-			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface, Event::Subscriber(&UserInterface::hoverOverMainMenuButton, this));
+			subscribeEvent(CEGUI::PushButton::EventMouseEntersSurface,
+				Event::Subscriber(&UserInterface::hoverOverMainMenuButton, 
+					this));
 
 		// Get/set various Option items, widgets.
-		gameVolumeSlider = static_cast<CEGUI::Slider*>(optionsMenuWindow->getChild("GameVolumeSlider"));
-		gameVolumeEditbox = static_cast<CEGUI::Editbox*>(optionsMenuWindow->getChild("GameVolumeValue"));
-		gameVolumeSlider->subscribeEvent(CEGUI::Slider::EventValueChanged, Event::Subscriber(&UserInterface::gameVolumeSliderChanged, this));
+		gameVolumeSlider = static_cast<CEGUI::Slider*>(optionsMenuWindow->
+			getChild("GameVolumeSlider"));
+		gameVolumeEditbox = static_cast<CEGUI::Editbox*>(optionsMenuWindow->
+			getChild("GameVolumeValue"));
+		gameVolumeSlider->subscribeEvent(CEGUI::Slider::EventValueChanged,
+			Event::Subscriber(&UserInterface::gameVolumeSliderChanged, this));
 
-		musicVolumeSlider = static_cast<CEGUI::Slider*>(optionsMenuWindow->getChild("MusicVolumeSlider"));
-		musicVolumeEditbox = static_cast<CEGUI::Editbox*>(optionsMenuWindow->getChild("MusicVolumeValue"));
-		musicVolumeSlider->subscribeEvent(CEGUI::Slider::EventValueChanged, Event::Subscriber(&UserInterface::musicVolumeSliderChanged, this));
+		musicVolumeSlider = static_cast<CEGUI::Slider*>(optionsMenuWindow->
+			getChild("MusicVolumeSlider"));
+		musicVolumeEditbox = static_cast<CEGUI::Editbox*>(optionsMenuWindow->
+			getChild("MusicVolumeValue"));
+		musicVolumeSlider->subscribeEvent(CEGUI::Slider::EventValueChanged,
+			Event::Subscriber(&UserInterface::musicVolumeSliderChanged, this));
 
-		isCrosshairEnabledCheckbox = static_cast<CEGUI::ToggleButton*>(optionsMenuWindow->getChild("CrosshairEnabledCheck"));
-		isFullscreenCheckbox = static_cast<CEGUI::ToggleButton*>(optionsMenuWindow->getChild("FullscreenEnabledCheck"));
+		isCrosshairEnabledCheckbox = static_cast<CEGUI::ToggleButton*>(
+			optionsMenuWindow->getChild("CrosshairEnabledCheck"));
+		isFullscreenCheckbox = static_cast<CEGUI::ToggleButton*>(
+			optionsMenuWindow->getChild("FullscreenEnabledCheck"));
 
 		calibrateButton = optionsMenuWindow->getChild("CalibrateWiimote");
 		quitToMainButton = optionsMenuWindow->getChild("QuitToMain");
 
 		//optionsMenuWindow->getChild("GameVolumeValue")->
-		//subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&Game::cancelSettingsButtonClick, this));
+		//subscribeEvent(CEGUI::PushButton::EventClicked, 
+		//	Event::Subscriber(&Game::cancelSettingsButtonClick, this));
 
-		//pauseMenuWindow = WindowManager::getSingleton().loadLayoutFromFile("PauseMenu.layout");
+		//pauseMenuWindow = WindowManager::getSingleton().
+		// loadLayoutFromFile("PauseMenu.layout");
 
 		//WindowManager& wmgr = WindowManager::getSingleton();
 		//Window* myRoot = wmgr.createWindow("DefaultWindow", "root");
@@ -232,18 +294,22 @@ namespace MazeCrisis
 	UserInterface::~UserInterface()
 	{
 		CEGUI::System::destroy();
-		CEGUI::OpenGL3Renderer::destroy(static_cast<CEGUI::OpenGL3Renderer&>(*guiRenderer));
+		CEGUI::OpenGL3Renderer::destroy(static_cast<CEGUI::OpenGL3Renderer&>
+			(*guiRenderer));
 	}
 	
 	void
-	UserInterface::mouseHandlerCallback(GLFWwindow* window, int button, int action, int mods)
+	UserInterface::mouseHandlerCallback(GLFWwindow* window, int button, 
+		int action, int mods)
 	{
 		if (Common::gameStates.top() != GameState::PLAYING)
 		{
 			if (action == GLFW_PRESS)
-				CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(toCEGUIButton(button));
+				CEGUI::System::getSingleton().getDefaultGUIContext()
+				.injectMouseButtonDown(toCEGUIButton(button));
 			else
-				CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(toCEGUIButton(button));
+				CEGUI::System::getSingleton().getDefaultGUIContext()
+				.injectMouseButtonUp(toCEGUIButton(button));
 		
 			if (Common::gameStates.top() == GameState::VICTORY
 				&& action == GLFW_PRESS && userCanNowQuit)
@@ -255,13 +321,16 @@ namespace MazeCrisis
 	}
 
 	void
-	UserInterface::keyHandlerCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	UserInterface::keyHandlerCallback(GLFWwindow* window, int key, int scancode,
+		int action, int mods)
 	{
 		CEGUI::Key::Scan cegui_key = toCEGUIKey(key);
 		if (action == GLFW_PRESS)
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(cegui_key);
+			CEGUI::System::getSingleton().getDefaultGUIContext()
+			.injectKeyDown(cegui_key);
 		else
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp(cegui_key);
+			CEGUI::System::getSingleton().getDefaultGUIContext()
+			.injectKeyUp(cegui_key);
 
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		{
@@ -271,7 +340,8 @@ namespace MazeCrisis
 				Common::gameStates.pop();
 			else if (Common::gameStates.top() == GameState::MENU_OPTIONS)
 				closeOptionsMenu();
-			else if (Common::gameStates.top() == GameState::MENU_OPTIONS_MESSAGE)
+			else if (Common::gameStates.top() ==
+				GameState::MENU_OPTIONS_MESSAGE)
 				closeOptionsMessagePrompt();
 			else if (Common::gameStates.top() == GameState::MENU_CONTROLS)
 			{
@@ -283,14 +353,16 @@ namespace MazeCrisis
 			}
 			else if (Common::gameStates.top() == GameState::MENU_PAUSED)
 				closeOptionsMenu();
-			else if (Common::gameStates.top() == GameState::MENU_CALIBRATION || Common::gameStates.top() == GameState::CALIBRATING)
+			else if (Common::gameStates.top() == GameState::MENU_CALIBRATION ||
+				Common::gameStates.top() == GameState::CALIBRATING)
 				closeCalibrationMenu();
 			else if (Common::gameStates.top() == GameState::PLAYING)
 				openOptionsMenu();
 		}
 		else if (action == GLFW_PRESS)
 		{
-			if (Common::gameStates.top() == GameState::VICTORY && userCanNowQuit)
+			if (Common::gameStates.top() == GameState::VICTORY &&
+				userCanNowQuit)
 			{
 				EventArgs e;
 				quitToMainButtonClick(e);
@@ -299,26 +371,32 @@ namespace MazeCrisis
 	}
 
 	void
-	UserInterface::windowResizedCallback(GLFWwindow* window, int width, int height)
+	UserInterface::windowResizedCallback(GLFWwindow* window, int width, 
+		int height)
 	{
 		CEGUI::System::getSingleton().notifyDisplaySizeChanged(
-			CEGUI::Sizef(static_cast<float>(width), static_cast<float>(height)));
+			CEGUI::Sizef(static_cast<float>(width), static_cast<float>
+			(height)));
 	}
 
 	void
 	UserInterface::cursorPosCallback(GLFWwindow* window, double x, double y)
 	{
 		if (Common::gameStates.top() != GameState::PLAYING)
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectMousePosition(x, y);
+			CEGUI::System::getSingleton().getDefaultGUIContext()
+			.injectMousePosition(x, y);
 		else
-			// This is to compensate for the center of the target crosshair position.
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectMousePosition(x - 16, y - 16);
+			// This is to compensate for the center of the target crosshair
+			// position.
+			CEGUI::System::getSingleton().getDefaultGUIContext()
+			.injectMousePosition(x - 16, y - 16);
 	}
 
 	void
 	UserInterface::charCallback(GLFWwindow* window, unsigned int char_pressed)
 	{
-		CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(char_pressed);
+		CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(
+			char_pressed);
 	}
 
 	void
@@ -327,18 +405,21 @@ namespace MazeCrisis
 		float dTimeSeconds = deltaTime / 1000.0f;
 		System::getSingleton().renderAllGUIContexts();
 		System::getSingleton().injectTimePulse(dTimeSeconds);
-		System::getSingleton().getDefaultGUIContext().injectTimePulse(dTimeSeconds);
+		System::getSingleton().getDefaultGUIContext().
+			injectTimePulse(dTimeSeconds);
 	
 		if (isReloadMessagePulsing)
 		{
-			float alpha = (Clock::getMilliseconds() - pulseReloadStartTime) / (pulseReloadEndTime - pulseReloadStartTime);
+			float alpha = (Clock::getMilliseconds() - pulseReloadStartTime) 
+				/ (pulseReloadEndTime - pulseReloadStartTime);
 			bool swapFade = false;
 
 			if (alpha >= 1.0f)
 			{
 				alpha = 1.0f;
 				pulseReloadStartTime = Clock::getMilliseconds();
-				pulseReloadEndTime = pulseReloadStartTime + pulseReloadDurationHalf;
+				pulseReloadEndTime = pulseReloadStartTime
+					+ pulseReloadDurationHalf;
 				swapFade = true;			
 			}
 
@@ -388,7 +469,8 @@ namespace MazeCrisis
 	UserInterface::setIsCrosshairEnabled(string value)
 	{
 		// Prob should error check.
-		passStringToBool(value, "setIsCrosshairEnabled()", &currentSettings.isCrosshairEnabled);
+		passStringToBool(value, "setIsCrosshairEnabled()", 
+			&currentSettings.isCrosshairEnabled);
 	}
 
 	void
@@ -401,7 +483,8 @@ namespace MazeCrisis
 	UserInterface::setIsFullscreen(string value)
 	{
 		// Prob should error check.
-		passStringToBool(value, "setIsFullscreen()", &currentSettings.isFullscreen);
+		passStringToBool(value, "setIsFullscreen()", 
+			&currentSettings.isFullscreen);
 	}
 
 	void
@@ -469,18 +552,22 @@ namespace MazeCrisis
 	}
 
 	void
-	UserInterface::setAmmoCount(unsigned int currentClipAmmo, unsigned int totalAmmo, bool infiniteAmmo)
+	UserInterface::setAmmoCount(unsigned int currentClipAmmo, 
+		unsigned int totalAmmo, bool infiniteAmmo)
 	{
 		CEGUI::String color = "[colour='FF000000']";
 
 		if (!infiniteAmmo)
-			ammoCounterLabel->setText(color + to_string(currentClipAmmo) + " / " + to_string(totalAmmo));
+			ammoCounterLabel->setText(color + to_string(currentClipAmmo)
+				+ " / " + to_string(totalAmmo));
 		else
 		{
-			unsigned int fontHeight = FontManager::getSingleton().get(AMMO_COUNT_FONT).getFontHeight();	
-			ammoCounterLabel->setText(color + to_string(currentClipAmmo) + " / " +
-				+"[vert-alignment='centre']" + "[image-size='w:" + to_string(fontHeight)
-				+ " h:" + to_string(fontHeight / 2) + "'][image='" + INFINITY_IMAGE + "']");
+			unsigned int fontHeight = FontManager::getSingleton()
+				.get(AMMO_COUNT_FONT).getFontHeight();	
+			ammoCounterLabel->setText(color + to_string(currentClipAmmo) + " / "
+				+ "[vert-alignment='centre']" + "[image-size='w:" + 
+				to_string(fontHeight) + " h:" + to_string(fontHeight / 2) + 
+				"'][image='" + INFINITY_IMAGE + "']");
 		}
 	}
 
@@ -491,37 +578,37 @@ namespace MazeCrisis
 	}
 
 	bool 
-	UserInterface::getIsCrosshairEnabled()
+	UserInterface::getIsCrosshairEnabled() const
 	{
 		return currentSettings.isCrosshairEnabled;
 	}
 
 	bool
-	UserInterface::getIsFullscreen()
+	UserInterface::getIsFullscreen() const
 	{
 		return currentSettings.isFullscreen;
 	}
 
 	unsigned char
-	UserInterface::getGameVolume()
+	UserInterface::getGameVolume() const
 	{
 		return currentSettings.gameVolume;
 	}
 
 	unsigned char
-	UserInterface::getMusicVolume()
+	UserInterface::getMusicVolume() const
 	{
 		return currentSettings.musicVolume;
 	}
 
 	float 
-	UserInterface::getGameVolumeFloat()
+	UserInterface::getGameVolumeFloat() const
 	{
 		return (float)(currentSettings.gameVolume / 100.0f);
 	}
 
 	float 
-	UserInterface::getMusicVolumeFloat()
+	UserInterface::getMusicVolumeFloat() const
 	{
 		return (float)(currentSettings.musicVolume / 100.0f);
 	}
@@ -535,35 +622,45 @@ namespace MazeCrisis
 		Vector2f relDim = getRelativeDimensions(dim.d_width, dim.d_height);
 
 		if (loc == TargetLocation::TOP_LEFT)
-			targetImageWindow->setArea(URect(UDim(0.05, 0), UDim(0.05, 0), UDim(0.05 + relDim.d_x, 0), UDim(0.05 + relDim.d_y, 0)));
+			targetImageWindow->setArea(URect(UDim(0.05, 0), UDim(0.05, 0),
+				UDim(0.05 + relDim.d_x, 0), UDim(0.05 + relDim.d_y, 0)));
 		else if (loc == TargetLocation::TOP_RIGHT)
-			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0), UDim(0.05, 0), UDim(0.95, 0), UDim(0.05 + relDim.d_y, 0)));
+			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0),
+				UDim(0.05, 0), UDim(0.95, 0), UDim(0.05 + relDim.d_y, 0)));
 		else if (loc == TargetLocation::BOTTOM_LEFT)
-			targetImageWindow->setArea(URect(UDim(0.05, 0), UDim(0.95 - relDim.d_y, 0), UDim(0.05 + relDim.d_x, 0), UDim(0.95, 0)));
+			targetImageWindow->setArea(URect(UDim(0.05, 0), 
+				UDim(0.95 - relDim.d_y, 0), UDim(0.05 + relDim.d_x, 0),
+				UDim(0.95, 0)));
 		else if (loc == TargetLocation::BOTTOM_RIGHT)
-			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0), UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
+			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0), 
+				UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
 
 		Sizef pixelSize = targetImageWindow->getPixelSize();
 		Vector2f pixPosition = targetImageWindow->getPixelPosition();
-		return Vector2<unsigned int>(pixPosition.d_x + (pixelSize.d_width / 2), pixPosition.d_y + (pixelSize.d_height / 2));
+		return Vector2<unsigned int>(pixPosition.d_x + (pixelSize.d_width / 2),
+			pixPosition.d_y + (pixelSize.d_height / 2));
 	}
 
 	CEGUI::Vector2f 
-	UserInterface::getRelativeDimensions(unsigned int width, unsigned int height)
+	UserInterface::getRelativeDimensions(unsigned int width, 
+		unsigned int height) const
 	{
 		unsigned int wWidth, wHeight;
 		Vector2f relativeDim, adjustedDim;
 		game->getWindowDimensions(wWidth, wHeight);
 		float aspecRatio = (float)wHeight / (float)wWidth;
 
-		if (aspecRatio > 0.74 && aspecRatio < 0.76)		// Don't need great accuracy, checking for 4:3
+		if (aspecRatio > 0.74 && aspecRatio < 0.76)		
+			// Don't need great accuracy, checking for 4:3
 		{
-			relativeDim.d_x = width / 1600.0f;			// Base dimensions we're gonna adjust with
+			relativeDim.d_x = width / 1600.0f;	// Base dimensions 
+												// we're gonna adjust with
 			relativeDim.d_y = height / 1280.0f;
 		}
 		else
 		{
-			relativeDim.d_x = width / 1920.0f;			// Base dimensions we're gonna adjust with
+			relativeDim.d_x = width / 1920.0f;	// Base dimensions we're gonna
+												// adjust with
 			relativeDim.d_y = height / 1080.0f;
 		}
 
@@ -619,7 +716,8 @@ namespace MazeCrisis
 	{
 		// Mouse cursor jumps for compensation of moving the image.
 		Common::gameStates.push(GameState::PLAYING);
-		AudioManager::getInstance()->playSound(SOUNDS_PATH + PLAY_BUTTON_CLICK_SOUND, getGameVolumeFloat());
+		AudioManager::getInstance()->playSound(SOUNDS_PATH 
+			+ PLAY_BUTTON_CLICK_SOUND, getGameVolumeFloat());
 		mainMenuWindow->setVisible(false);
 		mainMenuWindow->setEnabled(false);
 		hudWindow->setVisible(true);
@@ -653,16 +751,20 @@ namespace MazeCrisis
 	void 
 	UserInterface::hoverOverMainMenuButton(const CEGUI::EventArgs& e)
 	{
-		AudioManager::getInstance()->playSound(SOUNDS_PATH + MOUSE_OVER_SOUND, getGameVolumeFloat());
+		AudioManager::getInstance()->playSound(SOUNDS_PATH
+			+ MOUSE_OVER_SOUND, getGameVolumeFloat());
 	}
 
 	void
 	UserInterface::applySettingsButtonClick(const CEGUI::EventArgs& e)
 	{
-		currentSettings.isCrosshairEnabled = isCrosshairEnabledCheckbox->isSelected();
-		currentSettings.isFullscreen = isFullscreenCheckbox->isSelected();
+		currentSettings.isCrosshairEnabled = 
+			isCrosshairEnabledCheckbox->isSelected();
+		currentSettings.isFullscreen = 
+			isFullscreenCheckbox->isSelected();
 
-		if (currentSettings.isCrosshairEnabled != lastSettings.isCrosshairEnabled)
+		if (currentSettings.isCrosshairEnabled != 
+			lastSettings.isCrosshairEnabled)
 			setMouseCursorInGame();
 
 		if (currentSettings.isFullscreen != lastSettings.isFullscreen)
@@ -752,20 +854,23 @@ namespace MazeCrisis
 	void
 	UserInterface::gameVolumeSliderChanged(const CEGUI::EventArgs& e)
 	{
-		currentSettings.gameVolume = gameVolumeSlider->getCurrentValue() * 100.0f;
+		currentSettings.gameVolume = gameVolumeSlider->getCurrentValue()
+			* 100.0f;
 		gameVolumeEditbox->setText(to_string(currentSettings.gameVolume));
 	}
 
 	void
 	UserInterface::musicVolumeSliderChanged(const CEGUI::EventArgs& e)
 	{
-		currentSettings.musicVolume = musicVolumeSlider->getCurrentValue() * 100.0f;
+		currentSettings.musicVolume = musicVolumeSlider->getCurrentValue()
+			* 100.0f;
 		musicVolumeEditbox->setText(to_string(currentSettings.musicVolume));
 		AudioManager::getInstance()->setStreamVolume(getMusicVolumeFloat());
 	}
 
 	bool 
-	UserInterface::passStringToBool(string value, string functionName, bool *valueToModify)
+	UserInterface::passStringToBool(string value, string functionName,
+		bool *valueToModify)
 	{
 		if (value == "true" || value == "false")
 			istringstream(value) >> boolalpha >> *valueToModify;
@@ -791,7 +896,8 @@ namespace MazeCrisis
 	}
 
 	bool
-	UserInterface::passStringToUChar(std::string value, std::string functionName, unsigned char *valueToModify)
+	UserInterface::passStringToUChar(std::string value, 
+		std::string functionName, unsigned char *valueToModify)
 	{
 		stringstream ss(value);
 		int tmp;
@@ -986,8 +1092,10 @@ namespace MazeCrisis
 			if (0 == XML_Parse(parser, buf, len, len < BUFSIZ))
 			{
 				int code = XML_GetErrorCode(parser);
-				const char *msg = (const char *)XML_ErrorString((XML_Error)code);
-				fprintf(stderr, "Parsing error code %d message %s\n", code, msg);
+				const char *msg = (const char *)XML_ErrorString(
+					(XML_Error)code);
+				fprintf(stderr, "Parsing error code %d message %s\n", code,
+					msg);
 				break;
 			}
 		}
@@ -1016,19 +1124,23 @@ namespace MazeCrisis
 			xml.openTag("Settings")
 				.openTag("Property")
 				.attribute("name", CROSSHAIR_ENABLED)
-				.attribute("value", getStringFromBool(currentSettings.isCrosshairEnabled))
+				.attribute("value", getStringFromBool(
+					currentSettings.isCrosshairEnabled))
 				.closeTag()
 				.openTag("Property")
 				.attribute("name", FULLSCREEN)
-				.attribute("value", getStringFromBool(currentSettings.isFullscreen))
+				.attribute("value", getStringFromBool(
+					currentSettings.isFullscreen))
 				.closeTag()
 				.openTag("Property")
 				.attribute("name", GAME_VOLUME)
-				.attribute("value", to_string(currentSettings.gameVolume))
+				.attribute("value", to_string(
+					currentSettings.gameVolume))
 				.closeTag()
 				.openTag("Property")
 				.attribute("name", MUSIC_VOLUME)
-				.attribute("value", to_string(currentSettings.musicVolume))
+				.attribute("value", to_string(
+					currentSettings.musicVolume))
 				.closeTag()
 				.closeTag();
 			settings.close();
@@ -1044,7 +1156,8 @@ namespace MazeCrisis
 		}
 		else
 		{
-			std::cout << "Unable to open file " << settingsFilePath << std::endl;
+			std::cout << "Unable to open file " << settingsFilePath 
+				<< std::endl;
 			return false;
 		}
 	}
@@ -1066,17 +1179,21 @@ namespace MazeCrisis
 		if (currentSettings.isCrosshairEnabled)
 		{
 			hudWindow->setProperty("MouseCursorImage", CROSSHAIR_IMAGE);
-			hudWindow->getChild("WeaponBG")->setProperty("MouseCursorImage", CROSSHAIR_IMAGE);
+			hudWindow->getChild("WeaponBG")->setProperty("MouseCursorImage", 
+				CROSSHAIR_IMAGE);
 			weaponWindow->setProperty("MouseCursorImage", CROSSHAIR_IMAGE);
-			hudWindow->getChild("AmmoBG")->setProperty("MouseCursorImage", CROSSHAIR_IMAGE);
+			hudWindow->getChild("AmmoBG")->setProperty("MouseCursorImage", 
+				CROSSHAIR_IMAGE);
 			ammoCounterLabel->setProperty("MouseCursorImage", CROSSHAIR_IMAGE);
 		}
 		else
 		{
 			hudWindow->setProperty("MouseCursorImage", NO_CROSSHAIR);
-			hudWindow->getChild("WeaponBG")->setProperty("MouseCursorImage", NO_CROSSHAIR);
+			hudWindow->getChild("WeaponBG")->setProperty("MouseCursorImage",
+				NO_CROSSHAIR);
 			weaponWindow->setProperty("MouseCursorImage", NO_CROSSHAIR);
-			hudWindow->getChild("AmmoBG")->setProperty("MouseCursorImage", NO_CROSSHAIR);
+			hudWindow->getChild("AmmoBG")->setProperty("MouseCursorImage",
+				NO_CROSSHAIR);
 			ammoCounterLabel->setProperty("MouseCursorImage", NO_CROSSHAIR);
 		}
 	}

@@ -15,15 +15,18 @@ namespace MazeCrisis
 		const std::string &gruntSoundPrefix, unsigned int numGruntSounds,
 		const std::string &gruntSoundFiletype, std::string &deathSoundPath,
 		const std::string &pistolSoundPath, const std::string &rifleSoundPath,
-		const std::string &sniperSoundPath, const std::string &emptyClipSoundPath,
-		const std::string &reloadSoundPath, const std::string &sayReloadSoundFilePath)
+		const std::string &sniperSoundPath, 
+		const std::string &emptyClipSoundPath,
+		const std::string &reloadSoundPath, 
+		const std::string &sayReloadSoundFilePath)
 	{
 		srand(time(NULL));
 		setUserInterface(ui);
 		setMaxHealth(maxHealth);
 		setSayReloadSoundFilePath(sayReloadSoundFilePath);
 		setDeathSoundFilePath(deathSoundPath);
-		setGruntSoundParameters(gruntSoundPrefix, gruntSoundFiletype, numGruntSounds);
+		setGruntSoundParameters(gruntSoundPrefix, gruntSoundFiletype, 
+			numGruntSounds);
 		setCurrentHealth(maxHealth);
 		initWeapons(pistolSoundPath, rifleSoundPath,
 			sniperSoundPath, emptyClipSoundPath, reloadSoundPath);
@@ -33,7 +36,7 @@ namespace MazeCrisis
 	}
 
 	int
-	Player::getMaxHealth()
+	Player::getMaxHealth() const
 	{
 		return maxHealth;
 	}
@@ -45,7 +48,7 @@ namespace MazeCrisis
 	}
 
 	int
-	Player::getCurrentHealth()
+	Player::getCurrentHealth() const
 	{
 		return currentHealth;
 	}
@@ -56,7 +59,8 @@ namespace MazeCrisis
 		if (this->currentHealth > currentHealth)
 		{
 			if (currentHealth <= 0)
-				AudioManager::getInstance()->playSound(deathSoundPath, ui->getGameVolumeFloat());
+				AudioManager::getInstance()->playSound(deathSoundPath,
+					ui->getGameVolumeFloat());
 			else
 				playRandomGruntSound();
 		}
@@ -76,7 +80,7 @@ namespace MazeCrisis
 	}
 
 	WEAPON
-	Player::getCurrentWeapon()
+	Player::getCurrentWeapon() const
 	{
 		return currentWeapon;
 	}
@@ -86,7 +90,8 @@ namespace MazeCrisis
 	{
 		currentWeapon = newGun;
 		if (guns[newGun].getCurrentClipAmmo() == 0)
-			ui->pulseReloadMessage(1500); // TODO: Make it so this isn't hard coded.
+			ui->pulseReloadMessage(1500); 
+			// TODO: Make it so this isn't hard coded.
 		else
 			ui->stopPulsingReloadMessage();
 		ui->setWeapon(newGun);
@@ -95,7 +100,7 @@ namespace MazeCrisis
 	}
 
 	UserInterface*
-	Player::getUserInterface()
+	Player::getUserInterface() const
 	{
 		return ui;
 	}
@@ -107,7 +112,7 @@ namespace MazeCrisis
 	}
 
 	string
-	Player::getSayReloadSoundFilePath()
+	Player::getSayReloadSoundFilePath() const
 	{
 		return sayReloadSoundPath;
 	}
@@ -120,7 +125,7 @@ namespace MazeCrisis
 	}
 
 	std::string 
-	Player::getDeathSoundFilePath()
+	Player::getDeathSoundFilePath() const
 	{
 		return deathSoundPath;
 	}
@@ -133,7 +138,8 @@ namespace MazeCrisis
 	}
 
 	void
-	Player::getGruntSoundParameters(std::string &gruntSoundPrefix, std::string &gruntSoundFiletype, unsigned int &numGruntSounds)
+	Player::getGruntSoundParameters(std::string &gruntSoundPrefix, 
+		std::string &gruntSoundFiletype, unsigned int &numGruntSounds) const
 	{
 		gruntSoundPrefix = this->gruntSoundPrefix;
 		gruntSoundFiletype = this->gruntSoundFiletype;
@@ -141,12 +147,14 @@ namespace MazeCrisis
 	}
 
 	void
-	Player::setGruntSoundParameters(const std::string &gruntSoundPrefix, const std::string &gruntSoundFiletype, unsigned int numGruntSounds)
+	Player::setGruntSoundParameters(const std::string &gruntSoundPrefix,
+		const std::string &gruntSoundFiletype, unsigned int numGruntSounds)
 	{
 		this->numGruntSounds = numGruntSounds;
 		this->gruntSoundFiletype = gruntSoundFiletype;
 		for (size_t i = 0; i < numGruntSounds; ++i)
-			AudioManager::getInstance()->loadSound(gruntSoundPrefix + std::to_string(i) + "." + gruntSoundFiletype);
+			AudioManager::getInstance()->loadSound(gruntSoundPrefix 
+				+ std::to_string(i) + "." + gruntSoundFiletype);
 		this->gruntSoundPrefix = gruntSoundPrefix;
 	}
 
@@ -154,17 +162,19 @@ namespace MazeCrisis
 	Player::playRandomGruntSound()
 	{
 		int index = rand() % 4;
-		AudioManager::getInstance()->playSound(gruntSoundPrefix + std::to_string(index) + "." + gruntSoundFiletype, ui->getGameVolumeFloat());
+		AudioManager::getInstance()->playSound(gruntSoundPrefix
+			+ std::to_string(index) + "." + gruntSoundFiletype, 
+			ui->getGameVolumeFloat());
 	}
 
 	Gun 
-	Player::getCurrentGun()
+	Player::getCurrentGun() const
 	{
 		return guns[currentWeapon];
 	}
 
 	bool
-	Player::getIsShooting()
+	Player::getIsShooting() const
 	{
 		return shooting;
 	}
@@ -179,7 +189,8 @@ namespace MazeCrisis
 	}
 
 	void 
-	Player::mouseHandler(GLFWwindow* window, int button, int action, int mods, Ray *ray)
+	Player::mouseHandler(GLFWwindow* window, int button, int action, int mods,
+		Ray *ray)
 	{
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		{
@@ -199,7 +210,8 @@ namespace MazeCrisis
 	}
 
 	void
-	Player::keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
+	Player::keyHandler(GLFWwindow* window, int key, int scancode, int action,
+		int mods)
 	{
 		if (key == GLFW_KEY_R && (action == GLFW_REPEAT ||
 			action == GLFW_PRESS))

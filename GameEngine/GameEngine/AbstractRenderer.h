@@ -42,16 +42,16 @@ public:
 
 	virtual void setWireframeMode(bool isOn) { isWireframe = isOn; }
 
-	virtual bool getWireframeMode() { return isWireframe; }
+	virtual bool getWireframeMode() const { return isWireframe; }
 
 	virtual void setWindowSize(int width, int height,
 		Camera *cam = nullptr) = 0;
 
 	virtual void prepareToRender(Camera &camera) = 0;
 
-	MatrixStack getMatrixStack() { return matrixStack; }
+	MatrixStack getMatrixStack() const { return matrixStack; }
 
-	glm::vec2 getWindowSize() { return glm::vec2(winWidth, winHeight); }
+	glm::vec2 getWindowSize() const { return glm::vec2(winWidth, winHeight); }
 
 protected:
 	bool isWireframe;

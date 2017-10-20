@@ -17,8 +17,8 @@ Material::Material(const std::string &name, const std::string &shaderName,
 	try
 	{
 		ShaderManagerLoadStatus status;
-		status = ShaderProgramManager::getInstance()->loadShader(shaderName, vertexShaderPath,
-			fragmentShaderPath, shaderVars);
+		status = ShaderProgramManager::getInstance()->loadShader(shaderName,
+			vertexShaderPath, fragmentShaderPath, shaderVars);
 
 		if (printShaderLoadStatus)
 			std::cout << status.message << std::endl;
@@ -54,19 +54,19 @@ Material::setDiffuseTexture(const std::string &textureName)
 }
 
 GLuint 
-Material::getShaderID()
+Material::getShaderID() const
 {
 	return ShaderProgramManager::getInstance()->get(shaderName)->getProgramID();
 }
 
 ShaderProgram*
-Material::getShader()
+Material::getShader() const
 {
 	return ShaderProgramManager::getInstance()->get(shaderName);
 }
 
 std::string
-Material::getName()
+Material::getName() const
 {
 	return name;
 }

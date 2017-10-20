@@ -2,7 +2,8 @@
 
 using std::string;
 
-GameEngine::GameEngine(AbstractRenderer &renderer, GLuint windowWidth, GLuint windowHeight)
+GameEngine::GameEngine(AbstractRenderer &renderer, GLuint windowWidth,
+	GLuint windowHeight)
 {
 	shaderManager = ShaderProgramManager::getInstance();
 	materialManager = MaterialManager::getInstance();
@@ -89,14 +90,17 @@ GameEngine::loadTexture(const string &path, const string &name)
 }
 
 bool 
-GameEngine::loadMaterial(const string &materialName, const string &shaderName, const string &diffuseTexture)
+GameEngine::loadMaterial(const string &materialName, const string &shaderName,
+	const string &diffuseTexture)
 {
-	return MaterialManager::getInstance()->loadMaterial(materialName, shaderName, diffuseTexture);
+	return MaterialManager::getInstance()->loadMaterial(materialName, 
+		shaderName, diffuseTexture);
 }
 
 MeshType* 
 GameEngine::loadModel(const string &name, const string &path, int _index)
 {
-	//return ModelManager::getInstance()->loadModel(path, name, *ImageManager::getInstance(), _index);
+	//return ModelManager::getInstance()->loadModel(path, name,
+	//*ImageManager::getInstance(), _index);
 	return nullptr;
 }

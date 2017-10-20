@@ -12,8 +12,8 @@ const char*
 ETB_GL_DEBUG_SOURCE_STR(GLenum source)
 {
 	static const char* sources[] = {
-		"API",   "Window System", "Shader Compiler", "Third Party", "Application",
-		"Other", "Unknown"
+		"API",   "Window System", "Shader Compiler", "Third Party",
+		"Application", "Other", "Unknown"
 	};
 
 	int str_idx =
@@ -27,8 +27,8 @@ const char*
 ETB_GL_DEBUG_TYPE_STR(GLenum type)
 {
 	static const char* types[] = {
-		"Error",       "Deprecated Behavior", "Undefined Behavior", "Portability",
-		"Performance", "Other",               "Unknown"
+		"Error",       "Deprecated Behavior", "Undefined Behavior",
+		"Portability", "Performance", "Other", "Unknown"
 	};
 
 	int str_idx =

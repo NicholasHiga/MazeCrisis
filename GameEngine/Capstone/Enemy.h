@@ -10,10 +10,10 @@ namespace MazeCrisis
 		Enemy(const std::string &gameObjectName,
 			const std::string &modelName, int maxHealth);
 
-		int getMaxHealth();
+		int getMaxHealth() const;
 		void setMaxHealth(int maxHealth);
 
-		int getCurrentHealth();
+		int getCurrentHealth() const;
 		void setCurrentHealth(int currentHealth);
 
 	private:

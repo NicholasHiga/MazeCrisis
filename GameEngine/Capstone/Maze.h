@@ -21,20 +21,24 @@ namespace MazeCrisis
 		/// that means there is no block there.
 		Maze(GLuint sizePerCube, glm::vec3 startPos,
 			const std::string &meshName, const std::string &shaderName,
-			const std::string &vertShaderPath, const std::string &fragShaderPath,
-			const std::vector<ShaderVariable> &shaderVars, const std::vector<std::string> &textureNames,
+			const std::string &vertShaderPath, 
+			const std::string &fragShaderPath,
+			const std::vector<ShaderVariable> &shaderVars, 
+			const std::vector<std::string> &textureNames,
 			const std::vector<std::vector<std::vector<GLint>>> &textureValues);
 
-		std::shared_ptr<SceneNode> getMazeRoot() { return mazeRoot; }
+		std::shared_ptr<SceneNode> getMazeRoot() const { return mazeRoot; }
 		std::vector<std::vector<std::vector
-			<std::shared_ptr<SceneNode>>>>* getMazeNodes() { return &mazeNodes; }
-		GLuint getSizePerCube() { return sizePerCube; }
+			<std::shared_ptr<SceneNode>>>>* getMazeNodes()
+			{ return &mazeNodes; }
+		GLuint getSizePerCube() const { return sizePerCube; }
 
 		void changeTextureAt(glm::vec3 cubePosition, std::string newTexture);
 
 	private:
 		std::shared_ptr<SceneNode> mazeRoot;
-		std::vector<std::vector<std::vector<std::shared_ptr<SceneNode>>>> mazeNodes;
+		std::vector<std::vector<std::vector<std::shared_ptr<SceneNode>>>> 
+			mazeNodes;
 		std::vector<std::vector<std::vector<std::string>>> textures;
 		std::vector<std::shared_ptr<GameObject>> gameObjects;
 

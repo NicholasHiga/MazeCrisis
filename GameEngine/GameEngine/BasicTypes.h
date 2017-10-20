@@ -59,9 +59,11 @@ public:
 			return PrimitiveType::PRIM_INVALID;
 	}
 
-	static std::string getFullPath(std::string current_path, std::string asset_name)
+	static std::string getFullPath(std::string current_path,
+		std::string asset_name)
 	{
-		std::string newPath = current_path.substr(0, current_path.find_last_of("/") + 1);
+		std::string newPath = current_path.substr(0, 
+			current_path.find_last_of("/") + 1);
 		newPath += asset_name;
 		return newPath;
 	}
@@ -72,7 +74,8 @@ class Color
 {
 public:
 	Color() : Color(0.0f, 0.0f, 0.0f, 1.0f) {};
-	Color(float _r, float _g, float _b, float _a) : r(_r), g(_g), b(_b), a(_a) {};
+	Color(float _r, float _g, float _b, float _a) : r(_r), g(_g),
+		b(_b), a(_a) {};
 	Color(float _r, float _g, float _b) : r(_r), g(_g), b(_b), a(1.0f) {};
 	void R(float red)   { r = red; }
 	void G(float green) { g = green; }

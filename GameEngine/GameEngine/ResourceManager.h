@@ -10,10 +10,13 @@ protected:
 	std::map<std::string, std::shared_ptr<T>> resources;
 
 public:
-	typedef typename std::map<std::string, std::shared_ptr<T>>::iterator ResourceIterator;
-	typedef typename std::map<std::string, std::shared_ptr<T>>::const_iterator ResourceIteratorConst;
+	typedef typename std::map<std::string, 
+		std::shared_ptr<T>>::iterator ResourceIterator;
+	typedef typename std::map<std::string,
+		std::shared_ptr<T>>::const_iterator ResourceIteratorConst;
 
-	// Does not overwrite if copy already found, returns true on success, false on fail.
+	// Does not overwrite if copy already found, returns true on success,
+	// false on fail.
 	bool store(std::string name, std::shared_ptr<T> resource)
 	{
 		ResourceIterator it = resources.find(name);

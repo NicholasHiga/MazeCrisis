@@ -21,7 +21,8 @@ SceneNode::SceneNode(vec3 _position) : position(_position)
 	orientation = Quaternion();
 }
 
-SceneNode::SceneNode(vec3 _position, Quaternion _orientation, vec3 _scale = vec3(1.0f, 1.0f, 1.0f))
+SceneNode::SceneNode(vec3 _position, Quaternion _orientation, 
+	vec3 _scale = vec3(1.0f, 1.0f, 1.0f))
 	: position(_position), orientation(_orientation), scale(_scale)
 {
 }
@@ -106,19 +107,19 @@ SceneNode::setScale(vec3 &_scale)
 }
 
 vec3
-SceneNode::getPosition()
+SceneNode::getPosition() const
 {
 	return position;
 }
 
 Quaternion 
-SceneNode::getOrientation()
+SceneNode::getOrientation() const
 {
 	return orientation;
 }
 
 vec3
-SceneNode::getScale()
+SceneNode::getScale() const
 {
 	return scale;
 }
@@ -130,7 +131,7 @@ SceneNode::getRenderables()
 }
 
 mat4
-SceneNode::getModelMatrix()
+SceneNode::getModelMatrix() const
 {
 	float angle;
 	vec3 rotAxis;

@@ -13,7 +13,8 @@ public:
 	static inline double
 	getSeconds()
 	{
-		return (double)std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+		return (double)std::chrono::duration_cast<std::chrono::seconds>
+			(std::chrono::steady_clock::now().time_since_epoch()).count();
 	}
 
 	/// getMilliseconds()
@@ -22,6 +23,7 @@ public:
 	static inline double
 	getMilliseconds()
 	{
-		return (double)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+		return (double)std::chrono::duration_cast<std::chrono::milliseconds>
+			(std::chrono::steady_clock::now().time_since_epoch()).count();
 	}
 };

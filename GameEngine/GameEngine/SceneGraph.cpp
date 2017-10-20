@@ -16,13 +16,14 @@ SceneGraph::SceneGraph()
 }
 
 shared_ptr<SceneNode>
-SceneGraph::getRootSceneNode()
+SceneGraph::getRootSceneNode() const
 {
 	return root;
 }
 
 void
-SceneGraph::doSomethingEachElement(shared_ptr<SceneNode> firstNode, std::function<void(shared_ptr<SceneNode>)> func)
+SceneGraph::doSomethingEachElement(shared_ptr<SceneNode> firstNode, 
+	std::function<void(shared_ptr<SceneNode>)> func)
 {
 	for (size_t i = 0; i < firstNode.get()->getChildren()->size(); ++i)
 	{

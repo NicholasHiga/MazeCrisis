@@ -27,7 +27,8 @@ public:
 	GameObject(const std::string &gameObjectName, const std::string &modelName,
 		std::shared_ptr<EffectedModel> model);
 
-	// Doesn't initialize mesh, shader or material, assume all are loaded already.
+	// Doesn't initialize mesh, shader or material, assume all are 
+	// loaded already.
 	GameObject(const std::string &gameObjectName, const std::string &modelName, 
 		const std::string &meshName, const std::string &materialName);
 
@@ -65,26 +66,26 @@ public:
 		bool printShaderLoadStatus = false);
 
 	void setGameObjectName(const std::string &name);
-	std::string getGameObjectName();
+	std::string getGameObjectName() const;
 
 	void setModelName(const std::string &modelName, MESH_TYPE meshType);
-	MESH_TYPE getMeshType();
-	std::string getModelName();
-	MeshType* getModel();
+	MESH_TYPE getMeshType() const;
+	std::string getModelName() const;
+	MeshType* getModel() const;
 
 	void setParentNode(std::shared_ptr<SceneNode> parent);
 	SceneNode* getParentNode();
 
 	void setIsVisible(bool visible);
-	bool getIsVisible();
+	bool getIsVisible() const;
 
 	void setIsEnabled(bool enabled);
-	bool getIsEnabled();
+	bool getIsEnabled() const;
 
 	void setScript(std::function<void(SceneNode*, double)> script);
-	std::function<void(SceneNode*, double)> getScript();
+	std::function<void(SceneNode*, double)> getScript() const;
 
-	std::vector<BoundingBox*> getBoundingBoxes();
+	std::vector<BoundingBox*> getBoundingBoxes() const;
 
 	// GameObject(SceneNode &parent, string modelPath); When model loader 
 	// completed.

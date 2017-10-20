@@ -61,7 +61,8 @@ vec3
 Camera::getRightNormal()
 {
 	frustum->updateFrustum();
-	return 	glm::normalize(glm::cross(frustum->getCameraDirection(), frustum->getCameraUp()));
+	return 	glm::normalize(glm::cross(frustum->getCameraDirection(),
+		frustum->getCameraUp()));
 }
 
 void 

@@ -55,7 +55,8 @@ Mat4x4::identity()
 float 
 Mat4x4::determinant(Mat4x4 mat)
 {
-	// Using http://www.cg.info.hiroshima-cu.ac.jp/~miyazaki/knowledge/teche23.html
+	// Using
+	// http://www.cg.info.hiroshima-cu.ac.jp/~miyazaki/knowledge/teche23.html
 	// as a reference.
 
 	return mat.xx() * mat.yy() * mat.zz() * mat.ww() +
@@ -104,7 +105,8 @@ Mat4x4::transpose(const Mat4x4 mat)
 bool
 Mat4x4::invert(Mat4x4 *mat)
 {
-	// Using http://www.cg.info.hiroshima-cu.ac.jp/~miyazaki/knowledge/teche23.html
+	// Using
+	// http://www.cg.info.hiroshima-cu.ac.jp/~miyazaki/knowledge/teche23.html
 	// as a reference.
 
 	if (Mat4x4::determinant(*mat) == 0)
@@ -424,7 +426,7 @@ Mat4x4::setValues(float xx, float xy, float xz, float xw,
 }
 
 float 
-Mat4x4::determinant()
+Mat4x4::determinant() const
 {
 	return Mat4x4::determinant(*this);
 }
@@ -549,8 +551,10 @@ Mat4x4::operator*(const Mat4x4& b)
 	{
 		for (int j = 0; j < 4; ++j)
 		{
-			m.matrix[i][j] = matrix[i][0] * b.matrix[0][j] + matrix[i][1] * b.matrix[1][j]
-				+ matrix[i][2] * b.matrix[2][j] + matrix[i][3] * b.matrix[3][j];
+			m.matrix[i][j] = matrix[i][0] * b.matrix[0][j]
+				+ matrix[i][1] * b.matrix[1][j]
+				+ matrix[i][2] * b.matrix[2][j]
+				+ matrix[i][3] * b.matrix[3][j];
 		}
 	}
 	return m;
@@ -560,14 +564,17 @@ vec3
 Mat4x4::operator*(const vec3& b)
 {
 	vec3 temp;
-	temp.x = matrix[0][0] * b.x + matrix[0][1] * b.y + matrix[0][2] * b.z + matrix[0][3];
-	temp.y = matrix[1][0] * b.x + matrix[1][1] * b.y + matrix[1][2] * b.z + matrix[1][3];
-	temp.z = matrix[2][0] * b.x + matrix[2][1] * b.y + matrix[2][2] * b.z + matrix[2][3];
+	temp.x = matrix[0][0] * b.x + matrix[0][1] * b.y
+		+ matrix[0][2] * b.z + matrix[0][3];
+	temp.y = matrix[1][0] * b.x + matrix[1][1] * b.y 
+		+ matrix[1][2] * b.z + matrix[1][3];
+	temp.z = matrix[2][0] * b.x + matrix[2][1] * b.y 
+		+ matrix[2][2] * b.z + matrix[2][3];
 	return temp;
 }
 
 void
-Mat4x4::printMatrix()
+Mat4x4::printMatrix() const
 {
 	for (int i = 0; i < 4; ++i)
 	{

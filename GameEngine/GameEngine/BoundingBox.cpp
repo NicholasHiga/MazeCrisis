@@ -11,7 +11,8 @@ using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 
-BoundingBox::BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, bool isVisible)
+BoundingBox::BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, 
+	bool isVisible)
 {
 	calculateBaseBounds(mesh, bbType);
 	this->bbType = bbType;
@@ -64,13 +65,13 @@ BoundingBox::updateBounds(mat4 &transform)
 }
 
 BOUNDING_BOX_TYPE 
-BoundingBox::getBoundingBoxType()
+BoundingBox::getBoundingBoxType() const
 {
 	return bbType;
 }
 
 bool 
-BoundingBox::doesCollide(const BoundingBox &bb)
+BoundingBox::doesCollide(const BoundingBox &bb) const
 {
 	return BoundingBox::doesCollide(*this, bb);
 }
@@ -78,9 +79,12 @@ BoundingBox::doesCollide(const BoundingBox &bb)
 bool
 BoundingBox::doesCollide(const BoundingBox &bb1, const BoundingBox &bb2)
 {
-	return (bb1.aabbMins.x <= bb2.aabbMaxes.x && bb1.aabbMaxes.x >= bb2.aabbMins.x) &&
-		(bb1.aabbMins.y <= bb2.aabbMaxes.y && bb1.aabbMaxes.y >= bb2.aabbMins.y) &&
-		(bb1.aabbMins.z <= bb2.aabbMaxes.z && bb1.aabbMaxes.z >= bb2.aabbMins.z);
+	return (bb1.aabbMins.x <= bb2.aabbMaxes.x 
+		&& bb1.aabbMaxes.x >= bb2.aabbMins.x) &&
+		(bb1.aabbMins.y <= bb2.aabbMaxes.y 
+			&& bb1.aabbMaxes.y >= bb2.aabbMins.y) &&
+		(bb1.aabbMins.z <= bb2.aabbMaxes.z
+			&& bb1.aabbMaxes.z >= bb2.aabbMins.z);
 }
 
 std::vector<std::shared_ptr<SceneNode>> 
@@ -121,13 +125,15 @@ BoundingBox::doesCollide(SceneGraph *graph, const BoundingBox &bb)
 }
 
 std::vector<std::shared_ptr<SceneNode>> 
-BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, std::vector<unsigned int> *indices)
+BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes,
+	std::vector<unsigned int> *indices)
 {
 	return BoundingBox::doesCollide(nodes, *this, indices);
 }
 
 std::vector<std::shared_ptr<SceneNode>>
-BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, const BoundingBox &bb, std::vector<unsigned int> *indices)
+BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, 
+	const BoundingBox &bb, std::vector<unsigned int> *indices)
 {
 	vector<shared_ptr<SceneNode>> intersections;
 	for (size_t z = 0; z < nodes.size(); ++z)
@@ -158,7 +164,7 @@ BoundingBox::doesCollide(std::vector<std::shared_ptr<SceneNode>> &nodes, const B
 }
 
 bool 
-BoundingBox::getIsVisible()
+BoundingBox::getIsVisible() const
 {
 	return isVisible;
 }

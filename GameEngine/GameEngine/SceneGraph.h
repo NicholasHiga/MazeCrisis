@@ -13,9 +13,10 @@ class SceneGraph
 public:
 	SceneGraph();
 
-	std::shared_ptr<SceneNode> getRootSceneNode();
+	std::shared_ptr<SceneNode> getRootSceneNode() const;
 
-	void doSomethingEachElement(std::shared_ptr<SceneNode> firstNode, std::function<void(std::shared_ptr<SceneNode>)> func);
+	void doSomethingEachElement(std::shared_ptr<SceneNode> firstNode,
+		std::function<void(std::shared_ptr<SceneNode>)> func);
 	void renderSceneGraph(AbstractRenderer &renderer, Camera &camera);
 	void updateSceneGraph(double deltaTime);
 	void appendChildNode(std::shared_ptr<SceneNode> node);

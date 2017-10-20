@@ -30,7 +30,8 @@ namespace MazeCrisis
 		this->game = game;
 		this->skyboxTextureLocation = skyboxTextureLocation;
 		initLevel();
-		numEnemiesTotal = game->getSceneGraph()->getRootSceneNode()->getChildren()->size();
+		numEnemiesTotal = game->getSceneGraph()->getRootSceneNode()->
+			getChildren()->size();
 		lastEnemyKilled = 0;
 	}
 
@@ -45,17 +46,26 @@ namespace MazeCrisis
 	Level::initLevel()
 	{
 		vector<ShaderVariable> mainShaderVars;
-		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
-		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_UV, "uv"));
-		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_2D, "textureIn"));
-		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
-		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
+		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION,
+			"position"));
+		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_UV,
+			"uv"));
+		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_2D,
+			"textureIn"));
+		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, 
+			"modelViewMatrix"));
+		mainShaderVars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, 
+			"projectionMatrix"));
 
 		vector<ShaderVariable> skyboxShaderVars;
-		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
-		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_CUBE, "skyboxTexture"));
-		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, "viewMatrix"));
-		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
+		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION,
+			"position"));
+		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_CUBE, 
+			"skyboxTexture"));
+		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX,
+			"viewMatrix"));
+		skyboxShaderVars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, 
+			"projectionMatrix"));
 
 		vector<string> textures =
 		{
@@ -85,6 +95,8 @@ namespace MazeCrisis
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			},
 			{
+			  // Comments wise, leaving this as is, because formatting is 
+			  // really important here
 			  // -15 | 15
 			  //    x -> 
 	          //    0,  30,  60,  90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480
@@ -115,7 +127,8 @@ namespace MazeCrisis
 				SHADERS_PATH + "TexturedVertex.vert",
 				SHADERS_PATH + "TexturedFragment.frag",
 				mainShaderVars, textures, mazeTextures);
-			skybox = std::make_shared<Skybox>("SkyboxMesh", "SkyboxTexture", "SkyboxShader",
+			skybox = std::make_shared<Skybox>("SkyboxMesh", "SkyboxTexture",
+				"SkyboxShader",
 				SHADERS_PATH + "SkyboxVertex.vert", 
 				SHADERS_PATH + "SkyboxFragment.frag",
 				skyboxShaderVars, 
@@ -136,9 +149,11 @@ namespace MazeCrisis
 		game->getSceneGraph()->appendChildNode(skyNode);
 		game->getSceneGraph()->appendChildNode(maze->getMazeRoot());
 		initGameObjects();
-		player = new Player(game->getUserInterface(), WEAPON::PISTOL, 3, SOUNDS_PATH + "grunt", 5, "wav",
-			SOUNDS_PATH + "death.wav", SOUNDS_PATH + "shot1.wav", SOUNDS_PATH + "shot1.wav",
-			SOUNDS_PATH + "shot1.wav", SOUNDS_PATH + "guncock.wav", SOUNDS_PATH + "empty.wav", SOUNDS_PATH + "say_reload.wav");
+		player = new Player(game->getUserInterface(), WEAPON::PISTOL, 3,
+			SOUNDS_PATH + "grunt", 5, "wav", SOUNDS_PATH + "death.wav",
+			SOUNDS_PATH + "shot1.wav", SOUNDS_PATH + "shot1.wav",
+			SOUNDS_PATH + "shot1.wav", SOUNDS_PATH + "guncock.wav",
+			SOUNDS_PATH + "empty.wav", SOUNDS_PATH + "say_reload.wav");
 	}
 
 	void
@@ -150,14 +165,14 @@ namespace MazeCrisis
 			"CrateEnemy2", "TexturedCube", TEXTURES_PATH + "bCrate.jpg");
 		game->getMeshManager()->loadCubeModel("Enemy3", "Cube", "ZombieEnemy",
 			"TexturedCube", TEXTURES_PATH + "zombie.png");
-		game->getMeshManager()->loadCubeModel("Blacksmith", "Cube", "Blacksmith",
-			"TexturedCube", TEXTURES_PATH + "blacksmith.png");
-		game->getMeshManager()->loadCubeModel("Footballer", "Cube", "Footballer",
-			"TexturedCube", TEXTURES_PATH + "football.png");
-		game->getMeshManager()->loadCubeModel("Boss", "Cube", "Boss", "TexturedCube",
-			TEXTURES_PATH + "boss.png");
-		game->getMeshManager()->loadCubeModel("Buckets", "Cube", "Buckets", "TexturedCube",
-			TEXTURES_PATH + "buckets.png");
+		game->getMeshManager()->loadCubeModel("Blacksmith", "Cube", 
+			"Blacksmith", "TexturedCube", TEXTURES_PATH + "blacksmith.png");
+		game->getMeshManager()->loadCubeModel("Footballer", "Cube",
+			"Footballer", "TexturedCube", TEXTURES_PATH + "football.png");
+		game->getMeshManager()->loadCubeModel("Boss", "Cube", "Boss",
+			"TexturedCube", TEXTURES_PATH + "boss.png");
+		game->getMeshManager()->loadCubeModel("Buckets", "Cube", "Buckets",
+			"TexturedCube", TEXTURES_PATH + "buckets.png");
 
 		enemies.push_back(std::make_shared<Enemy>("E1", "Enemy1", 30));
 		enemies.push_back(std::make_shared<Enemy>("E2", "Enemy2", 40));
@@ -169,7 +184,8 @@ namespace MazeCrisis
 		enemies.push_back(std::make_shared<Enemy>("E8", "Footballer", 90));
 		enemies.push_back(std::make_shared<Enemy>("E9", "Enemy3", 70));
 		enemies.push_back(std::make_shared<Enemy>("E10", "Enemy3", 70));
-		enemies.push_back(std::make_shared<Enemy>("E11", "Footballer", 100)); // 11
+		enemies.push_back(std::make_shared<Enemy>("E11", "Footballer", 100));
+			// 11
 
 		enemies.push_back(std::make_shared<Enemy>("E12", "Enemy3", 70));
 		enemies.push_back(std::make_shared<Enemy>("E13", "Footballer", 90));
@@ -308,10 +324,13 @@ namespace MazeCrisis
 		player->update(deltaTime);
 		autocam->update(deltaTime);
 
-		// When an enemy is shot, this occurs as an effect of setCurrentHealth() in Enemy.
-		if (numEnemiesTotal != game->getSceneGraph()->getRootSceneNode()->getChildren()->size())
+		// When an enemy is shot, this occurs as an effect of 
+		// setCurrentHealth() in Enemy.
+		if (numEnemiesTotal != game->getSceneGraph()->getRootSceneNode()
+			->getChildren()->size())
 		{
-			numEnemiesTotal = game->getSceneGraph()->getRootSceneNode()->getChildren()->size();
+			numEnemiesTotal = game->getSceneGraph()->getRootSceneNode()
+				->getChildren()->size();
 			lastEnemyKilled++;
 
 			// Section 1.
@@ -361,7 +380,8 @@ namespace MazeCrisis
 			if (lastEnemyKilled == 11)
 			{
 				autocam->autoRotate(180, 2000);
-				autocam->autoMoveStraight(30 * 7 + 5, 8000); // 5 is a bit of correction
+				autocam->autoMoveStraight(30 * 7 + 5, 8000); // 5 is a bit
+															 // of correction
 				autocam->autoRotate(-90, 2000);
 				currentSection++;
 				//Common::gameStates.push(GameState::VICTORY);
@@ -409,72 +429,91 @@ namespace MazeCrisis
 				tmp.y += moveSpeed[0] * deltaTime;
 			nodes[1]->setPosition(tmp);
 
-			nodes[2]->setPosition(nodes[2]->getPosition() + vec3(0, 0, moveSpeed[2] * deltaTime)); // moveSpeed[2]
+			nodes[2]->setPosition(nodes[2]->getPosition()
+				+ vec3(0, 0, moveSpeed[2] * deltaTime)); // moveSpeed[2]
 		}
 
 		// Second section
 		if (currentSection == 2)
-			nodes[3]->setPosition(nodes[3]->getPosition() + vec3(-moveSpeed[3] * deltaTime, 0, 0));
+			nodes[3]->setPosition(nodes[3]->getPosition()
+				+ vec3(-moveSpeed[3] * deltaTime, 0, 0));
 
 		if (currentSection == 3)
 		{
 			if (moveStateBlackSmith == 0)
 			{
-				nodes[4]->setPosition(nodes[4]->getPosition() + vec3(0, 0, -0.015f * deltaTime));
+				nodes[4]->setPosition(nodes[4]->getPosition() 
+					+ vec3(0, 0, -0.015f * deltaTime));
 				if (nodes[4]->getPosition().z < -240)
 					moveStateBlackSmith++;
 			}
 			else if (moveStateBlackSmith == 1)
 			{
-				nodes[4]->setPosition(nodes[4]->getPosition() + vec3(-0.010f * deltaTime, 0, 0));
+				nodes[4]->setPosition(nodes[4]->getPosition()
+					+ vec3(-0.010f * deltaTime, 0, 0));
 			}
 		}
 
 		if (currentSection == 4)
 		{
-			nodes[5]->setPosition(nodes[5]->getPosition() + vec3(-0.003f * deltaTime, 0, 0));
+			nodes[5]->setPosition(nodes[5]->getPosition()
+				+ vec3(-0.003f * deltaTime, 0, 0));
 		}
 
 		if (currentSection == 5)
 		{
 			if (moveStateFooterballer == 0)
 			{
-				nodes[7]->setPosition(nodes[7]->getPosition() + vec3(0, 0, 0.04f * deltaTime));
+				nodes[7]->setPosition(nodes[7]->getPosition() 
+					+ vec3(0, 0, 0.04f * deltaTime));
 				if (nodes[7]->getPosition().z > -180)
 					moveStateFooterballer++;
 			}
 			else if (moveStateFooterballer == 1)
 			{
-				nodes[7]->setPosition(nodes[7]->getPosition() + vec3(-0.04f * deltaTime, 0, 0));
+				nodes[7]->setPosition(nodes[7]->getPosition()
+					+ vec3(-0.04f * deltaTime, 0, 0));
 			}
 		}
 
 		if (currentSection == 6)
 		{
-			nodes[8]->setPosition(nodes[8]->getPosition() + vec3(0, 0, -0.005f * deltaTime));
-			nodes[9]->setPosition(nodes[9]->getPosition() + vec3(0, 0, -0.003f * deltaTime));
-			nodes[10]->setPosition(nodes[10]->getPosition() + vec3(0, 0, -0.027f * deltaTime));
+			nodes[8]->setPosition(nodes[8]->getPosition()
+				+ vec3(0, 0, -0.005f * deltaTime));
+			nodes[9]->setPosition(nodes[9]->getPosition()
+				+ vec3(0, 0, -0.003f * deltaTime));
+			nodes[10]->setPosition(nodes[10]->getPosition()
+				+ vec3(0, 0, -0.027f * deltaTime));
 		}
 
 		if (currentSection == 7)
 		{
-			//nodes[11]->setPosition(nodes[11]->getPosition() + vec3(0, 0, 0.005f * deltaTime));
-			nodes[12]->setPosition(nodes[12]->getPosition() + vec3(0, 0, 0.027f * deltaTime));
-			//nodes[13]->setPosition(nodes[13]->getPosition() + vec3(0, 0, 0.027f * deltaTime));
-			nodes[14]->setPosition(nodes[14]->getPosition() + vec3(0, 0, 0.005f * deltaTime));
-			nodes[15]->setPosition(nodes[15]->getPosition() + vec3(0, 0, 0.003f * deltaTime));
-			nodes[16]->setPosition(nodes[16]->getPosition() + vec3(0, 0, 0.005f * deltaTime));
-			nodes[17]->setPosition(nodes[17]->getPosition() + vec3(-0.006f * deltaTime, 0, 0)); // Boss
+			// nodes[11]->setPosition(nodes[11]->getPosition() 
+			//	+ vec3(0, 0, 0.005f * deltaTime));
+			nodes[12]->setPosition(nodes[12]->getPosition()
+				+ vec3(0, 0, 0.027f * deltaTime));
+			// nodes[13]->setPosition(nodes[13]->getPosition() 
+			//  + vec3(0, 0, 0.027f * deltaTime));
+			nodes[14]->setPosition(nodes[14]->getPosition()
+				+ vec3(0, 0, 0.005f * deltaTime));
+			nodes[15]->setPosition(nodes[15]->getPosition()
+				+ vec3(0, 0, 0.003f * deltaTime));
+			nodes[16]->setPosition(nodes[16]->getPosition()
+				+ vec3(0, 0, 0.005f * deltaTime));
+			nodes[17]->setPosition(nodes[17]->getPosition()
+				+ vec3(-0.006f * deltaTime, 0, 0)); // Boss
 		}
 
 		std::vector<unsigned int> collisionIndices;
 		std::vector<std::shared_ptr<SceneNode>> cameraCollisions =
-			BoundingBox::doesCollide(nodes, *autocam->getBoundingBox(), &collisionIndices);
+			BoundingBox::doesCollide(nodes, *autocam->getBoundingBox(), 
+				&collisionIndices);
 
 		// When enemy collides with player.
 		if (!cameraCollisions.empty())
 		{
-			vector<Renderable*> *renderables = cameraCollisions[0]->getRenderables();
+			vector<Renderable*> *renderables = cameraCollisions[0]
+				->getRenderables();
 			if (GameObject *go = dynamic_cast<GameObject*>((*renderables)[0]))
 			{
 #ifdef _DEBUG
@@ -508,7 +547,8 @@ namespace MazeCrisis
 	}
 
 	void
-	Level::keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
+	Level::keyHandler(GLFWwindow* window, int key, int scancode, int action,
+		int mods)
 	{
 #ifdef _DEBUG
 		// Move forward

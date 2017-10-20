@@ -139,7 +139,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Maze.h" />
-    <ClInclude Include="Pistol.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="UserInterface.h" />

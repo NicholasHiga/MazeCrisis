@@ -8,13 +8,18 @@
 using std::string;
 using std::vector;
 
-ShaderProgram::ShaderProgram(const string &vertexFilePath, const string &fragmentFilePath, const vector<ShaderVariable> &shaderVars)
+ShaderProgram::ShaderProgram(const string &vertexFilePath, 
+	const string &fragmentFilePath, const vector<ShaderVariable> &shaderVars)
 {
 	ShaderLoadStatus status = loadShaders(vertexFilePath, fragmentFilePath);
-	if ((status.shaderLoadStatus & VERT_SHADER_NOT_FOUND) == VERT_SHADER_NOT_FOUND || 
-		(status.shaderLoadStatus & FRAG_SHADER_NOT_FOUND) == FRAG_SHADER_NOT_FOUND || 
-		(status.shaderLoadStatus & VERT_SHADER_COMPILATION_FAILED) == VERT_SHADER_COMPILATION_FAILED ||
-		(status.shaderLoadStatus & FRAG_SHADER_COMPILATION_FAILED) == FRAG_SHADER_COMPILATION_FAILED ||
+	if ((status.shaderLoadStatus & VERT_SHADER_NOT_FOUND) 
+		== VERT_SHADER_NOT_FOUND || 
+		(status.shaderLoadStatus & FRAG_SHADER_NOT_FOUND)
+		== FRAG_SHADER_NOT_FOUND || 
+		(status.shaderLoadStatus & VERT_SHADER_COMPILATION_FAILED)
+		== VERT_SHADER_COMPILATION_FAILED ||
+		(status.shaderLoadStatus & FRAG_SHADER_COMPILATION_FAILED)
+		== FRAG_SHADER_COMPILATION_FAILED ||
 		(status.shaderLoadStatus & LINKING_FAILED) == LINKING_FAILED)
 		throw std::runtime_error(status.message);
 
@@ -22,7 +27,8 @@ ShaderProgram::ShaderProgram(const string &vertexFilePath, const string &fragmen
 }
 
 ShaderLoadStatus
-ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentFilePath)
+ShaderProgram::loadShaders(const string &vertexFilePath,
+	const string &fragmentFilePath)
 {
 	ShaderLoadStatus status;
 	status.shaderLoadStatus = OK;
@@ -42,7 +48,8 @@ ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentF
 	}
 	else {
 		// File not found.
-		status.message = "Impossible to open " + vertexFilePath + ". Are you in the right directory?\n";
+		status.message = "Impossible to open " + vertexFilePath
+			+ ". Are you in the right directory?\n";
 		status.shaderLoadStatus = VERT_SHADER_NOT_FOUND;
 		return status;
 	}
@@ -57,7 +64,8 @@ ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentF
 		FragmentShaderStream.close();
 	}
 	else {
-		status.message = "Impossible to open " + fragmentFilePath + ". Are you in the right directory?\n";
+		status.message = "Impossible to open " + fragmentFilePath 
+			+ ". Are you in the right directory?\n";
 		status.shaderLoadStatus = FRAG_SHADER_NOT_FOUND;
 		return status;
 	}
@@ -77,9 +85,11 @@ ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentF
 	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
+		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL,
+			&VertexShaderErrorMessage[0]);
 		//printf("%s\n", &VertexShaderErrorMessage[0]);
-		status.message = string(VertexShaderErrorMessage.begin(), VertexShaderErrorMessage.end());
+		status.message = string(VertexShaderErrorMessage.begin(),
+			VertexShaderErrorMessage.end());
 		if (Result != GL_FALSE)
 			status.shaderLoadStatus |= VERT_SHADER_WARNING;
 		else
@@ -101,9 +111,11 @@ ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentF
 	glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
+		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, 
+			&FragmentShaderErrorMessage[0]);
 		//printf("%s\n", &FragmentShaderErrorMessage[0]);
-		status.message +=  " " + string(FragmentShaderErrorMessage.begin(), FragmentShaderErrorMessage.end());
+		status.message +=  " " + string(FragmentShaderErrorMessage.begin(), 
+			FragmentShaderErrorMessage.end());
 		if (Result != GL_FALSE)
 			status.shaderLoadStatus |= FRAG_SHADER_WARNING;
 		else
@@ -126,9 +138,11 @@ ShaderProgram::loadShaders(const string &vertexFilePath, const string &fragmentF
 	glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
-		glGetProgramInfoLog(programID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+		glGetProgramInfoLog(programID, InfoLogLength, NULL, 
+			&ProgramErrorMessage[0]);
 		//printf("%s\n", &ProgramErrorMessage[0]);
-		status.message += " " + string(ProgramErrorMessage.begin(), ProgramErrorMessage.end());
+		status.message += " " + string(ProgramErrorMessage.begin(),
+			ProgramErrorMessage.end());
 		if (Result != GL_FALSE)
 			status.shaderLoadStatus |= LINKING_WARNINGS;
 		else
@@ -161,9 +175,11 @@ ShaderProgram::setShaderVars(vector<ShaderVariable> shaderVars)
 		{
 			shaderVars[i].setUniformLocation(glGetUniformLocation(programID, 
 				shaderVars[i].getShaderVarName().c_str()));
-			if (shaderVars[i].getEngineVarType() == ENGINE_VAR::MODEL_VIEW_MATRIX)
+			if (shaderVars[i].getEngineVarType() 
+				== ENGINE_VAR::MODEL_VIEW_MATRIX)
 				modelViewMatrixID = shaderVars[i].getUniformLocation();
-			else if (shaderVars[i].getEngineVarType() == ENGINE_VAR::PROJECTION_MATRIX)
+			else if (shaderVars[i].getEngineVarType() 
+				== ENGINE_VAR::PROJECTION_MATRIX)
 				projectionID = shaderVars[i].getUniformLocation();		
 
 			if (shaderVars[i].getEngineVarType() == ENGINE_VAR::SAMPLER_2D

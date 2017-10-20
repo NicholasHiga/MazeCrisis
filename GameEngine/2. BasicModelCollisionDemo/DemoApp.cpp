@@ -36,9 +36,12 @@ public:
 	vector<Vertex> squareVertices, cubeOneVertices, cubeTwoVertices;
 
 	vector<string> meshNames     = { "ColoredCube", "TexturedCube" };
-	vector<string> modelNames	= { "RainbowCube", "YellowCube", "Floor", "WoodSlab", "Crate", "Grass" };
-	vector<string> materialNames = { "RainbowCube", "YellowCube", "Floor", "WoodSlab", "Crate", "Grass" };
-	vector<string> shaderNames   = { "ColoredCube1", "ColoredCube2", "TexturedCube" };
+	vector<string> modelNames	= { "RainbowCube", "YellowCube", "Floor", 
+		"WoodSlab", "Crate", "Grass" };
+	vector<string> materialNames = { "RainbowCube", "YellowCube", "Floor",
+		"WoodSlab", "Crate", "Grass" };
+	vector<string> shaderNames   = { "ColoredCube1", "ColoredCube2",
+		"TexturedCube" };
 
 	vector<shared_ptr<SceneNode>> nodes;
 	vector<shared_ptr<GameObject>> gameObjects;
@@ -75,28 +78,35 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 	vector<ShaderVariable> vars;
 	vars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
 	vars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_COLOR, "color"));
-	vars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
-	vars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
+	vars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX,
+		"modelViewMatrix"));
+	vars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, 
+		"projectionMatrix"));
 
 	vector<ShaderVariable> vars2;
 	vars2.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
 	vars2.push_back(ShaderVariable(ENGINE_VAR::VERTEX_UV, "uv"));
 	vars2.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_2D, "textureIn"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
+	vars2.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX,
+		"modelViewMatrix"));
+	vars2.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX,
+		"projectionMatrix"));
 
 	for (size_t i = 0; i < coloredCubePositions.size() / 3; ++i)
 	{
 		Vertex v;
-		v.position = vec3(coloredCubePositions[i * 3], coloredCubePositions[i * 3 + 1], coloredCubePositions[i * 3 + 2]);
-		v.color = vec3(coloredCubeColors[i * 3], coloredCubeColors[i * 3 + 1], coloredCubeColors[i * 3 + 2]);
+		v.position = vec3(coloredCubePositions[i * 3],
+			coloredCubePositions[i * 3 + 1], coloredCubePositions[i * 3 + 2]);
+		v.color = vec3(coloredCubeColors[i * 3], coloredCubeColors[i * 3 + 1],
+			coloredCubeColors[i * 3 + 2]);
 		cubeOneVertices.push_back(v);
 	}
 
 	for (size_t i = 0; i < texturedCubeVertices.size() / 3; ++i)
 	{
 		Vertex v;
-		v.position = vec3(texturedCubeVertices[i * 3], texturedCubeVertices[i * 3 + 1], texturedCubeVertices[i * 3 + 2]);
+		v.position = vec3(texturedCubeVertices[i * 3],
+			texturedCubeVertices[i * 3 + 1], texturedCubeVertices[i * 3 + 2]);
 		v.uv = glm::vec2(texturedCubeUVs[i * 2], texturedCubeUVs[i * 2 + 1]);
 		cubeTwoVertices.push_back(v);
 	}
@@ -106,29 +116,37 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 	try
 	{
 		/*// Cube one, bottom left
-		meshManager->loadMesh(meshNames[0], PrimitiveType::PRIM_TRIANGLE, cubeOneVertices, coloredCubeIndices);
-		materialManager->loadMaterial(materialNames[0], shaderNames[0], "ColoredVertex.vert",
-			"ColoredFragment.frag", vars, "", true);
-	    modelManager->loadModel(modelNames[0], meshNames[0], materialNames[0]);	// Need to make model manager which handles creation of polymodels, EffectedModels
-																//// PolyModels = vector of EffectedModels
+		meshManager->loadMesh(meshNames[0], PrimitiveType::PRIM_TRIANGLE,
+			cubeOneVertices, coloredCubeIndices);
+		materialManager->loadMaterial(materialNames[0], shaderNames[0],
+			"ColoredVertex.vert", "ColoredFragment.frag", vars, "", true);
+	    modelManager->loadModel(modelNames[0], meshNames[0], materialNames[0]);	
+			// Need to make model manager which handles creation of polymodels,
+			// EffectedModels
+			//// PolyModels = vector of EffectedModels
 		// Cube two, bottom right
-		modelManager->loadModel(modelNames[1], meshNames[0], materialNames[1], shaderNames[1], "ColoredVertexTwo.vert",
+		modelManager->loadModel(modelNames[1], meshNames[0], materialNames[1],
+			shaderNames[1], "ColoredVertexTwo.vert",
 			"ColoredFragmentTwo.frag", vars, "", true);
 
 		// Cube three, top left
-		modelManager->loadModel(modelNames[2], meshNames[1], materialNames[2], shaderNames[2],
-			PrimitiveType::PRIM_TRIANGLE, cubeTwoVertices, texturedCubeIndices, "TexturedVertex.vert",
-			"TexturedFragment.frag", vars2, "floor.png", true);
+		modelManager->loadModel(modelNames[2], meshNames[1], materialNames[2],
+			shaderNames[2], PrimitiveType::PRIM_TRIANGLE, cubeTwoVertices, 
+			texturedCubeIndices, "TexturedVertex.vert", "TexturedFragment.frag",
+			vars2, "floor.png", true);
 			
 		// Cube four, top center
-		materialManager->loadMaterial(materialNames[3], shaderNames[2], "woodCrate.jpg");
+		materialManager->loadMaterial(materialNames[3], shaderNames[2], 
+			"woodCrate.jpg");
 		modelManager->loadModel(modelNames[3], meshNames[1], materialNames[3]);
 
 		// Cube five, top right
-		modelManager->loadModel(modelNames[4], meshNames[1], materialNames[4], shaderNames[2], "crate.bmp");
+		modelManager->loadModel(modelNames[4], meshNames[1], materialNames[4],
+			shaderNames[2], "crate.bmp");
 		
 		// Cube six, bottom center
-		modelManager->loadCubeModel(modelNames[5], meshNames[1], materialNames[5], shaderNames[2], "grass.png");
+		modelManager->loadCubeModel(modelNames[5], meshNames[1], 
+			materialNames[5], shaderNames[2], "grass.png");
 
 		//ren->setWireframeMode(true);
 		for (size_t i = 0; i < modelNames.size(); ++i)
@@ -210,7 +228,8 @@ int main()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
+		// To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
@@ -297,7 +316,8 @@ mouseHandler(GLFWwindow* window, int button, int action, int mods)
 
 		if (!intersections.empty())
 		{
-			GameObject* go = dynamic_cast<GameObject*>((*intersections[0]->getRenderables())[0]);
+			GameObject* go = dynamic_cast<GameObject*>((
+				*intersections[0]->getRenderables())[0]);
 
 			if (go)
 			{
