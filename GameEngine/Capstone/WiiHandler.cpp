@@ -9,7 +9,8 @@ namespace MazeCrisis
 		this->game = game;
 		wiimotes = wiiuse_init(NUM_PLAYERS);
 		wiiControllerConnected = connectWiimotes();
-		//wiiControllerConnected = true;
+		firstCalibrationTargetSet = false;
+		controllerCalibrated = false;
 	}
 	
 	WiiHandler::~WiiHandler()
@@ -77,7 +78,7 @@ namespace MazeCrisis
 			wiiuse_set_ir(wiimotes[wm], 1);
 			wiiuse_set_ir_vres(wiimotes[wm], wWidth, wHeight);
 			wiiuse_set_ir_sensitivity(wiimotes[wm], 5);
-			wiiuse_set_ir_position(wiimotes[wm], WIIUSE_IR_BELOW);
+			wiiuse_set_ir_position(wiimotes[wm], WIIUSE_IR_ABOVE);
 			//wii_use_set
 
 			if (aspecRatio > 0.74 && aspecRatio < 0.76)
@@ -95,8 +96,22 @@ namespace MazeCrisis
 	void
 	WiiHandler::update()
 	{
-		if (wiiuse_poll(wiimotes, NUM_PLAYERS)) {
-			for (size_t i = 0; i < NUM_PLAYERS; ++i) {
+		if (Common::gameStates.top() == GameState::CALIBRATING)
+		{
+			if (!firstCalibrationTargetSet)
+			{
+				CEGUI::Vector2<unsigned int> tmp =
+					game->getUserInterface()->setTargetLocation(
+						TargetLocation::TOP_LEFT);
+				calibrationTargetPositions[0] = vec2(tmp.d_x, tmp.d_y);
+				firstCalibrationTargetSet = true;
+			}
+		}
+
+		if (wiiuse_poll(wiimotes, NUM_PLAYERS))
+		{
+			for (size_t i = 0; i < NUM_PLAYERS; ++i)
+			{
 				switch (wiimotes[i]->event) 
 				{
 				case WIIUSE_EVENT:
@@ -122,49 +137,94 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
-		glfwSetCursorPos(game->getWindow(), wm->ir.x, wm->ir.y);
-		game->cursorPosCallback(game->getWindow(), wm->ir.x, wm->ir.y);
-
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_ONE))
+		if (controllerCalibrated)
 		{
-			int level;
-			WIIUSE_GET_IR_SENSITIVITY(wm, &level);
-			wiiuse_set_ir_sensitivity(wm, level + 1);
+			int newX, newY;
+			newX = calibrationAlphas.x * wm->ir.x * 2
+				+ calibrationBetas.x * wm->ir.y * 2 + calibrationDeltas.x;
+			newY = calibrationAlphas.y * wm->ir.y * 2
+				+ calibrationBetas.y * wm->ir.y * 2 + calibrationDeltas.y;
+			glfwSetCursorPos(game->getWindow(), newX, newY);
+			game->cursorPosCallback(game->getWindow(), newX, newY);
+		}
+		else
+		{
+			glfwSetCursorPos(game->getWindow(), wm->ir.x * 2, wm->ir.y * 2);
+			game->cursorPosCallback(game->getWindow(),
+				wm->ir.x * 2, wm->ir.y * 2);
 		}
 
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_TWO))
-		{
-			int level;
-			WIIUSE_GET_IR_SENSITIVITY(wm, &level);
-			wiiuse_set_ir_sensitivity(wm, level - 1);
-		}
+		std::cout << wm->ir.x << " " << wm->ir.y << std::endl;
 
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
+		if (Common::gameStates.top() == GameState::CALIBRATING)
 		{
-			game->mouseHandlerCallback(game->getWindow(), 
-				GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0);
-		}
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
+			{
+				calibrationPoints[currentCalibrationTargetNum] =
+					vec2(wm->ir.x, wm->ir.y);
+				currentCalibrationTargetNum++;
 
-		if (IS_RELEASED(wm, WIIMOTE_BUTTON_B))
-		{
-			game->mouseHandlerCallback(game->getWindow(),
-				GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE, 0);
-		}
+				CEGUI::Vector2<unsigned int> tmp =
+					game->getUserInterface()->setTargetLocation(
+						static_cast<TargetLocation>(
+							currentCalibrationTargetNum));
+				calibrationTargetPositions[currentCalibrationTargetNum] =
+					vec2(tmp.d_x, tmp.d_y);
 
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_HOME))
-		{
-			game->keyHandlerCallback(game->getWindow(),
-				GLFW_KEY_ESCAPE, 0, GLFW_PRESS, 0);
+				if (currentCalibrationTargetNum == 3)
+				{
+					Common::gameStates.pop();
+					currentCalibrationTargetNum = 0;
+					game->getUserInterface()->closeCalibrationMenu();
+					firstCalibrationTargetSet = false;
+					calibrateController();
+				}
+			}
 		}
-
-		unsigned int wWidth, wHeight, tenPercentHeight;
-		game->getWindowDimensions(wWidth, wHeight);
-		tenPercentHeight = wHeight / 10;
-		if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
-			< tenPercentHeight )
+		else
 		{
-			game->keyHandlerCallback(game->getWindow(), 
-				GLFW_KEY_R, 0, GLFW_PRESS, 0);
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_ONE))
+			{
+				int level;
+				WIIUSE_GET_IR_SENSITIVITY(wm, &level);
+				wiiuse_set_ir_sensitivity(wm, level + 1);
+			}
+
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_TWO))
+			{
+				int level;
+				WIIUSE_GET_IR_SENSITIVITY(wm, &level);
+				wiiuse_set_ir_sensitivity(wm, level - 1);
+			}
+
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
+			{
+				game->mouseHandlerCallback(game->getWindow(),
+					GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0);
+			}
+
+			if (IS_RELEASED(wm, WIIMOTE_BUTTON_B))
+			{
+				game->mouseHandlerCallback(game->getWindow(),
+					GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE, 0);
+			}
+
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_HOME))
+			{
+				game->keyHandlerCallback(game->getWindow(),
+					GLFW_KEY_ESCAPE, 0, GLFW_PRESS, 0);
+			}
+
+			// Reloading
+			/*unsigned int wWidth, wHeight, tenPercentHeight;
+			game->getWindowDimensions(wWidth, wHeight);
+			tenPercentHeight = wHeight / 10;
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
+				< tenPercentHeight)
+			{
+				game->keyHandlerCallback(game->getWindow(),
+					GLFW_KEY_R, 0, GLFW_PRESS, 0);
+			}*/
 		}
 	}
 
@@ -176,6 +236,42 @@ namespace MazeCrisis
 			for (size_t i = 0; i < NUM_PLAYERS; ++i)
 				wiiuse_set_ir_vres(wiimotes[i], width, height);
 		}
+	}
+
+	// This is using an algorithm proposed by TI's Wendy Fang and Tony Chang in
+	// the document "Calibration in touch-screen systems".
+	// http://www.ti.com/lit/an/slyt277/slyt277.pdf
+	// Variables are named after the ones mentioned in the document
+	void
+	WiiHandler::calibrateController()
+	{
+		vec3 xs(calibrationTargetPositions[0].x,
+			calibrationTargetPositions[1].x,
+			calibrationTargetPositions[2].x);
+		vec3 ys(calibrationTargetPositions[0].y,
+			calibrationTargetPositions[1].y,
+			calibrationTargetPositions[2].y);
+		mat3 a(calibrationPoints[0].x, calibrationPoints[0].y, 1,
+			calibrationPoints[1].x, calibrationPoints[1].y, 1,
+			calibrationPoints[2].x, calibrationPoints[2].y, 1);
+
+		vec3 tmp = xs * inverse(a);
+		vec3 tmp2 = ys * inverse(a);
+
+		// Simply rewritten so it follows the document's notation.
+		calibrationAlphas = vec2(tmp.x, tmp2.x);
+		calibrationBetas = vec2(tmp.y, tmp2.y);
+		calibrationDeltas = vec2(tmp.z, tmp2.z);
+
+		controllerCalibrated = true;
+
+		/*vec3 xs(64, 192, 192);
+		vec3 ys(384, 192, 576);
+		mat3 a(678, 2169, 1,
+			2807, 1327, 1,
+			2629, 3367, 1);
+		vec3 tmp = xs * inverse(a);
+		vec3 tmp2 = ys * inverse(a);*/
 	}
 
 	/*void

@@ -86,6 +86,11 @@ namespace MazeCrisis
 		void fadeToGameOverScreen(unsigned int fadeDurationMS);
 		void fadeToVictoryScreen(unsigned int fadeDurationMS);
 
+		void openCalibrationMenu();
+		void closeCalibrationMenu();
+		void updateCalibrationButtonText();
+		void changeCursorVisiblityDuringCalibration(bool isVisible);
+
 		// Predefined constants for settings variables
 		static const std::string CROSSHAIR_ENABLED;
 		static const std::string FULLSCREEN;
@@ -148,9 +153,6 @@ namespace MazeCrisis
 		void openOptionsMessagePrompt(std::string text);
 		void closeOptionsMessagePrompt();
 
-		void openCalibrationMenu();
-		void closeCalibrationMenu();
-		void updateCalibrationButtonText();
 		//void showGameHUD();
 		//void hideGameHUD();
 

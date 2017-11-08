@@ -618,7 +618,8 @@ namespace MazeCrisis
 	{
 		unsigned int wWidth, wHeight;
 		game->getWindowDimensions(wWidth, wHeight);
-		Sizef dim = ImageManager::getSingleton().get(TARGET_IMAGE).getRenderedSize();
+		Sizef dim = ImageManager::getSingleton()
+			.get(TARGET_IMAGE).getRenderedSize();
 		Vector2f relDim = getRelativeDimensions(dim.d_width, dim.d_height);
 
 		if (loc == TargetLocation::TOP_LEFT)
@@ -1067,6 +1068,12 @@ namespace MazeCrisis
 			calibrateButton->setText("Calibrate Wii Controller");
 		else
 			calibrateButton->setText("Connect Wii Controller");
+	}
+
+	void 
+	UserInterface::changeCursorVisiblityDuringCalibration(bool isVisible)
+	{
+
 	}
 
 	bool

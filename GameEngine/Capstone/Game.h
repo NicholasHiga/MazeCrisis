@@ -9,6 +9,7 @@
 #include "wiiuse.h"
 #include "Common.h"
 #include "GameEngine.h"
+#include "UserInterface.h"
 
 namespace MazeCrisis
 {
@@ -16,7 +17,6 @@ namespace MazeCrisis
 	class UserInterface;
 	class WiiHandler;
 
-	[event_receiver(native)]
 	class Game : public GameEngine
 	{
 	public:

@@ -5,7 +5,6 @@
 #include "Level.h"
 #include "RayQuery.h"
 #include "WiiHandler.h"
-#include "UserInterface.h"
 #include "AutomaticCamera.h"
 
 namespace MazeCrisis
