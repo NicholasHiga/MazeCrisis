@@ -11,6 +11,7 @@ namespace MazeCrisis
 		wiiControllerConnected = connectWiimotes();
 		firstCalibrationTargetSet = false;
 		controllerCalibrated = false;
+		cursorSmoother = WiiCursorSmoother(8);
 	}
 	
 	WiiHandler::~WiiHandler()
@@ -137,6 +138,7 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
+		vec2 smoothedPosition;
 		if (controllerCalibrated)
 		{
 			int newX, newY;
@@ -144,15 +146,20 @@ namespace MazeCrisis
 				+ calibrationBetas.x * wm->ir.y * 2 + calibrationDeltas.x;
 			newY = calibrationAlphas.y * wm->ir.y * 2
 				+ calibrationBetas.y * wm->ir.y * 2 + calibrationDeltas.y;
-			glfwSetCursorPos(game->getWindow(), newX, newY);
-			game->cursorPosCallback(game->getWindow(), newX, newY);
+
+			smoothedPosition = cursorSmoother.addPointAndGetAverage(
+				vec2(newX, newY));
 		}
 		else
 		{
-			glfwSetCursorPos(game->getWindow(), wm->ir.x * 2, wm->ir.y * 2);
-			game->cursorPosCallback(game->getWindow(),
-				wm->ir.x * 2, wm->ir.y * 2);
+			smoothedPosition = cursorSmoother.addPointAndGetAverage(
+				vec2(wm->ir.x * 2, wm->ir.y * 2));
 		}
+
+		glfwSetCursorPos(game->getWindow(),
+			smoothedPosition.x, smoothedPosition.y);
+		game->cursorPosCallback(game->getWindow(),
+			smoothedPosition.x, smoothedPosition.y);
 
 		std::cout << wm->ir.x << " " << wm->ir.y << std::endl;
 
@@ -183,7 +190,7 @@ namespace MazeCrisis
 		}
 		else
 		{
-			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_ONE))
+			/*if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_ONE))
 			{
 				int level;
 				WIIUSE_GET_IR_SENSITIVITY(wm, &level);
@@ -195,7 +202,7 @@ namespace MazeCrisis
 				int level;
 				WIIUSE_GET_IR_SENSITIVITY(wm, &level);
 				wiiuse_set_ir_sensitivity(wm, level - 1);
-			}
+			}*/
 
 			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
 			{

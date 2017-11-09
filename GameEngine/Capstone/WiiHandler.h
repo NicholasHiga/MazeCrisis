@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "GLFW/glfw3.h"
+#include "WiiCursorSmoother.h"
 
 namespace MazeCrisis
 {
@@ -43,5 +44,7 @@ namespace MazeCrisis
 		vec2 calibrationPoints[3];
 		vec2 calibrationTargetPositions[3];
 		vec2 calibrationAlphas, calibrationBetas, calibrationDeltas;
+
+		WiiCursorSmoother cursorSmoother;
 	};
 }

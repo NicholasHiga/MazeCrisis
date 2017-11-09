@@ -129,6 +129,7 @@
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="UserInterface.cpp" />
+    <ClCompile Include="WiiCursorSmoother.cpp" />
     <ClCompile Include="WiiHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="UserInterface.h" />
+    <ClInclude Include="WiiCursorSmoother.h" />
     <ClInclude Include="WiiHandler.h" />
   </ItemGroup>
   <ItemGroup>
