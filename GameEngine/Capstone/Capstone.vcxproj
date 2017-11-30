@@ -123,6 +123,7 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="KalmanFilter.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maze.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="WiiCursorSmoother.cpp" />
+    <ClCompile Include="WiiCursorSmoother2.cpp" />
     <ClCompile Include="WiiHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +140,14 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="KalmanFilter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="WiiCursorSmoother.h" />
+    <ClInclude Include="WiiCursorSmoother2.h" />
     <ClInclude Include="WiiHandler.h" />
   </ItemGroup>
   <ItemGroup>

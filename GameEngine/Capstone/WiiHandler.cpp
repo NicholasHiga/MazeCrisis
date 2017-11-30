@@ -11,7 +11,9 @@ namespace MazeCrisis
 		wiiControllerConnected = connectWiimotes();
 		firstCalibrationTargetSet = false;
 		controllerCalibrated = false;
-		cursorSmoother = WiiCursorSmoother(8);
+		//cursorSmoother = WiiCursorSmoother(8);
+
+		cursorSmoother = std::make_unique<WiiCursorSmoother2>(vec2(0, 0));
 	}
 	
 	WiiHandler::~WiiHandler()
@@ -138,8 +140,10 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
-		vec2 smoothedPosition;
-		if (controllerCalibrated)
+		vec2 smoothedPosition = cursorSmoother->update(
+			vec2(wm->ir.x, wm->ir.y));
+
+		/*if (controllerCalibrated)
 		{
 			int newX, newY;
 			newX = calibrationAlphas.x * wm->ir.x * 2
@@ -154,7 +158,7 @@ namespace MazeCrisis
 		{
 			smoothedPosition = cursorSmoother.addPointAndGetAverage(
 				vec2(wm->ir.x * 2, wm->ir.y * 2));
-		}
+		}*/
 
 		glfwSetCursorPos(game->getWindow(),
 			smoothedPosition.x, smoothedPosition.y);

@@ -1,9 +1,10 @@
 #pragma once
 #include "wiiuse.h"
+#include <memory>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "GLFW/glfw3.h"
-#include "WiiCursorSmoother.h"
+#include "WiiCursorSmoother2.h"
 
 namespace MazeCrisis
 {
@@ -45,6 +46,6 @@ namespace MazeCrisis
 		vec2 calibrationTargetPositions[3];
 		vec2 calibrationAlphas, calibrationBetas, calibrationDeltas;
 
-		WiiCursorSmoother cursorSmoother;
+		std::unique_ptr<WiiCursorSmoother2> cursorSmoother;
 	};
 }
