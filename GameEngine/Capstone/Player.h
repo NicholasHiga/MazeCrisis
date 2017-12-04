@@ -35,6 +35,14 @@ namespace MazeCrisis
 		WEAPON getCurrentWeapon() const;
 		void setCurrentWeapon(WEAPON newGun);
 
+		bool getIsShooting() const;
+		void setIsShooting(bool isShooting);
+
+		bool getIsReloading() const;
+		void setIsReloading(bool isReloading);
+
+		Gun getCurrentGun() const;
+
 		UserInterface *getUserInterface() const;
 		void setUserInterface(UserInterface *ui);
 
@@ -53,9 +61,6 @@ namespace MazeCrisis
 
 		void playRandomGruntSound();
 
-		Gun getCurrentGun() const;
-		bool getIsShooting() const;
-
 		void update(float deltaTime);
 		void mouseHandler(GLFWwindow* window, int button, int action, int mods,
 			Ray *ray);
@@ -65,7 +70,7 @@ namespace MazeCrisis
 
 	private:
 		int currentHealth, maxHealth, lastMouseState;
-		bool shooting, reloading;
+		bool isShooting, isReloading;;
 		WEAPON currentWeapon;
 		std::vector<Gun> guns;
 		Ray lastRay;

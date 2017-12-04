@@ -23,6 +23,12 @@ namespace MazeCrisis
 		bool getWiimoteConnected() const;
 		void setWiimoteConnected(bool value);
 
+		int getBottomScreenReloadPercentage() const;
+		void setBottomScreenReloadPercentage(int percent); // Percent should be
+														   // from 0 - 100, as
+														   // opposed to 0 - 1
+		int getReloadingHeightBoundary();
+
 		void update();
 		void wiiEventCallback(struct wiimote_t* wm);
 		void windowResizedCallback(int width, int height);
@@ -45,6 +51,11 @@ namespace MazeCrisis
 		vec2 calibrationPoints[3];
 		vec2 calibrationTargetPositions[3];
 		vec2 calibrationAlphas, calibrationBetas, calibrationDeltas;
+
+		// Determines what percentage of the bottom screen the
+		// cursor needs to be in to reload with the Wii.
+		int bottomScreenReloadPercentage;
+		int reloadingHeightBoundary;
 
 		std::unique_ptr<WiiCursorSmoother2> cursorSmoother;
 	};

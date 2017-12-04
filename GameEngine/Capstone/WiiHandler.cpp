@@ -13,7 +13,8 @@ namespace MazeCrisis
 		controllerCalibrated = false;
 		//cursorSmoother = WiiCursorSmoother(8);
 
-		cursorSmoother = std::make_unique<WiiCursorSmoother2>(vec2(0, 0));
+		cursorSmoother = std::make_unique<WiiCursorSmoother2>();
+		setBottomScreenReloadPercentage(15);
 	}
 	
 	WiiHandler::~WiiHandler()
@@ -31,6 +32,34 @@ namespace MazeCrisis
 	WiiHandler::setWiimoteConnected(bool value)
 	{
 		wiiControllerConnected = value;
+	}
+
+	int 
+	WiiHandler::getBottomScreenReloadPercentage() const
+	{
+		return bottomScreenReloadPercentage;
+	}
+
+	void 
+	WiiHandler::setBottomScreenReloadPercentage(int percent)
+	{
+		if (percent < 0)
+			bottomScreenReloadPercentage = 0;
+		else if (percent > 100)
+			bottomScreenReloadPercentage = 100;
+		else
+			bottomScreenReloadPercentage = percent;
+
+		unsigned int wWidth, wHeight;
+		game->getWindowDimensions(wWidth, wHeight);
+		float pct = bottomScreenReloadPercentage / 100.0f;
+		reloadingHeightBoundary = wHeight * pct;
+	}
+
+	int 
+	WiiHandler::getReloadingHeightBoundary()
+	{
+		return reloadingHeightBoundary;
 	}
 
 	// HARD CODED 1 PLAYER
@@ -125,8 +154,7 @@ namespace MazeCrisis
 				}
 				case WIIUSE_DISCONNECT:
 				{
-					// Never gets called, problem with the WiiUse library.
-					std::cout << "test" << std::endl;
+					// Never gets called, problem with the WiiUse library
 					wiiControllerConnected = false;
 					break;
 				}
@@ -140,10 +168,11 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
-		vec2 smoothedPosition = cursorSmoother->update(
-			vec2(wm->ir.x, wm->ir.y));
+		vec2 smoothedPosition;
+		//= cursorSmoother->update(
+		//	vec2(wm->ir.x * 2, wm->ir.y * 2));
 
-		/*if (controllerCalibrated)
+		if (controllerCalibrated)
 		{
 			int newX, newY;
 			newX = calibrationAlphas.x * wm->ir.x * 2
@@ -151,21 +180,23 @@ namespace MazeCrisis
 			newY = calibrationAlphas.y * wm->ir.y * 2
 				+ calibrationBetas.y * wm->ir.y * 2 + calibrationDeltas.y;
 
-			smoothedPosition = cursorSmoother.addPointAndGetAverage(
+			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
+			//	vec2(newX, newY));
+			smoothedPosition = cursorSmoother->update(
 				vec2(newX, newY));
 		}
 		else
 		{
-			smoothedPosition = cursorSmoother.addPointAndGetAverage(
+			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
+			//	vec2(wm->ir.x * 2, wm->ir.y * 2));
+			smoothedPosition = cursorSmoother->update(
 				vec2(wm->ir.x * 2, wm->ir.y * 2));
-		}*/
+		}
 
 		glfwSetCursorPos(game->getWindow(),
 			smoothedPosition.x, smoothedPosition.y);
 		game->cursorPosCallback(game->getWindow(),
 			smoothedPosition.x, smoothedPosition.y);
-
-		std::cout << wm->ir.x << " " << wm->ir.y << std::endl;
 
 		if (Common::gameStates.top() == GameState::CALIBRATING)
 		{
@@ -189,6 +220,8 @@ namespace MazeCrisis
 					game->getUserInterface()->closeCalibrationMenu();
 					firstCalibrationTargetSet = false;
 					calibrateController();
+					// Reset the kalman filter
+					cursorSmoother = std::make_unique<WiiCursorSmoother2>();
 				}
 			}
 		}
@@ -227,15 +260,15 @@ namespace MazeCrisis
 			}
 
 			// Reloading
-			/*unsigned int wWidth, wHeight, tenPercentHeight;
-			game->getWindowDimensions(wWidth, wHeight);
-			tenPercentHeight = wHeight / 10;
-			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
-				< tenPercentHeight)
+			if (Common::gameStates.top() == GameState::PLAYING)
 			{
-				game->keyHandlerCallback(game->getWindow(),
-					GLFW_KEY_R, 0, GLFW_PRESS, 0);
-			}*/
+				if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
+					< getReloadingHeightBoundary())
+				{
+					game->keyHandlerCallback(game->getWindow(),
+						GLFW_KEY_R, 0, GLFW_PRESS, 0);
+				}
+			}
 		}
 	}
 

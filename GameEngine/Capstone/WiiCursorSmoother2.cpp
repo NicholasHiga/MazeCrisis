@@ -3,14 +3,14 @@
 
 namespace MazeCrisis
 {
-	WiiCursorSmoother2::WiiCursorSmoother2(vec2 initialMouseCoords)
+	WiiCursorSmoother2::WiiCursorSmoother2()
 	{
-		/*kfX.transitionMatrix = mat3(1, dt, 0.5f * dt * dt,
+		kfX.transitionMatrix = mat3(1, dt, 0.5f * dt * dt,
 			0, 1, dt,
 			0, 0, 1);
 		kfY.transitionMatrix = mat3(1, dt, 0.5f * dt * dt,
 			0, 1, dt,
-			0, 0, 1);*/
+			0, 0, 1);
 
 		//kfX.statePost = matrixDiagonalInit(initialMouseCoords.x, 0.1f, 0.1f);
 		//kfY.statePost = matrixDiagonalInit(initialMouseCoords.y, 0.1f, 0.1f);

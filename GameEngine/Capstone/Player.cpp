@@ -15,9 +15,9 @@ namespace MazeCrisis
 		const std::string &gruntSoundPrefix, unsigned int numGruntSounds,
 		const std::string &gruntSoundFiletype, std::string &deathSoundPath,
 		const std::string &pistolSoundPath, const std::string &rifleSoundPath,
-		const std::string &sniperSoundPath, 
+		const std::string &sniperSoundPath,
 		const std::string &emptyClipSoundPath,
-		const std::string &reloadSoundPath, 
+		const std::string &reloadSoundPath,
 		const std::string &sayReloadSoundFilePath)
 	{
 		srand(time(NULL));
@@ -25,7 +25,7 @@ namespace MazeCrisis
 		setMaxHealth(maxHealth);
 		setSayReloadSoundFilePath(sayReloadSoundFilePath);
 		setDeathSoundFilePath(deathSoundPath);
-		setGruntSoundParameters(gruntSoundPrefix, gruntSoundFiletype, 
+		setGruntSoundParameters(gruntSoundPrefix, gruntSoundFiletype,
 			numGruntSounds);
 		setCurrentHealth(maxHealth);
 		initWeapons(pistolSoundPath, rifleSoundPath,
@@ -90,14 +90,45 @@ namespace MazeCrisis
 	{
 		currentWeapon = newGun;
 		if (guns[newGun].getCurrentClipAmmo() == 0)
-			ui->pulseReloadMessage(1500); 
-			// TODO: Make it so this isn't hard coded.
+			ui->pulseReloadMessage(1500);
+		// TODO: Make it so this isn't hard coded.
 		else
 			ui->stopPulsingReloadMessage();
 		ui->setWeapon(newGun);
 		ui->setAmmoCount(guns[newGun].getCurrentClipAmmo(),
 			guns[newGun].getTotalAmmo(), guns[newGun].getHasInfiniteAmmo());
 	}
+
+	Gun
+	Player::getCurrentGun() const
+	{
+		return guns[currentWeapon];
+	}
+
+	bool
+	Player::getIsShooting() const
+	{
+		return isShooting;
+	}
+
+	void
+	Player::setIsShooting(bool isShooting)
+	{
+		this->isShooting = isShooting;
+	}
+
+	bool 
+	Player::getIsReloading() const
+	{
+		return isReloading;
+	}
+
+	void 
+	Player::setIsReloading(bool isReloading)
+	{
+		this->isReloading = isReloading;
+	}
+
 
 	UserInterface*
 	Player::getUserInterface() const
@@ -167,25 +198,13 @@ namespace MazeCrisis
 			ui->getGameVolumeFloat());
 	}
 
-	Gun 
-	Player::getCurrentGun() const
-	{
-		return guns[currentWeapon];
-	}
-
-	bool
-	Player::getIsShooting() const
-	{
-		return shooting;
-	}
-
 	void
 	Player::update(float deltaTime)
 	{
-		if (shooting && !reloading)
-			reloading = guns[currentWeapon].shoot(&lastRay);
-		if (reloading)
-			reloading = guns[currentWeapon].reload();
+		if (isShooting && !isReloading)
+			isReloading = guns[currentWeapon].shoot(&lastRay);
+		if (isReloading)
+			isReloading = guns[currentWeapon].reload();
 	}
 
 	void 
@@ -194,7 +213,7 @@ namespace MazeCrisis
 	{
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		{
-			shooting = true;
+			isShooting = true;
 			lastRay = *ray;
 		}
 
@@ -205,7 +224,7 @@ namespace MazeCrisis
 		if (action == GLFW_RELEASE)
 		{
 			lastMouseState = GLFW_RELEASE;
-			shooting = false;
+			isShooting = false;
 		}
 	}
 
@@ -215,7 +234,7 @@ namespace MazeCrisis
 	{
 		if (key == GLFW_KEY_R && (action == GLFW_REPEAT ||
 			action == GLFW_PRESS))
-			reloading = true;
+			isReloading = true;
 
 		if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 			setCurrentWeapon(WEAPON::PISTOL);
@@ -226,7 +245,7 @@ namespace MazeCrisis
 	void 
 	Player::cursorPosHandler(GLFWwindow* window, double x, double y, Ray *ray)
 	{
-		if (shooting)
+		if (isShooting)
 			lastRay = *ray;
 	}
 
