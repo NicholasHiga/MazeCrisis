@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include <memory>
 #include <GL/glew.h>
@@ -13,6 +14,8 @@ namespace MazeCrisis
 {
 #define DEG_TO_RAD 0.01745329251
 #define RAD_TO_DEG 57.2957795131
+
+	class UserInterface;
 
 	enum ACTION_TYPE
 	{
@@ -31,11 +34,11 @@ namespace MazeCrisis
 		GLfloat destinationAngle, startingAngle;			// For rotations
 	};
 
-	[event_source(native)]
 	class AutomaticCamera : public Camera
 	{
 	public:
-		AutomaticCamera(GLuint windowWidth, GLuint windowHeight);
+		AutomaticCamera(UserInterface *ui, GLuint windowWidth, 
+			GLuint windowHeight);
 		void autoMoveStraight(GLuint distance, GLuint timeToDestination);
 		void autoRotate(GLint numDegrees, GLuint timeToDestination);
 		void setCameraPosition(glm::vec3 &position,
@@ -43,7 +46,15 @@ namespace MazeCrisis
 		BoundingBox* getBoundingBox() const;
 		void clearPathing();
 		void update(float deltaTime);
-		__event void destinationReached();
+
+		std::string getFootstepsSoundFilePath() const;
+		void setFootstepsSoundFilePath(
+			const std::string &footstepsSoundFilePath);
+
+		UserInterface* getUserInterface() const;
+		void setUserInterface(UserInterface *ui);
+
+		static const std::string FOOTSTEPS_SOUND;
 			
 	private:
 		std::vector<ActionPath> pathing;
@@ -51,5 +62,10 @@ namespace MazeCrisis
 		std::shared_ptr<SceneNode> invisBoundingBoxNode; 
 			// Only used for collision purposes.
 		double timeElapsed = 0;
+
+		std::string footstepsSoundFilePath;
+		float timeBetweenFootsteps, footstepsSoundTimeStart;
+
+		UserInterface* ui;
 	};
 }

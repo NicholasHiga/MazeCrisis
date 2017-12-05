@@ -32,10 +32,10 @@ namespace MazeCrisis
 		try
 		{
 			initWindow();
-			initEngine();
-			wiiHandler = std::make_unique<WiiHandler>(this);
 			ui = std::make_unique<UserInterface>(SETTINGS_PATH + "Settings.xml",
 				this, window);
+			initEngine();
+			wiiHandler = std::make_unique<WiiHandler>(this);
 			loadLevels();
 			Common::gameStates.push(GameState::MENU_MAIN);
 			initSound();
@@ -282,7 +282,8 @@ namespace MazeCrisis
 		vec3 cameraStart(startingBlock.x * sizePerCube,
 			startingBlock.y * sizePerCube,
 			startingBlock.z * (GLint)sizePerCube * -1);
-		camera = std::make_unique<AutomaticCamera>(windowWidth, windowHeight);
+		camera = std::make_unique<AutomaticCamera>(ui.get(), windowWidth,
+			windowHeight);
 		renderer->setWindowSize(windowWidth, windowHeight, getCamera());
 	}
 
