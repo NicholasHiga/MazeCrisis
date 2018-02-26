@@ -78,7 +78,7 @@ namespace MazeCrisis
 
 		if (!ImageManager::getSingleton().isDefined("ControlsImage"))
 			ImageManager::getSingleton().addFromImageFile("ControlsImage",
-				"Controls.jpg");
+				"controls.png");
 
 		if (!ImageManager::getSingleton().isDefined(CROSSHAIR_IMAGE))
 			ImageManager::getSingleton().addFromImageFile(CROSSHAIR_IMAGE, 
