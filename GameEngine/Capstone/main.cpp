@@ -6,7 +6,7 @@ int main()
 	MazeCrisis::Game *game;
 	try
 	{
-		game = new MazeCrisis::Game(1280, 720);
+		game = new MazeCrisis::Game(1920, 1080);
 		game->update();
 
 		delete game;

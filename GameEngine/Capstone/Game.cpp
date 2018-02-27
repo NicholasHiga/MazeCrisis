@@ -31,11 +31,11 @@ namespace MazeCrisis
 		myGame = this;
 		try
 		{
+			wiiHandler = std::make_unique<WiiHandler>(this);
 			initWindow();
 			ui = std::make_unique<UserInterface>(SETTINGS_PATH + "Settings.xml",
 				this, window);
 			initEngine();
-			wiiHandler = std::make_unique<WiiHandler>(this);
 			loadLevels();
 			Common::gameStates.push(GameState::MENU_MAIN);
 			initSound();
