@@ -290,15 +290,15 @@ namespace MazeCrisis
 	void
 	WiiHandler::calibrateController()
 	{
-		vec3 xs(calibrationTargetPositions[0].x,
-			calibrationTargetPositions[1].x,
-			calibrationTargetPositions[2].x);
-		vec3 ys(calibrationTargetPositions[0].y,
-			calibrationTargetPositions[1].y,
-			calibrationTargetPositions[2].y);
-		mat3 a(calibrationPoints[0].x, calibrationPoints[0].y, 1,
-			calibrationPoints[1].x, calibrationPoints[1].y, 1,
-			calibrationPoints[2].x, calibrationPoints[2].y, 1);
+		vec3 xs(calibrationPoints[0].x,
+			calibrationPoints[1].x,
+			calibrationPoints[2].x);
+		vec3 ys(calibrationPoints[0].y,
+			calibrationPoints[1].y,
+			calibrationPoints[2].y);
+		mat3 a(calibrationTargetPositions[0].x, calibrationTargetPositions[0].y, 1,
+			calibrationTargetPositions[1].x, calibrationTargetPositions[1].y, 1,
+			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y, 1);
 
 		vec3 tmp = xs * inverse(a);
 		vec3 tmp2 = ys * inverse(a);
