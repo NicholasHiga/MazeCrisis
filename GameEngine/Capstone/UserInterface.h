@@ -25,14 +25,6 @@ namespace MazeCrisis
 		}
 	};
 
-	enum TargetLocation
-	{
-		TOP_LEFT,
-		TOP_RIGHT,
-		BOTTOM_LEFT,
-		BOTTOM_RIGHT
-	};
-
 	class UserInterface
 	{
 	public:
@@ -74,7 +66,7 @@ namespace MazeCrisis
 		float getGameVolumeFloat() const;
 		float getMusicVolumeFloat() const;
 
-		CEGUI::Vector2<unsigned int> setTargetLocation(TargetLocation loc); 
+		CEGUI::Vector2<unsigned int> setTargetLocation(int targetNumber); 
 			// Returns center of the target location.
 		CEGUI::Vector2f getRelativeDimensions(unsigned int width, 
 			unsigned int height) const;

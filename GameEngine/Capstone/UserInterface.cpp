@@ -613,7 +613,7 @@ namespace MazeCrisis
 		return (float)(currentSettings.musicVolume / 100.0f);
 	}
 
-	CEGUI::Vector2<unsigned int>
+	/*CEGUI::Vector2<unsigned int>
 	UserInterface::setTargetLocation(TargetLocation loc)
 	{
 		unsigned int wWidth, wHeight;
@@ -634,6 +634,35 @@ namespace MazeCrisis
 				UDim(0.95, 0)));
 		else if (loc == TargetLocation::BOTTOM_RIGHT)
 			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0), 
+				UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
+
+		Sizef pixelSize = targetImageWindow->getPixelSize();
+		Vector2f pixPosition = targetImageWindow->getPixelPosition();
+		return Vector2<unsigned int>(pixPosition.d_x + (pixelSize.d_width / 2),
+			pixPosition.d_y + (pixelSize.d_height / 2));
+	}*/
+
+	CEGUI::Vector2<unsigned int>
+		UserInterface::setTargetLocation(int targetNumber)
+	{
+		unsigned int wWidth, wHeight;
+		game->getWindowDimensions(wWidth, wHeight);
+		Sizef dim = ImageManager::getSingleton()
+			.get(TARGET_IMAGE).getRenderedSize();
+		Vector2f relDim = getRelativeDimensions(dim.d_width, dim.d_height);
+
+		if (targetNumber == 0)
+			targetImageWindow->setArea(URect(UDim(0.2, 0), UDim(0.25, 0),
+				UDim(0.2 + relDim.d_x, 0), UDim(0.25 + relDim.d_y, 0)));
+		else if (targetNumber == 1)
+			targetImageWindow->setArea(URect(UDim(0.8 - relDim.d_x, 0),
+				UDim(0.15, 0), UDim(0.8, 0), UDim(0.15 + relDim.d_y, 0)));
+		else if (targetNumber == 2)
+			targetImageWindow->setArea(URect(UDim(0.6, 0),
+				UDim(0.8 - relDim.d_y, 0), UDim(0.6 + relDim.d_x, 0),
+				UDim(0.8, 0)));
+		else if (targetNumber == 3)
+			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0),
 				UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
 
 		Sizef pixelSize = targetImageWindow->getPixelSize();
@@ -843,7 +872,7 @@ namespace MazeCrisis
 		calibInstructionsWindow->moveToBack();
 		targetImageWindow->setVisible(true);
 		targetImageWindow->moveToFront();
-		setTargetLocation(TargetLocation::TOP_LEFT);
+		setTargetLocation(0);
 	}
 
 	void

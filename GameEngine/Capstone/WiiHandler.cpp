@@ -133,8 +133,7 @@ namespace MazeCrisis
 			if (!firstCalibrationTargetSet)
 			{
 				CEGUI::Vector2<unsigned int> tmp =
-					game->getUserInterface()->setTargetLocation(
-						TargetLocation::TOP_LEFT);
+					game->getUserInterface()->setTargetLocation(0);
 				calibrationTargetPositions[0] = vec2(tmp.d_x, tmp.d_y);
 				firstCalibrationTargetSet = true;
 			}
@@ -172,13 +171,16 @@ namespace MazeCrisis
 		//= cursorSmoother->update(
 		//	vec2(wm->ir.x * 2, wm->ir.y * 2));
 
+		// NOTE: To use the Wii controller, fullscreen MUST be enabled to work
+		// properly
 		if (controllerCalibrated)
 		{
 			int newX, newY;
-			newX = calibrationAlphas.x * wm->ir.x * 2
-				+ calibrationBetas.x * wm->ir.y * 2 + calibrationDeltas.x;
-			newY = calibrationAlphas.y * wm->ir.y * 2
-				+ calibrationBetas.y * wm->ir.y * 2 + calibrationDeltas.y;
+
+			newX = calibrationAlphas.x * wm->ir.x
+				+ calibrationBetas.x * wm->ir.y + calibrationDeltas.x;
+			newY = calibrationAlphas.y * wm->ir.x
+				+ calibrationBetas.y * wm->ir.y + calibrationDeltas.y;
 
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(newX, newY));
@@ -190,7 +192,7 @@ namespace MazeCrisis
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(wm->ir.x * 2, wm->ir.y * 2));
 			smoothedPosition = cursorSmoother->update(
-				vec2(wm->ir.x * 2, wm->ir.y * 2));
+				vec2(wm->ir.x, wm->ir.y));
 		}
 
 		glfwSetCursorPos(game->getWindow(),
@@ -208,8 +210,7 @@ namespace MazeCrisis
 
 				CEGUI::Vector2<unsigned int> tmp =
 					game->getUserInterface()->setTargetLocation(
-						static_cast<TargetLocation>(
-							currentCalibrationTargetNum));
+							currentCalibrationTargetNum);
 				calibrationTargetPositions[currentCalibrationTargetNum] =
 					vec2(tmp.d_x, tmp.d_y);
 
@@ -309,6 +310,17 @@ namespace MazeCrisis
 
 		controllerCalibrated = true;
 
+		/*printf("Target positions: (%f, %f), (%f, %f), (%f, %f)\n",
+			calibrationTargetPositions[0].x, calibrationTargetPositions[0].y,
+			calibrationTargetPositions[1].x, calibrationTargetPositions[1].y,
+			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y);
+
+		printf("Pointed positions: (%f, %f), (%f, %f), (%f, %f)\n",
+			calibrationPoints[0].x, calibrationPoints[0].y,
+			calibrationPoints[1].x, calibrationPoints[1].y,
+			calibrationPoints[2].x, calibrationPoints[2].y);*/
+
+		// Example case provided in "Calibration in touch-screen systems.
 		/*vec3 xs(64, 192, 192);
 		vec3 ys(384, 192, 576);
 		mat3 a(678, 2169, 1,

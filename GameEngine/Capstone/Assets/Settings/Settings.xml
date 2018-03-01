@@ -2,7 +2,7 @@
 
 <Settings >
     <Property name="CrosshairEnabled" value="true" />
-    <Property name="Fullscreen" value="true" />
+    <Property name="Fullscreen" value="false" />
     <Property name="GameVolume" value="97" />
     <Property name="MusicVolume" value="26" />
 </Settings>
