@@ -67,7 +67,11 @@ namespace MazeCrisis
 		float getMusicVolumeFloat() const;
 
 		CEGUI::Vector2<unsigned int> setTargetLocation(int targetNumber); 
-			// Returns center of the target location.
+			// Returns center of the target location in pixels, this version
+			// is using semi-hard coded values for targets.
+		CEGUI::Vector2<unsigned int> 
+			setTargetLocation(CEGUI::Vector2f relativeCenter);
+			// Returns center of the target location in pixels.
 		CEGUI::Vector2f getRelativeDimensions(unsigned int width, 
 			unsigned int height) const;
 

@@ -214,7 +214,7 @@ namespace MazeCrisis
 				calibrationTargetPositions[currentCalibrationTargetNum] <<
 					tmp.d_x, tmp.d_y;
 
-				if (currentCalibrationTargetNum == 3)
+				if (currentCalibrationTargetNum == NUM_CALIBRATION_POINTS)
 				{
 					Common::gameStates.pop();
 					currentCalibrationTargetNum = 0;
@@ -290,40 +290,39 @@ namespace MazeCrisis
 	void
 	WiiHandler::calibrateController()
 	{
-		Eigen::Vector3f xs(calibrationPoints[0].x(),
+		Eigen::VectorXf xs(NUM_CALIBRATION_POINTS);
+		xs << calibrationPoints[0].x(),
 			calibrationPoints[1].x(),
-			calibrationPoints[2].x());
-		Eigen::Vector3f ys(calibrationPoints[0].y(),
+			calibrationPoints[2].x(),
+			calibrationPoints[3].x();
+
+		Eigen::VectorXf ys(NUM_CALIBRATION_POINTS);
+		ys << calibrationPoints[0].y(),
 			calibrationPoints[1].y(),
-			calibrationPoints[2].y());
-		/*mat3 a(calibrationTargetPositions[0].x, calibrationTargetPositions[0].y, 1,
-			calibrationTargetPositions[1].x, calibrationTargetPositions[1].y, 1,
-			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y, 1);*/
-		Eigen::Matrix3f a;
-		a << calibrationTargetPositions[0].x(), calibrationTargetPositions[0].y(), 1,
-			calibrationTargetPositions[1].x(), calibrationTargetPositions[1].y(), 1,
-			calibrationTargetPositions[2].x(), calibrationTargetPositions[2].y(), 1;
+			calibrationPoints[2].y(),
+			calibrationPoints[3].y();
 
+		Eigen::MatrixXf a(NUM_CALIBRATION_POINTS, 3);
+		a << calibrationTargetPositions[0].x(),
+			calibrationTargetPositions[0].y(), 1,
+			calibrationTargetPositions[1].x(),
+			calibrationTargetPositions[1].y(), 1,
+			calibrationTargetPositions[2].x(), 
+			calibrationTargetPositions[2].y(), 1,
+			calibrationTargetPositions[3].x(), 
+			calibrationTargetPositions[3].y(), 1;
 
-		Eigen::Vector3f tmp = a.inverse() * xs;
-		Eigen::Vector3f tmp2 = a.inverse() * ys;
+		Eigen::Vector3f tmp = (a.transpose() * a).inverse() * 
+			a.transpose() * xs;
+		Eigen::Vector3f tmp2 = (a.transpose() * a).inverse() *
+			a.transpose() * ys;
 
 		// Simply rewritten so it follows the document's notation.
 		calibrationAlphas << tmp.x(), tmp2.x();
 		calibrationBetas << tmp.y(), tmp2.y();
-		calibrationDeltas<< tmp.z(), tmp2.z();
+		calibrationDeltas << tmp.z(), tmp2.z();
 
 		controllerCalibrated = true;
-
-		/*printf("Target positions: (%f, %f), (%f, %f), (%f, %f)\n",
-			calibrationTargetPositions[0].x, calibrationTargetPositions[0].y,
-			calibrationTargetPositions[1].x, calibrationTargetPositions[1].y,
-			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y);
-
-		printf("Pointed positions: (%f, %f), (%f, %f), (%f, %f)\n",
-			calibrationPoints[0].x, calibrationPoints[0].y,
-			calibrationPoints[1].x, calibrationPoints[1].y,
-			calibrationPoints[2].x, calibrationPoints[2].y);*/
 
 		// Example case provided in "Calibration in touch-screen systems.
 		/*vec3 xs(64, 192, 192);

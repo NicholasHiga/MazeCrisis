@@ -45,11 +45,13 @@ namespace MazeCrisis
 		const int NUM_PLAYERS = 1;
 		bool wiiControllerConnected = false;
 
+		static const int NUM_CALIBRATION_POINTS = 4;
+
 		// ONLY handles 1 controller calibration.
 		bool firstCalibrationTargetSet, controllerCalibrated;
 		int currentCalibrationTargetNum = 0;
-		Eigen::Vector2f calibrationPoints[3];
-		Eigen::Vector2f calibrationTargetPositions[3];
+		Eigen::Vector2f calibrationPoints[NUM_CALIBRATION_POINTS];
+		Eigen::Vector2f calibrationTargetPositions[NUM_CALIBRATION_POINTS];
 		Eigen::Vector2f calibrationAlphas, calibrationBetas, calibrationDeltas;
 
 		// Determines what percentage of the bottom screen the

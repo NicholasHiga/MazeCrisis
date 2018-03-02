@@ -613,57 +613,34 @@ namespace MazeCrisis
 		return (float)(currentSettings.musicVolume / 100.0f);
 	}
 
-	/*CEGUI::Vector2<unsigned int>
-	UserInterface::setTargetLocation(TargetLocation loc)
-	{
-		unsigned int wWidth, wHeight;
-		game->getWindowDimensions(wWidth, wHeight);
-		Sizef dim = ImageManager::getSingleton()
-			.get(TARGET_IMAGE).getRenderedSize();
-		Vector2f relDim = getRelativeDimensions(dim.d_width, dim.d_height);
-
-		if (loc == TargetLocation::TOP_LEFT)
-			targetImageWindow->setArea(URect(UDim(0.05, 0), UDim(0.05, 0),
-				UDim(0.05 + relDim.d_x, 0), UDim(0.05 + relDim.d_y, 0)));
-		else if (loc == TargetLocation::TOP_RIGHT)
-			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0),
-				UDim(0.05, 0), UDim(0.95, 0), UDim(0.05 + relDim.d_y, 0)));
-		else if (loc == TargetLocation::BOTTOM_LEFT)
-			targetImageWindow->setArea(URect(UDim(0.05, 0), 
-				UDim(0.95 - relDim.d_y, 0), UDim(0.05 + relDim.d_x, 0),
-				UDim(0.95, 0)));
-		else if (loc == TargetLocation::BOTTOM_RIGHT)
-			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0), 
-				UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
-
-		Sizef pixelSize = targetImageWindow->getPixelSize();
-		Vector2f pixPosition = targetImageWindow->getPixelPosition();
-		return Vector2<unsigned int>(pixPosition.d_x + (pixelSize.d_width / 2),
-			pixPosition.d_y + (pixelSize.d_height / 2));
-	}*/
-
 	CEGUI::Vector2<unsigned int>
 		UserInterface::setTargetLocation(int targetNumber)
 	{
+		if (targetNumber == 0)
+			return setTargetLocation(Vector2f(0.3f, 0.3f));
+		else if (targetNumber == 1)
+			return setTargetLocation(Vector2f(0.65f, 0.5f));
+		else if (targetNumber == 2)
+			return setTargetLocation(Vector2f(0.4f, 0.7f));
+		else if (targetNumber == 3)
+			return setTargetLocation(Vector2f(0.5f, 0.3f));
+	}
+
+	CEGUI::Vector2<unsigned int>
+		UserInterface::setTargetLocation(Vector2f relativeCenter)
+	{
 		unsigned int wWidth, wHeight;
 		game->getWindowDimensions(wWidth, wHeight);
 		Sizef dim = ImageManager::getSingleton()
 			.get(TARGET_IMAGE).getRenderedSize();
 		Vector2f relDim = getRelativeDimensions(dim.d_width, dim.d_height);
+		Vector2f relHalfDim = Vector2f(relDim.d_x / 2.0f, relDim.d_y / 2.0f);
 
-		if (targetNumber == 0)
-			targetImageWindow->setArea(URect(UDim(0.2, 0), UDim(0.25, 0),
-				UDim(0.2 + relDim.d_x, 0), UDim(0.25 + relDim.d_y, 0)));
-		else if (targetNumber == 1)
-			targetImageWindow->setArea(URect(UDim(0.8 - relDim.d_x, 0),
-				UDim(0.15, 0), UDim(0.8, 0), UDim(0.15 + relDim.d_y, 0)));
-		else if (targetNumber == 2)
-			targetImageWindow->setArea(URect(UDim(0.6, 0),
-				UDim(0.8 - relDim.d_y, 0), UDim(0.6 + relDim.d_x, 0),
-				UDim(0.8, 0)));
-		else if (targetNumber == 3)
-			targetImageWindow->setArea(URect(UDim(0.95 - relDim.d_x, 0),
-				UDim(0.95 - relDim.d_y, 0), UDim(0.95, 0), UDim(0.95, 0)));
+		targetImageWindow->setArea(URect(
+			UDim(relativeCenter.d_x - relHalfDim.d_x, 0),
+			UDim(relativeCenter.d_y - relHalfDim.d_y, 0),
+			UDim(relativeCenter.d_x + relHalfDim.d_x, 0),
+			UDim(relativeCenter.d_y + relHalfDim.d_y, 0)));
 
 		Sizef pixelSize = targetImageWindow->getPixelSize();
 		Vector2f pixPosition = targetImageWindow->getPixelPosition();
