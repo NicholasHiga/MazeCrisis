@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\Debug;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\wiiuse;$(ProjectDir)..\lib\cegui-0.8.7;$(ProjectDir)..\lib\expat</AdditionalLibraryDirectories>
@@ -96,7 +96,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

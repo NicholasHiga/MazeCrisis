@@ -2,9 +2,9 @@
 #include "wiiuse.h"
 #include <memory>
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 #include "GLFW/glfw3.h"
 #include "WiiCursorSmoother2.h"
+#include <Eigen/Dense>
 
 namespace MazeCrisis
 {
@@ -48,9 +48,9 @@ namespace MazeCrisis
 		// ONLY handles 1 controller calibration.
 		bool firstCalibrationTargetSet, controllerCalibrated;
 		int currentCalibrationTargetNum = 0;
-		vec2 calibrationPoints[3];
-		vec2 calibrationTargetPositions[3];
-		vec2 calibrationAlphas, calibrationBetas, calibrationDeltas;
+		Eigen::Vector2f calibrationPoints[3];
+		Eigen::Vector2f calibrationTargetPositions[3];
+		Eigen::Vector2f calibrationAlphas, calibrationBetas, calibrationDeltas;
 
 		// Determines what percentage of the bottom screen the
 		// cursor needs to be in to reload with the Wii.

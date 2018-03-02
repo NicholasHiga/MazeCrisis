@@ -134,7 +134,7 @@ namespace MazeCrisis
 			{
 				CEGUI::Vector2<unsigned int> tmp =
 					game->getUserInterface()->setTargetLocation(0);
-				calibrationTargetPositions[0] = vec2(tmp.d_x, tmp.d_y);
+				calibrationTargetPositions[0] << tmp.d_x, tmp.d_y;
 				firstCalibrationTargetSet = true;
 			}
 		}
@@ -177,10 +177,10 @@ namespace MazeCrisis
 		{
 			int newX, newY;
 
-			newX = calibrationAlphas.x * wm->ir.x
-				+ calibrationBetas.x * wm->ir.y + calibrationDeltas.x;
-			newY = calibrationAlphas.y * wm->ir.x
-				+ calibrationBetas.y * wm->ir.y + calibrationDeltas.y;
+			newX = calibrationAlphas.x() * wm->ir.x
+				+ calibrationBetas.x() * wm->ir.y + calibrationDeltas.x();
+			newY = calibrationAlphas.y() * wm->ir.x
+				+ calibrationBetas.y() * wm->ir.y + calibrationDeltas.y();
 
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(newX, newY));
@@ -204,15 +204,15 @@ namespace MazeCrisis
 		{
 			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_B))
 			{
-				calibrationPoints[currentCalibrationTargetNum] =
-					vec2(wm->ir.x, wm->ir.y);
+				calibrationPoints[currentCalibrationTargetNum] <<
+					wm->ir.x, wm->ir.y;
 				currentCalibrationTargetNum++;
 
 				CEGUI::Vector2<unsigned int> tmp =
 					game->getUserInterface()->setTargetLocation(
 							currentCalibrationTargetNum);
-				calibrationTargetPositions[currentCalibrationTargetNum] =
-					vec2(tmp.d_x, tmp.d_y);
+				calibrationTargetPositions[currentCalibrationTargetNum] <<
+					tmp.d_x, tmp.d_y;
 
 				if (currentCalibrationTargetNum == 3)
 				{
@@ -290,23 +290,28 @@ namespace MazeCrisis
 	void
 	WiiHandler::calibrateController()
 	{
-		vec3 xs(calibrationPoints[0].x,
-			calibrationPoints[1].x,
-			calibrationPoints[2].x);
-		vec3 ys(calibrationPoints[0].y,
-			calibrationPoints[1].y,
-			calibrationPoints[2].y);
-		mat3 a(calibrationTargetPositions[0].x, calibrationTargetPositions[0].y, 1,
+		Eigen::Vector3f xs(calibrationPoints[0].x(),
+			calibrationPoints[1].x(),
+			calibrationPoints[2].x());
+		Eigen::Vector3f ys(calibrationPoints[0].y(),
+			calibrationPoints[1].y(),
+			calibrationPoints[2].y());
+		/*mat3 a(calibrationTargetPositions[0].x, calibrationTargetPositions[0].y, 1,
 			calibrationTargetPositions[1].x, calibrationTargetPositions[1].y, 1,
-			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y, 1);
+			calibrationTargetPositions[2].x, calibrationTargetPositions[2].y, 1);*/
+		Eigen::Matrix3f a;
+		a << calibrationTargetPositions[0].x(), calibrationTargetPositions[0].y(), 1,
+			calibrationTargetPositions[1].x(), calibrationTargetPositions[1].y(), 1,
+			calibrationTargetPositions[2].x(), calibrationTargetPositions[2].y(), 1;
 
-		vec3 tmp = xs * inverse(a);
-		vec3 tmp2 = ys * inverse(a);
+
+		Eigen::Vector3f tmp = a.inverse() * xs;
+		Eigen::Vector3f tmp2 = a.inverse() * ys;
 
 		// Simply rewritten so it follows the document's notation.
-		calibrationAlphas = vec2(tmp.x, tmp2.x);
-		calibrationBetas = vec2(tmp.y, tmp2.y);
-		calibrationDeltas = vec2(tmp.z, tmp2.z);
+		calibrationAlphas << tmp.x(), tmp2.x();
+		calibrationBetas << tmp.y(), tmp2.y();
+		calibrationDeltas<< tmp.z(), tmp2.z();
 
 		controllerCalibrated = true;
 
