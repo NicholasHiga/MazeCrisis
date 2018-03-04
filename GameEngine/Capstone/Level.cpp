@@ -399,7 +399,7 @@ namespace MazeCrisis
 		{
 			vec3 tmp = nodes[0]->getPosition();
 
-			if (tmp.x < 20)
+			/*if (tmp.x < 20)
 			{
 				tmp.x = 20 - moveSpeed[0] * deltaTime;
 				moveSpeed[0] *= -1;
@@ -410,9 +410,11 @@ namespace MazeCrisis
 				moveSpeed[0] *= -1;
 			}
 			else
-				tmp.x += moveSpeed[0] * deltaTime;
+				tmp.x += moveSpeed[0] * deltaTime;*/
 
 			nodes[0]->setPosition(tmp);
+			cubeCurrentAngle += (float)(deltaTime * 0.001f);
+			nodes[0]->setOrientation(Quaternion(cubeCurrentAngle, 0, 0, false));
 
 			tmp = nodes[1]->getPosition();
 			if (tmp.y < 20)
@@ -420,7 +422,7 @@ namespace MazeCrisis
 				tmp.y = 20 - moveSpeed[0] * deltaTime;
 				moveSpeed[0] *= -1;
 			}
-			else if (tmp.x > 40)
+			else if (tmp.y > 40)
 			{
 				tmp.y = 40 - moveSpeed[0] * deltaTime;
 				moveSpeed[0] *= -1;

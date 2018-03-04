@@ -51,6 +51,7 @@ namespace MazeCrisis
 		int moveStateBlackSmith = 0;
 		int moveStateFooterballer = 0;
 		GLuint sizePerCube = 30;
+		float cubeCurrentAngle = 0;
 
 		std::vector<std::shared_ptr<Enemy>> enemies;
 		std::vector<std::shared_ptr<SceneNode>> nodes;
