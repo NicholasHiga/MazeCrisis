@@ -55,16 +55,16 @@
 				<Property name="TitlebarEnabled" value="false" />
 				<Property name="CloseButtonEnabled" value="false" />
 				<Window type="AlfiskoSkin/Label" name="InstructionsLabel" >
-					<Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.6,0}}" />
+					<Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.5,0}}" />
 					<Property name="Text" value="Shoot at each of the 4 targets that appear." />
 				</Window>	
 				<Window type="AlfiskoSkin/Button" name="StartCalibrationButton" >
-					<Property name="Area" value="{{0.1,0},{0.63,0},{0.4,0},{0.94,0}}" />
+					<Property name="Area" value="{{0.1,0},{0.55,0},{0.4,0},{0.9,0}}" />
 					<Property name="Text" value="Start" />
 					<Property name="Alpha" value="0.92" />
 				</Window>
 				<Window type="AlfiskoSkin/Button" name="CancelCalibrationButton" >
-					<Property name="Area" value="{{0.6,0},{0.63,0},{0.9,0},{0.94,0}}" />
+					<Property name="Area" value="{{0.6,0},{0.55,0},{0.9,0},{0.9,0}}" />
 					<Property name="Text" value="Cancel" />
 					<Property name="Alpha" value="0.92" />
 				</Window>
@@ -140,19 +140,19 @@
 				</Window>	
 				
 				<Window type="AlfiskoSkin/Button" name="CalibrateWiimote" >
-					<Property name="Area" value="{{0.25,0},{0.694,0},{0.75,0},{0.774,0}}" />
+					<Property name="Area" value="{{0.25,0},{0.67,0},{0.75,0},{0.79,0}}" />
 					<Property name="Text" value="Calibrate Wii Controller" />
 				</Window>
 				<Window type="AlfiskoSkin/Button" name="QuitToMain" >
-					<Property name="Area" value="{{0.25,0},{0.694,0},{0.75,0},{0.774,0}}" />
+					<Property name="Area" value="{{0.25,0},{0.67,0},{0.75,0},{0.79,0}}" />
 					<Property name="Text" value="Quit to Main" />
 				</Window>
 				<Window type="AlfiskoSkin/Button" name="ApplySettings" >
-					<Property name="Area" value="{{0.53,0},{0.8368,0},{0.73,0},{0.9168,0}}" />
+					<Property name="Area" value="{{0.53,0},{0.83,0},{0.73,0},{0.95,0}}" />
 					<Property name="Text" value="Apply" />
 				</Window>
 				<Window type="AlfiskoSkin/Button" name="Cancel" >
-					<Property name="Area" value="{{0.76,0},{0.8368,0},{0.96,0},{0.9168,0}}" />
+					<Property name="Area" value="{{0.76,0},{0.83,0},{0.96,0},{0.95,0}}" />
 					<Property name="Text" value="Cancel" />
 				</Window>			
 			</Window>
