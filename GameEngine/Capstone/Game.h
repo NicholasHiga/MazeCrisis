@@ -38,6 +38,8 @@ namespace MazeCrisis
 		UserInterface* getUserInterface() const;
 		void getWindowDimensions(unsigned int &refWidth,
 			unsigned int &refHeight) const;
+		unsigned int getWindowWidth() const;
+		unsigned int getWindowHeight() const;
 
 		void setFullscreen(bool value);
 

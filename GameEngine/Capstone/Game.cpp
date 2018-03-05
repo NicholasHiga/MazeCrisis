@@ -154,7 +154,7 @@ namespace MazeCrisis
 			ui->update(deltaTime);
 
 			//if (wiiHandler->getWiimoteConnected())
-				wiiHandler->update();
+				wiiHandler->update(deltaTime);
 
 			// Swap buffers
 			glfwSwapBuffers(window);
@@ -241,6 +241,18 @@ namespace MazeCrisis
 	{
 		refWidth = windowWidth;
 		refHeight = windowHeight;
+	}
+
+	unsigned int
+	Game::getWindowWidth() const
+	{
+		return windowWidth;
+	}
+
+	unsigned int 
+	Game::getWindowHeight() const
+	{
+		return windowHeight;
 	}
 
 	void

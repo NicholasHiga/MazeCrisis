@@ -962,7 +962,7 @@ namespace MazeCrisis
 		if (Common::gameStates.top() == GameState::MENU_MAIN)
 		{
 			Common::gameStates.push(GameState::MENU_OPTIONS);
-			calibrateButton->setVisible(true);
+			calibrateButton->setVisible(false);
 			quitToMainButton->setVisible(false);
 		}
 		else if (Common::gameStates.top() == GameState::PLAYING)
