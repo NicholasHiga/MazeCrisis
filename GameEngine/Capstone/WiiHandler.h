@@ -29,13 +29,14 @@ namespace MazeCrisis
 														   // opposed to 0 - 1
 		int getReloadingHeightBoundary();
 
-		void update();
+		void update(float deltaTime);
 		void wiiEventCallback(struct wiimote_t* wm);
 		void windowResizedCallback(int width, int height);
 		//void cursorPosCallback(GLFWwindow* window, double x, double y);
 
 	private:
 		void calibrateController();
+		void setSmoothedCursorPosition(vec2 newPosition);
 
 		// Wii Related
 		//GLFWwindow *window;
@@ -60,5 +61,6 @@ namespace MazeCrisis
 		int reloadingHeightBoundary;
 
 		std::unique_ptr<WiiCursorSmoother2> cursorSmoother;
+		vec2 smoothedCursorPosition;
 	};
 }

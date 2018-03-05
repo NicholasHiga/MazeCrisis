@@ -126,7 +126,7 @@ namespace MazeCrisis
 	}
 
 	void
-	WiiHandler::update()
+	WiiHandler::update(float deltaTime)
 	{
 		if (Common::gameStates.top() == GameState::CALIBRATING)
 		{
@@ -167,7 +167,6 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
-		vec2 smoothedPosition;
 		//= cursorSmoother->update(
 		//	vec2(wm->ir.x * 2, wm->ir.y * 2));
 
@@ -184,21 +183,21 @@ namespace MazeCrisis
 
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(newX, newY));
-			smoothedPosition = cursorSmoother->update(
-				vec2(newX, newY));
+			setSmoothedCursorPosition(cursorSmoother->update(
+				vec2(newX, newY)));
 		}
 		else
 		{
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(wm->ir.x * 2, wm->ir.y * 2));
-			smoothedPosition = cursorSmoother->update(
-				vec2(wm->ir.x, wm->ir.y));
+			setSmoothedCursorPosition(cursorSmoother->update(
+				vec2(wm->ir.x, wm->ir.y)));
 		}
 
 		glfwSetCursorPos(game->getWindow(),
-			smoothedPosition.x, smoothedPosition.y);
+			smoothedCursorPosition.x, smoothedCursorPosition.y);
 		game->cursorPosCallback(game->getWindow(),
-			smoothedPosition.x, smoothedPosition.y);
+			smoothedCursorPosition.x, smoothedCursorPosition.y);
 
 		if (Common::gameStates.top() == GameState::CALIBRATING)
 		{
@@ -332,6 +331,15 @@ namespace MazeCrisis
 			2629, 3367, 1);
 		vec3 tmp = xs * inverse(a);
 		vec3 tmp2 = ys * inverse(a);*/
+	}
+
+	void
+	WiiHandler::setSmoothedCursorPosition(vec2 newPosition)
+	{
+		smoothedCursorPosition.x = glm::clamp((int)newPosition.x, 0,
+			(int)game->getWindowWidth() - 1);
+		smoothedCursorPosition.y = glm::clamp((int)newPosition.y, 0,
+			(int)game->getWindowHeight() - 1);
 	}
 
 	/*void
