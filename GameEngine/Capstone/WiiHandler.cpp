@@ -247,32 +247,18 @@ namespace MazeCrisis
 				smoothedCursorPosition.x, smoothedCursorPosition.y);
 			game->cursorPosCallback(game->getWindow(),
 				smoothedCursorPosition.x, smoothedCursorPosition.y);
-
-			game->warn("No sensor update: " +
-				std::to_string(smoothedCursorPosition.x) +
-				", " + std::to_string(smoothedCursorPosition.y));
 		}
 		else if (numFramesNoWiiSensorUpdate > 6 && 
 			glm::distance((vec2)lastUniqueWiiSensorInputs[0],
 			(vec2)lastUniqueWiiSensorInputs[1]) > 20)
 		{
-			game->warn("No sensor update: " +
-				std::to_string(smoothedCursorPosition.x) +
-				", " + std::to_string(smoothedCursorPosition.y));
-
 			smoothedCursorPosition = cursorSmoother->update(targetCursorPos);
 			glfwSetCursorPos(game->getWindow(),
 				smoothedCursorPosition.x, smoothedCursorPosition.y);
 			game->cursorPosCallback(game->getWindow(),
 				smoothedCursorPosition.x, smoothedCursorPosition.y);
 		}
-		else
-		{
-			game->warn("Sensor updated: " + 
-				std::to_string(smoothedCursorPosition.x) +
-				", " + std::to_string(smoothedCursorPosition.y));
-		}
-
+	
 		wiiSensorUpdated = false;
 	}
 
