@@ -67,5 +67,6 @@ namespace MazeCrisis
 		bool wiiSensorUpdated = false;
 		ivec2 lastUniqueWiiSensorInputs[NUM_WII_POINTS];
 		vec2 targetCursorPos;
+		bool cursorSmootherInitialized = false;
 	};
 }

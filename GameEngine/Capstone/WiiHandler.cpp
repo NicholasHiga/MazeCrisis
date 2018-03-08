@@ -11,9 +11,9 @@ namespace MazeCrisis
 		wiiControllerConnected = connectWiimotes();
 		firstCalibrationTargetSet = false;
 		controllerCalibrated = false;
+		cursorSmootherInitialized = false;
 		//cursorSmoother = WiiCursorSmoother(8);
 
-		cursorSmoother = std::make_unique<WiiCursorSmoother2>();
 		setBottomScreenReloadPercentage(10);
 		
 		for (int i = 0; i < NUM_WII_POINTS; i++)
@@ -275,6 +275,13 @@ namespace MazeCrisis
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
+		if (!cursorSmootherInitialized)
+		{
+			cursorSmoother = std::make_unique<WiiCursorSmoother2>(wm->ir.x,
+				wm->ir.y);
+			cursorSmootherInitialized = true;
+		}
+
 		// NOTE: To use the Wii controller, fullscreen MUST be enabled to work
 		// properly
 		if (controllerCalibrated)
@@ -334,7 +341,8 @@ namespace MazeCrisis
 					firstCalibrationTargetSet = false;
 					calibrateController();
 					// Reset the kalman filter
-					cursorSmoother = std::make_unique<WiiCursorSmoother2>();
+					cursorSmoother = std::make_unique<WiiCursorSmoother2>(
+						wm->ir.x, wm->ir.y);
 				}
 			}
 		}
@@ -380,6 +388,12 @@ namespace MazeCrisis
 					game->keyHandlerCallback(game->getWindow(),
 						GLFW_KEY_R, 0, GLFW_PRESS, 0);
 				}
+			}
+
+			if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_TWO))
+			{
+				cursorSmoother = std::make_unique<WiiCursorSmoother2>(
+					wm->ir.x, wm->ir.y);
 			}
 		}
 	}

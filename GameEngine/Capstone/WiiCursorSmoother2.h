@@ -9,7 +9,7 @@ namespace MazeCrisis
 	class WiiCursorSmoother2
 	{
 	public: 
-		WiiCursorSmoother2();
+		WiiCursorSmoother2(int initialX, int initialY);
 		vec2 update(vec2 input);
 
 	private:
@@ -19,7 +19,7 @@ namespace MazeCrisis
 
 		KalmanFilter kfX, kfY; // One filter for each x, y mouse positions.
 
-		float processNoiseCov = 0.3f, measurementNoiseCov = 20.0f, 
+		float processNoiseCov = 0.5f, measurementNoiseCov = 35.0f, 
 			stateEstimationErrorCov = 30;
 
 		float dt = 50.0f / 1000.0f; // dt / T

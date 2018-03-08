@@ -3,7 +3,7 @@
 
 namespace MazeCrisis
 {
-	WiiCursorSmoother2::WiiCursorSmoother2()
+	WiiCursorSmoother2::WiiCursorSmoother2(int initialX, int initialY)
 	{
 		kfX.transitionMatrix = mat3(1, dt, 0.5f * dt * dt,
 			0, 1, dt,
@@ -15,8 +15,8 @@ namespace MazeCrisis
 		//kfX.statePost = matrixDiagonalInit(initialMouseCoords.x, 0.1f, 0.1f);
 		//kfY.statePost = matrixDiagonalInit(initialMouseCoords.y, 0.1f, 0.1f);
 
-		kfX.statePost = matrixDiagonalInit(-1, 0.1f, 0.1f);
-		kfY.statePost = matrixDiagonalInit(-1, 0.1f, 0.1f);
+		kfX.statePost = matrixDiagonalInit(initialX, 0.1f, 0.1f);
+		kfY.statePost = matrixDiagonalInit(initialY, 0.1f, 0.1f);
 
 		kfX.statePre = kfX.statePost;
 		kfY.statePre = kfY.statePost;
