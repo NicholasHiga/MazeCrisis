@@ -14,7 +14,7 @@ namespace MazeCrisis
 		//cursorSmoother = WiiCursorSmoother(8);
 
 		cursorSmoother = std::make_unique<WiiCursorSmoother2>();
-		setBottomScreenReloadPercentage(15);
+		setBottomScreenReloadPercentage(10);
 		
 		for (int i = 0; i < NUM_WII_POINTS; i++)
 			lastUniqueWiiSensorInputs[i] = ivec2(0, 0);
@@ -56,7 +56,7 @@ namespace MazeCrisis
 		unsigned int wWidth, wHeight;
 		game->getWindowDimensions(wWidth, wHeight);
 		float pct = bottomScreenReloadPercentage / 100.0f;
-		reloadingHeightBoundary = wHeight * pct;
+		reloadingHeightBoundary = wHeight - wHeight * pct;
 	}
 
 	int 
@@ -258,7 +258,17 @@ namespace MazeCrisis
 			game->cursorPosCallback(game->getWindow(),
 				smoothedCursorPosition.x, smoothedCursorPosition.y);
 		}
-	
+
+		// Reloading
+		if (Common::gameStates.top() == GameState::PLAYING)
+		{
+			if (smoothedCursorPosition.y > getReloadingHeightBoundary())
+			{
+				game->keyHandlerCallback(game->getWindow(),
+					GLFW_KEY_R, 0, GLFW_PRESS, 0);
+			}
+		}
+
 		wiiSensorUpdated = false;
 	}
 
@@ -361,12 +371,11 @@ namespace MazeCrisis
 				game->keyHandlerCallback(game->getWindow(),
 					GLFW_KEY_ESCAPE, 0, GLFW_PRESS, 0);
 			}
-
+		
 			// Reloading
 			if (Common::gameStates.top() == GameState::PLAYING)
 			{
-				if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A) || wm->ir.y
-					< getReloadingHeightBoundary())
+				if (IS_JUST_PRESSED(wm, WIIMOTE_BUTTON_A))
 				{
 					game->keyHandlerCallback(game->getWindow(),
 						GLFW_KEY_R, 0, GLFW_PRESS, 0);
