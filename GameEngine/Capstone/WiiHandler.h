@@ -36,7 +36,7 @@ namespace MazeCrisis
 
 	private:
 		void calibrateController();
-		void setSmoothedCursorPosition(vec2 newPosition);
+		void getUniqueWiiSensorInputs(ivec2 updatedPoint);
 
 		// Wii Related
 		//GLFWwindow *window;
@@ -60,7 +60,12 @@ namespace MazeCrisis
 		int bottomScreenReloadPercentage;
 		int reloadingHeightBoundary;
 
+		static const int NUM_WII_POINTS = 3;
 		std::unique_ptr<WiiCursorSmoother2> cursorSmoother;
 		vec2 smoothedCursorPosition;
+		int numFramesNoWiiSensorUpdate = 0;
+		bool wiiSensorUpdated = false;
+		ivec2 lastUniqueWiiSensorInputs[NUM_WII_POINTS];
+		vec2 targetCursorPos;
 	};
 }

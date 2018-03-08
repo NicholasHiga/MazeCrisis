@@ -382,6 +382,17 @@ namespace MazeCrisis
 	void
 	UserInterface::cursorPosCallback(GLFWwindow* window, double x, double y)
 	{
+		if ((int)x <= 0 || (int)y <= 0)
+		{
+			System::getSingleton().getDefaultGUIContext().
+				getMouseCursor().hide();
+		}
+		else
+		{
+			System::getSingleton().getDefaultGUIContext().
+				getMouseCursor().show();
+		}
+
 		if (Common::gameStates.top() != GameState::PLAYING)
 			CEGUI::System::getSingleton().getDefaultGUIContext()
 			.injectMousePosition(x, y);

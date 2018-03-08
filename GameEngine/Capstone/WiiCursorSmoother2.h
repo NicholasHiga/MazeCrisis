@@ -19,8 +19,8 @@ namespace MazeCrisis
 
 		KalmanFilter kfX, kfY; // One filter for each x, y mouse positions.
 
-		float processNoiseCov = 0.3f, measurementNoiseCov = 35.0f, 
-			stateEstimationErrorCov = 50;
+		float processNoiseCov = 0.3f, measurementNoiseCov = 20.0f, 
+			stateEstimationErrorCov = 30;
 
 		float dt = 50.0f / 1000.0f; // dt / T
 	};

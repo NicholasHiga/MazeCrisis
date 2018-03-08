@@ -15,6 +15,9 @@ namespace MazeCrisis
 
 		cursorSmoother = std::make_unique<WiiCursorSmoother2>();
 		setBottomScreenReloadPercentage(15);
+		
+		for (int i = 0; i < NUM_WII_POINTS; i++)
+			lastUniqueWiiSensorInputs[i] = ivec2(0, 0);
 	}
 	
 	WiiHandler::~WiiHandler()
@@ -162,14 +165,120 @@ namespace MazeCrisis
 				}
 			}
 		}
+
+		if (!wiiSensorUpdated)
+			numFramesNoWiiSensorUpdate++;
+		else
+			numFramesNoWiiSensorUpdate = 0;
+
+		// Distance part of the if to differentiate between wii controller being
+		// held still vs wii controller being flung suddenly off the screen.
+		if (numFramesNoWiiSensorUpdate == 6 &&
+			glm::distance((vec2)lastUniqueWiiSensorInputs[0],
+				(vec2)lastUniqueWiiSensorInputs[1]) > 20)
+		{
+			unsigned int wWidth, wHeight;
+			game->getWindowDimensions(wWidth, wHeight);
+
+			// Least squares method
+			int xSum = 0, ySum = 0, xSquaredSum = 0, xySum = 0;
+			float slope, yIntercept;
+			bool isLineVertical = false;
+			for (int i = 0; i < NUM_WII_POINTS; i++)
+			{
+				if (i < NUM_WII_POINTS - 1)
+				{
+					if (lastUniqueWiiSensorInputs[i].x ==
+						lastUniqueWiiSensorInputs[i + 1].x)
+						isLineVertical = true;
+				}
+			
+				xSum += lastUniqueWiiSensorInputs[i].x;
+				ySum += lastUniqueWiiSensorInputs[i].y;
+				xSquaredSum += lastUniqueWiiSensorInputs[i].x *
+					lastUniqueWiiSensorInputs[i].x;
+				xySum += lastUniqueWiiSensorInputs[i].x *
+					lastUniqueWiiSensorInputs[i].y;
+			}
+
+			slope = (NUM_WII_POINTS * xySum - xSum * ySum) /
+				(NUM_WII_POINTS * xSquaredSum - xSum * xSum);
+			yIntercept = (ySum - slope * xSum) / NUM_WII_POINTS;
+			
+			if (isLineVertical)
+			{
+				if (lastUniqueWiiSensorInputs[0].y >
+					lastUniqueWiiSensorInputs[1].y)
+					targetCursorPos = vec2(lastUniqueWiiSensorInputs[0].x,
+						wHeight - 1);
+				else
+					targetCursorPos = vec2(lastUniqueWiiSensorInputs[0].x,
+						0);
+			}
+			else
+			{
+				if (slope == 0)
+				{
+					if (lastUniqueWiiSensorInputs[0].x >
+						lastUniqueWiiSensorInputs[1].x)
+						targetCursorPos = vec2(wWidth - 1, 
+							lastUniqueWiiSensorInputs[0].y);
+					else
+						targetCursorPos = vec2(0,
+							lastUniqueWiiSensorInputs[0].y);
+				}
+				else if (lastUniqueWiiSensorInputs[0].x >
+					lastUniqueWiiSensorInputs[1].x)
+				{
+					// Left to right swipe
+					targetCursorPos.x = wWidth - 1;
+					targetCursorPos.y = slope * (wWidth - 1) + yIntercept;
+				}
+				else
+				{
+					// Right to left swipe
+					targetCursorPos.x = 0;
+					targetCursorPos.y = slope * (0) + yIntercept;
+				}
+			}
+
+			smoothedCursorPosition = cursorSmoother->update(targetCursorPos);
+			glfwSetCursorPos(game->getWindow(),
+				smoothedCursorPosition.x, smoothedCursorPosition.y);
+			game->cursorPosCallback(game->getWindow(),
+				smoothedCursorPosition.x, smoothedCursorPosition.y);
+
+			game->warn("No sensor update: " +
+				std::to_string(smoothedCursorPosition.x) +
+				", " + std::to_string(smoothedCursorPosition.y));
+		}
+		else if (numFramesNoWiiSensorUpdate > 6 && 
+			glm::distance((vec2)lastUniqueWiiSensorInputs[0],
+			(vec2)lastUniqueWiiSensorInputs[1]) > 20)
+		{
+			game->warn("No sensor update: " +
+				std::to_string(smoothedCursorPosition.x) +
+				", " + std::to_string(smoothedCursorPosition.y));
+
+			smoothedCursorPosition = cursorSmoother->update(targetCursorPos);
+			glfwSetCursorPos(game->getWindow(),
+				smoothedCursorPosition.x, smoothedCursorPosition.y);
+			game->cursorPosCallback(game->getWindow(),
+				smoothedCursorPosition.x, smoothedCursorPosition.y);
+		}
+		else
+		{
+			game->warn("Sensor updated: " + 
+				std::to_string(smoothedCursorPosition.x) +
+				", " + std::to_string(smoothedCursorPosition.y));
+		}
+
+		wiiSensorUpdated = false;
 	}
 
 	void
 	WiiHandler::wiiEventCallback(struct wiimote_t* wm)
 	{
-		//= cursorSmoother->update(
-		//	vec2(wm->ir.x * 2, wm->ir.y * 2));
-
 		// NOTE: To use the Wii controller, fullscreen MUST be enabled to work
 		// properly
 		if (controllerCalibrated)
@@ -183,21 +292,29 @@ namespace MazeCrisis
 
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(newX, newY));
-			setSmoothedCursorPosition(cursorSmoother->update(
-				vec2(newX, newY)));
+			smoothedCursorPosition = cursorSmoother->update(
+				vec2(newX, newY));
+
+			if (ivec2(newX, newY) != lastUniqueWiiSensorInputs[0])
+				getUniqueWiiSensorInputs(ivec2(newX, newY));
 		}
 		else
 		{
 			//smoothedPosition = cursorSmoother.addPointAndGetAverage(
 			//	vec2(wm->ir.x * 2, wm->ir.y * 2));
-			setSmoothedCursorPosition(cursorSmoother->update(
-				vec2(wm->ir.x, wm->ir.y)));
+			smoothedCursorPosition = cursorSmoother->update(
+				vec2(wm->ir.x, wm->ir.y));
+
+			if (ivec2(wm->ir.x, wm->ir.y) != lastUniqueWiiSensorInputs[0])
+				getUniqueWiiSensorInputs(ivec2(wm->ir.x, wm->ir.y));
 		}
 
 		glfwSetCursorPos(game->getWindow(),
 			smoothedCursorPosition.x, smoothedCursorPosition.y);
 		game->cursorPosCallback(game->getWindow(),
 			smoothedCursorPosition.x, smoothedCursorPosition.y);
+
+		wiiSensorUpdated = true;
 
 		if (Common::gameStates.top() == GameState::CALIBRATING)
 		{
@@ -334,12 +451,12 @@ namespace MazeCrisis
 	}
 
 	void
-	WiiHandler::setSmoothedCursorPosition(vec2 newPosition)
+	WiiHandler::getUniqueWiiSensorInputs(ivec2 updatedPoint)
 	{
-		smoothedCursorPosition.x = glm::clamp((int)newPosition.x, 0,
-			(int)game->getWindowWidth() - 1);
-		smoothedCursorPosition.y = glm::clamp((int)newPosition.y, 0,
-			(int)game->getWindowHeight() - 1);
+		for (int i = NUM_WII_POINTS - 1; i > 0; i--)
+			lastUniqueWiiSensorInputs[i] = lastUniqueWiiSensorInputs[i - 1];
+
+		lastUniqueWiiSensorInputs[0] = vec2(updatedPoint);
 	}
 
 	/*void
