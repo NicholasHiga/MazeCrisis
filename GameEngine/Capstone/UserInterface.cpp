@@ -82,7 +82,7 @@ namespace MazeCrisis
 
 		if (!ImageManager::getSingleton().isDefined(CROSSHAIR_IMAGE))
 			ImageManager::getSingleton().addFromImageFile(CROSSHAIR_IMAGE, 
-				"crosshair32.png");
+				"crosshair48.png");
 
 		if (!ImageManager::getSingleton().isDefined(NO_CROSSHAIR))
 			ImageManager::getSingleton().addFromImageFile(NO_CROSSHAIR,
@@ -400,7 +400,7 @@ namespace MazeCrisis
 			// This is to compensate for the center of the target crosshair
 			// position.
 			CEGUI::System::getSingleton().getDefaultGUIContext()
-			.injectMousePosition(x - 16, y - 16);
+			.injectMousePosition(x - 24, y - 24);
 	}
 
 	void

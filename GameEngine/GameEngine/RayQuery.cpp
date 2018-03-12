@@ -81,13 +81,6 @@ RayQuery::getRayFromMouseClick(int mouseX, int mouseY)
 		winDimensions.y);
 	int dy = (int)winDimensions.y - mouseY;
 
-	glm::vec2 normalizedCoords(
-		((float)mouseX / (float)winDimensions.x - 0.5f) * 2.0f, 
-		// [0,1024] -> [-1,1]
-		((float)dy / (float)winDimensions.y - 0.5f) * 2.0f 
-		// [0, 768] -> [-1,1]
-	);
-
 	r.origin = glm::unProject(glm::vec3(float(mouseX), dy, 0.0f),
 		ren->getMatrixStack().getViewMatrix(),
 		ren->getMatrixStack().getProjectionMatrix(), viewport);

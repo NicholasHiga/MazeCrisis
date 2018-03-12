@@ -64,7 +64,7 @@
 					<Property name="Alpha" value="0.92" />
 				</Window>
 				<Window type="AlfiskoSkin/Button" name="CancelCalibrationButton" >
-					<Property name="Area" value="{{0.6,0},{0.55,0},{0.9,0},{0.9,0}}" />
+					<Property name="Area" value="{{0.6,0},{0.55,0},{0.9,0},{0.94,0}}" />
 					<Property name="Text" value="Cancel" />
 					<Property name="Alpha" value="0.92" />
 				</Window>
@@ -157,7 +157,7 @@
 				</Window>			
 			</Window>
 			<Window type="AlfiskoSkin/FrameWindow" name="InstructionsMenu" >
-				<Property name="Area" value="{{0.35,0},{0.44,0},{0.65,0},{0.56,0}}" />
+				<Property name="Area" value="{{0.35,0},{0.42,0},{0.65,0},{0.58,0}}" />
 				<Property name="FrameEnabled" value="false" />
 				<Property name="TitlebarEnabled" value="false" />
 				<Property name="CloseButtonEnabled" value="false" />
@@ -166,7 +166,7 @@
 					<Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.6,0}}" />
 				</Window>	
 				<Window type="AlfiskoSkin/Button" name="OkayToPromptButton" >
-					<Property name="Area" value="{{0.4,0},{0.63,0},{0.6,0},{0.9,0}}" />
+					<Property name="Area" value="{{0.4,0},{0.56,0},{0.6,0},{0.9,0}}" />
 					<Property name="Text" value="Okay" />
 				</Window>
 			</Window>
