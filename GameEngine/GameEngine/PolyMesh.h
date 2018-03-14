@@ -2,9 +2,9 @@
 #include "MeshType.h"
 #include "SingleMesh.h"
 
-#include <assimp/Importer.hpp>
+/*#include <assimp/Importer.hpp>
 #include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include <assimp/postprocess.h>*/
 
 /*class PolyMesh : public MeshType
 {
@@ -26,6 +26,7 @@ private:
 // Majority of this code was created using the help of 
 // https://learnopengl.com/#!Model-Loading/Model
 
+/*
 class PolyMesh : public MeshType
 {
 public:
@@ -39,4 +40,4 @@ private:
 	SingleMesh loadMesh(aiMesh *mesh, const aiScene *scene);
 
 	const struct aiScene* scene = NULL;
-};
+};*/

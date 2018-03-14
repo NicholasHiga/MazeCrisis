@@ -57,7 +57,7 @@ PolyMesh::setMeshes(vector<Mesh*> _meshes)
 */
 
 using std::vector;
-
+/*
 PolyMesh::PolyMesh(std::string modelFilePath)
 {
 	Assimp::Importer importer;
@@ -155,4 +155,4 @@ int
 PolyMesh::getNumMeshes() const
 {
 	return meshes.size();
-}
+}*/
