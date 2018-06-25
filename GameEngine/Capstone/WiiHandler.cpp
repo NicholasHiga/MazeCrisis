@@ -201,9 +201,13 @@ namespace MazeCrisis
 					lastUniqueWiiSensorInputs[i].y;
 			}
 
-			slope = (NUM_WII_POINTS * xySum - xSum * ySum) /
-				(NUM_WII_POINTS * xSquaredSum - xSum * xSum);
-			yIntercept = (ySum - slope * xSum) / NUM_WII_POINTS;
+			if (NUM_WII_POINTS * xSquaredSum - xSum * xSum != 0 &&
+				NUM_WII_POINTS != 0)
+			{
+				slope = (NUM_WII_POINTS * xySum - xSum * ySum) /
+					(NUM_WII_POINTS * xSquaredSum - xSum * xSum);
+				yIntercept = (ySum - slope * xSum) / NUM_WII_POINTS;
+			}
 			
 			if (isLineVertical)
 			{
