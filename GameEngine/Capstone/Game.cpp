@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <iostream>
+#include <filesystem>
 #include "Debug.h"
 #include "Level.h"
 #include "RayQuery.h"
@@ -39,6 +40,7 @@ namespace MazeCrisis
 			loadLevels();
 			Common::gameStates.push(GameState::MENU_MAIN);
 			initSound();
+			std::cout << "Current path is " << std::filesystem::current_path() << '\n';
 
 #ifdef _DEBUG
 			if (GLEW_ARB_debug_output) {

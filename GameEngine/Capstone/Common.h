@@ -36,10 +36,10 @@ namespace MazeCrisis
 	};
 
 	// Paths
-	static const std::string GUI_PATH = "../Capstone/Assets/GUI/";
-	static const std::string MODELS_PATH = "../Capstone/Assets/Models/";
-	static const std::string SETTINGS_PATH = "../Capstone/Assets/Settings/";
-	static const std::string SHADERS_PATH = "../Capstone/Assets/Shaders/";
-	static const std::string SOUNDS_PATH = "../Capstone/Assets/Sounds/";
-	static const std::string TEXTURES_PATH = "../Capstone/Assets/Textures/";
+	static const std::string GUI_PATH = "Assets/GUI/";
+	static const std::string MODELS_PATH = "Assets/Models/";
+	static const std::string SETTINGS_PATH = "Assets/Settings/";
+	static const std::string SHADERS_PATH = "Assets/Shaders/";
+	static const std::string SOUNDS_PATH = "Assets/Sounds/";
+	static const std::string TEXTURES_PATH = "Assets/Textures/";
 }
