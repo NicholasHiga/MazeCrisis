@@ -25,6 +25,8 @@ int lastMouseState = GLFW_RELEASE;
 
 void window_size_callback(GLFWwindow* window, int width, int height);
 static void mouseHandler(GLFWwindow* window, int button, int action, int mods);
+static void keyHandler(GLFWwindow* window, int key, 
+	int scancode, int action, int mods);
 
 class DemoApp : public GameEngine
 {
@@ -32,6 +34,7 @@ public:
 	DemoApp();
 	~DemoApp();
 	void update(double t);
+	void moveCube(int index, vec3 distance);
 
 	vector<Vertex> squareVertices, cubeOneVertices, cubeTwoVertices;
 
@@ -45,6 +48,7 @@ public:
 
 	vector<shared_ptr<SceneNode>> nodes;
 	vector<shared_ptr<GameObject>> gameObjects;
+	bool isPaused = true;
 	float ang1 = -30, ang2 = 30, ang3 = 0;
 };
 
@@ -181,13 +185,18 @@ void
 DemoApp::update(double t)
 {
 	ang1 += (float)(t * 0.001f);
-	ang2 -= (float)(t * 0.001f);
+
 	ang3 += (float)(t * 0.001f);
 	//nodes[0]->setOrientation(Quaternion(ang1, 0, 0, false));
-	//nodes[1]->setOrientation(Quaternion(ang2, 0, 0, false));
+	if (!isPaused)
+	{
+		ang2 -= (float)(t * 0.001f);
+		nodes[1]->setOrientation(Quaternion(ang2, 0, 0, false));
+	}
+
 	vec3 increment = vec3(0.0001f * t, 0, 0);
-	nodes[0]->setPosition(nodes[0]->getPosition() + increment);
-	nodes[1]->setPosition(nodes[1]->getPosition() - increment);
+	//nodes[0]->setPosition(nodes[0]->getPosition() + increment);
+	//nodes[1]->setPosition(nodes[1]->getPosition() - increment);
 
 	BoundingBox *bb1, *bb2;
 
@@ -198,7 +207,7 @@ DemoApp::update(double t)
 	bb1 = go->getBoundingBoxes()[0];
 
 	GameObject *go2 = dynamic_cast<GameObject*>((*renderable2)[0]);
-	bb2= go2->getBoundingBoxes()[0];
+	bb2 = go2->getBoundingBoxes()[0];
 
 	if (BoundingBox::doesCollide(*bb1, *bb2))
 	{
@@ -214,6 +223,12 @@ DemoApp::update(double t)
 
 
 	nodes[5]->setOrientation(Quaternion(0, ang3, ang3, false));
+}
+
+void
+DemoApp::moveCube(int index, vec3 distance)
+{
+	nodes[index]->setPosition(nodes[index]->getPosition() + distance);
 }
 
 DemoApp::~DemoApp()
@@ -276,6 +291,7 @@ int main()
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glfwSetMouseButtonCallback(window, mouseHandler);
+	glfwSetKeyCallback(window, keyHandler);
 
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -345,4 +361,20 @@ mouseHandler(GLFWwindow* window, int button, int action, int mods)
 
 	if (action == GLFW_RELEASE)
 		lastMouseState = GLFW_RELEASE;
+}
+
+void 
+keyHandler(GLFWwindow* window, int key,	int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		engine->moveCube(0, vec3(-0.1, 0, 0));
+	else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		engine->moveCube(0, vec3(0.1, 0, 0));
+	else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+		engine->moveCube(0, vec3(0, 0, 0.1));
+	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+		engine->moveCube(0, vec3(0, 0, -0.1));
+
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+		engine->isPaused = !engine->isPaused;
 }
