@@ -331,12 +331,12 @@ OpenGLRenderer::setWindowSize(int width, int height, Camera *cam)
 	glViewport(0, 0, winWidth, winHeight);			// set Viewport size
 
 	mat4 projection = glm::perspective(45.0f, 
-		(GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
+		(GLfloat)winWidth / (GLfloat)winHeight, -0.1f, -1000.0f);
 	matrixStack.setProjectionMatrix(projection);
 
 	if (cam)
 		cam->getFrustum()->setWindowSize(45.0f,
-		(GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);
+		(GLfloat)winWidth / (GLfloat)winHeight, -0.1f, -1000.0f);
 }
 
 void OpenGLRenderer::prepareToRender(Camera &camera)

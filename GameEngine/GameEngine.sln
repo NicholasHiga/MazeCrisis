@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2. BasicModelCollisionDemo"
 		{5CB1C86C-57DF-49B0-9A0C-AFA555EF6BB6} = {5CB1C86C-57DF-49B0-9A0C-AFA555EF6BB6}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3. ModelLoadingDemo", "3. ModelLoadingDemo\3. ModelLoadingDemo.vcxproj", "{9C16DF97-CD21-45B4-9936-B366CC12FD30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -60,8 +62,19 @@ Global
 		{8A232643-2FD8-4BE5-88B3-4CE94E2C09EB}.Release|x64.Build.0 = Release|x64
 		{8A232643-2FD8-4BE5-88B3-4CE94E2C09EB}.Release|x86.ActiveCfg = Release|Win32
 		{8A232643-2FD8-4BE5-88B3-4CE94E2C09EB}.Release|x86.Build.0 = Release|Win32
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Debug|x64.ActiveCfg = Debug|x64
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Debug|x64.Build.0 = Debug|x64
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Debug|x86.ActiveCfg = Debug|Win32
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Debug|x86.Build.0 = Debug|Win32
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Release|x64.ActiveCfg = Release|x64
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Release|x64.Build.0 = Release|x64
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Release|x86.ActiveCfg = Release|Win32
+		{9C16DF97-CD21-45B4-9936-B366CC12FD30}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44C6CB19-EC92-4978-887F-33DCA861AA5B}
 	EndGlobalSection
 EndGlobal

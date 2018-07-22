@@ -2,6 +2,9 @@
 #include <string>
 
 #include "SingleMesh.h"
+#include "assimp/cimport.h"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
 class EffectedModel : public MeshType
 {
