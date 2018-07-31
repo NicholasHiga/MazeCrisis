@@ -7,7 +7,7 @@ class SingleMesh;
 class SceneNode;
 class SceneGraph;
 
-enum BOUNDING_BOX_TYPE
+enum class BOUNDING_BOX_TYPE
 {
 	SPHERE, AABB, OBB
 };
@@ -19,7 +19,7 @@ enum BOUNDING_BOX_TYPE
 class BoundingBox
 {
 public: 
-	BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType,
+	BoundingBox(const SingleMesh &mesh, BOUNDING_BOX_TYPE bbType,
 		bool isVisible = false);
 
 	//void updateBounds(Mat4x4 &transform); 
@@ -61,7 +61,7 @@ public:
 private:
 	// Should only be used for initializing, call updateBounds after initial
 	// min/maxs are calculated.
-	void calculateBaseBounds(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType);
+	void calculateBaseBounds(const SingleMesh &mesh, BOUNDING_BOX_TYPE bbType);
 
 	BOUNDING_BOX_TYPE bbType;
 	bool isVisible; // Renders the wireframe bounding box if true.

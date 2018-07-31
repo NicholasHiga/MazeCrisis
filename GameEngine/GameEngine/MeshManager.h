@@ -78,12 +78,6 @@ public:
 
 private:
 	static std::unique_ptr<MeshManager> myInstance; // Singleton
-
-	static const std::string defaultMeshName;
-	static const std::string defaultMaterialName;
-	static const std::string defaultShaderName;
-	static const std::string defaultVertexShaderPath;
-	static const std::string defaultFragmentShaderPath;
 	static int materialIndex;
 
 	MeshManager();

@@ -99,7 +99,7 @@ public:
 	void setCamera() { }
 
 	static bool loadTexture(const std::string &path,
-		const std::string &name = "");
+		const std::string &name, TextureType textureType);
 	static bool loadMaterial(const std::string &materialName, 
 		const std::string &shaderName, const std::string &diffuseTexture);
 	MeshType* loadModel(const std::string &name,

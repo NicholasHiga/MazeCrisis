@@ -5,32 +5,32 @@
 using std::string;
 using std::vector;
 
-EffectedModel::EffectedModel(const string &name, vector<SingleMesh*> meshes)
+EffectedModel::EffectedModel(const string &name, vector<SingleMesh> &&_meshes)
 {
-	setName(name);
-	this->meshes = meshes;
+    setName(name);
+    meshes = std::move(_meshes);
 }
 
 string 
 EffectedModel::getName() const
 {
-	return name;
+    return name;
 }
 
 void 
 EffectedModel::setName(const string &name)
 {
-	this->name = name;
+    this->name = name;
 }
 
-void 
+/*void 
 EffectedModel::addExistingMesh(const string &meshName)
 {
-	meshes.push_back(MeshManager::getInstance()->get(meshName));
-}
+    meshes->push_back(*MeshManager::getInstance()->get(meshName));
+}*/
 
-vector<SingleMesh*> 
-EffectedModel::getMeshes() const
+const vector<SingleMesh>* 
+EffectedModel::getMeshes()
 {
-	return meshes;
+    return &meshes;
 }

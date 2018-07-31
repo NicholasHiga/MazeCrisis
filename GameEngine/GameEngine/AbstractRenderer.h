@@ -27,7 +27,7 @@ public:
 	///
 	virtual void renderFixedPrimitve(PrimitiveType prim) = 0;
 
-	virtual void renderSingleMesh(SingleMesh &mesh,
+	virtual void renderSingleMesh(const SingleMesh &mesh,
 		BoundingBox *boundingBox, std::shared_ptr<SceneNode> node,
 		Camera &camera) = 0;
 

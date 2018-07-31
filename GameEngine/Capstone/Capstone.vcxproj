@@ -75,13 +75,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen;$(ProjectDir)..\include\assimp-4.1.0</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Debug;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\wiiuse;$(ProjectDir)..\lib\cegui-0.8.7;$(ProjectDir)..\lib\expat</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3d.lib;opengl32.lib;wiiuse_debug.lib;fmodL_vc.lib;libexpat_d.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Debug;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\wiiuse;$(ProjectDir)..\lib\cegui-0.8.7;$(ProjectDir)..\lib\expat;$(ProjectDir)..\lib\assimp-4.1.0</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3d.lib;opengl32.lib;wiiuse_debug.lib;fmodL_vc.lib;libexpat_d.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;assimp-vc140-mt_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -98,15 +98,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\wiiuse;$(ProjectDir)..\include\cegui-0.8.7;$(ProjectDir)..\include\expat;$(ProjectDir)..\include\Eigen;$(ProjectDir)..\include\assimp-4.1.0</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Release;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\wiiuse;$(ProjectDir)..\lib\cegui-0.8.7;$(ProjectDir)..\lib\expat</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3.lib;opengl32.lib;wiiuse.lib;fmod_vc.lib;libexpat.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Release;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\wiiuse;$(ProjectDir)..\lib\cegui-0.8.7;$(ProjectDir)..\lib\expat;$(ProjectDir)..\lib\assimp-4.1.0</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3.lib;opengl32.lib;wiiuse.lib;fmod_vc.lib;libexpat.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

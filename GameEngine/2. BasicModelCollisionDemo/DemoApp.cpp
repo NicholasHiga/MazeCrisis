@@ -79,29 +79,12 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
 	nodes[5]->setPosition(vec3(0.0f, -0.0f, -3.0f));
 	nodes[5]->setOrientation(Quaternion(0, 0, ang3, false));
 
-	vector<ShaderVariable> vars;
-	vars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
-	vars.push_back(ShaderVariable(ENGINE_VAR::VERTEX_COLOR, "color"));
-	vars.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX,
-		"modelViewMatrix"));
-	vars.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX, 
-		"projectionMatrix"));
-
-	vector<ShaderVariable> vars2;
-	vars2.push_back(ShaderVariable(ENGINE_VAR::VERTEX_POSITION, "position"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::VERTEX_UV, "uv"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::SAMPLER_2D, "textureIn"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::MODEL_VIEW_MATRIX,
-		"modelViewMatrix"));
-	vars2.push_back(ShaderVariable(ENGINE_VAR::PROJECTION_MATRIX,
-		"projectionMatrix"));
-
 	for (size_t i = 0; i < coloredCubePositions.size() / 3; ++i)
 	{
 		Vertex v;
 		v.position = vec3(coloredCubePositions[i * 3],
 			coloredCubePositions[i * 3 + 1], coloredCubePositions[i * 3 + 2]);
-		v.color = vec3(coloredCubeColors[i * 3], coloredCubeColors[i * 3 + 1],
+		v.color = Color(coloredCubeColors[i * 3], coloredCubeColors[i * 3 + 1],
 			coloredCubeColors[i * 3 + 2]);
 		cubeOneVertices.push_back(v);
 	}

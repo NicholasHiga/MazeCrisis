@@ -75,6 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\assimp-4.1.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,6 +110,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\assimp-4.1.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -174,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractRenderer.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="DefaultEngineVars.h" />
     <ClInclude Include="EffectedModel.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Material.h" />

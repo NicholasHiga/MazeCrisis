@@ -75,11 +75,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\assimp-4.1.0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3d.lib;opengl32.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Debug;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3d.lib;opengl32.lib;fmodL_vc.lib;assimp-vc140-mt_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Debug;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\assimp-4.1.0</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -96,13 +96,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine;$(ProjectDir)..\include\FreeImage;$(ProjectDir)..\include\glew-1.13.0;$(ProjectDir)..\include\glfw-3.2.1;$(ProjectDir)..\include\glm-0.9.7.1;$(ProjectDir)..\include\fmod;$(ProjectDir)..\include\assimp-4.1.0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Release;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Release;$(ProjectDir)..\lib\glfw-3.2.1;$(ProjectDir)..\lib\glew-1.13.0;$(ProjectDir)..\lib\fmod;$(ProjectDir)..\lib\assimp-4.1.0</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine.lib;glew32.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

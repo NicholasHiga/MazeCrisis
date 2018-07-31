@@ -11,7 +11,7 @@ using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 
-BoundingBox::BoundingBox(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, 
+BoundingBox::BoundingBox(const SingleMesh &mesh, BOUNDING_BOX_TYPE bbType, 
 	bool isVisible)
 {
 	calculateBaseBounds(mesh, bbType);
@@ -176,7 +176,7 @@ BoundingBox::setIsVisible(bool isVisible)
 }
 
 void
-BoundingBox::calculateBaseBounds(SingleMesh &mesh, BOUNDING_BOX_TYPE bbType)
+BoundingBox::calculateBaseBounds(const SingleMesh &mesh, BOUNDING_BOX_TYPE bbType)
 {
 	vector<Vertex> verts = mesh.getVertices();
 	//int numVerts = mesh.getUniqueVertices(&verts);

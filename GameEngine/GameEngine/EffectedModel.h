@@ -2,27 +2,29 @@
 #include <string>
 
 #include "SingleMesh.h"
-#include "assimp/cimport.h"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
 
 class EffectedModel : public MeshType
 {
 public:
-	EffectedModel() {};
-	EffectedModel(const std::string &name, std::vector<SingleMesh*> meshes);
+    EffectedModel() {};
+    EffectedModel(const EffectedModel &other) = delete;
+    EffectedModel(EffectedModel &&other) = delete;
+    EffectedModel(const std::string &name, std::vector<SingleMesh> &&_meshes);
 
-	std::string getName() const;
-	void setName(const std::string &name);
+    EffectedModel& operator=(EffectedModel &other) = delete;
+    EffectedModel& operator=(EffectedModel &&other) = delete;
 
-	void addExistingMesh(const std::string &meshName);
-	std::vector<SingleMesh*> getMeshes() const;
+    std::string getName() const;
+    void setName(const std::string &name);
 
-	std::string className() const { return "PolyMesh"; }
+    //void addExistingMesh(const std::string &meshName);
+    const std::vector<SingleMesh>* getMeshes();
 
-	//BoundingBox* getBoundingBox() { return boundingBox; }
+    std::string className() const { return "PolyMesh"; }
+
+    //BoundingBox* getBoundingBox() { return boundingBox; }
 
 protected:
-	std::string name;
-	std::vector<SingleMesh*> meshes;
+    std::string name;
+    std::vector<SingleMesh> meshes;
 };
