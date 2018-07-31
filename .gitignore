@@ -298,4 +298,9 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
+# Models
+*.mtl
+*.blend
+*.obj
+
 # End of https://www.gitignore.io/api/visualstudio
