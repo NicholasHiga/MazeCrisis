@@ -73,8 +73,8 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
             success = MeshManager::getInstance()->loadModel(modelName, 
                 meshName, materialName, shaderName, diffuseTexture);
         else
-            success = MeshManager::getInstance()->loadCubeModel(modelName,
-                meshName, materialName, shaderName, diffuseTexture);
+            success = MeshManager::getInstance()->loadTexturedCubeModel(
+                modelName, meshName, materialName, shaderName, diffuseTexture);
 
         if (!success)
             throw std::runtime_error("Model " + modelName +
@@ -95,7 +95,7 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
     try
     {
         bool success = MeshManager::getInstance()->loadModel(modelName,
-            meshName, materialName, prim, vertices, indices);
+            materialName, prim, vertices, indices);
         if (!success)
             throw std::runtime_error("Model " + modelName + 
                 " did not load successfully.");
@@ -118,8 +118,8 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
     {
         bool success;
         if (loadAsCube)
-            success = MeshManager::getInstance()->loadCubeModel(modelName,
-                meshName, materialName, shaderName, vertexShaderPath, 
+            success = MeshManager::getInstance()->loadTexturedCubeModel(
+                modelName, meshName, materialName, shaderName, vertexShaderPath, 
                 fragmentShaderPath, shaderVars, diffuseTexture,
                 printShaderLoadStatus);
         else
@@ -140,17 +140,17 @@ GameObject::GameObject(const string &gameObjectName, const string &modelName,
 
 // Initialization of everything.
 GameObject::GameObject(const string &gameObjectName, const string &modelName, 
-    const string &meshName, const string &materialName,
-    const string &shaderName, PrimitiveType prim, vector<Vertex> vertices,
-    vector<GLuint> indices, const string &vertexShaderPath,
-    const string &fragmentShaderPath, vector<ShaderVariable> shaderVars,
-    const string &diffuseTexture, bool printShaderLoadStatus)
+    const string &materialName, const string &shaderName, PrimitiveType prim, 
+    vector<Vertex> vertices, vector<GLuint> indices, 
+    const string &vertexShaderPath, const string &fragmentShaderPath,
+    vector<ShaderVariable> shaderVars, const string &diffuseTexture,
+    bool printShaderLoadStatus)
 {
     init(gameObjectName, modelName, MESH_TYPE::SINGLE_MESH);
     try
     {
         bool success = MeshManager::getInstance()->loadModel(modelName,
-            meshName, materialName, shaderName, prim, vertices, indices,
+            materialName, shaderName, prim, vertices, indices,
             vertexShaderPath, fragmentShaderPath, shaderVars, diffuseTexture, 
             printShaderLoadStatus);
         if (!success)
@@ -241,6 +241,21 @@ GameObject::getIsEnabled() const
 {
     return isEnabled;
 }
+void 
+GameObject::setAreBoundingBoxesVisible(bool visible)
+{
+    areBoundingBoxesVisible = visible;
+    for (auto &a : boundingBoxes)
+    {
+        a.get()->isVisible = visible;
+    }
+}
+
+bool
+GameObject::getAreBoundingBoxesVisible()
+{
+    return areBoundingBoxesVisible;
+}
 
 
 void
@@ -259,7 +274,7 @@ vector<BoundingBox*>
 GameObject::getBoundingBoxes() const
 {
     vector<BoundingBox*> bbs;
-    for (size_t i = 0; i < boundingBoxes.size(); ++i)
+    for (auto i = 0; i < boundingBoxes.size(); ++i)
         bbs.push_back(boundingBoxes[i].get());
     return bbs;
 }
@@ -281,8 +296,8 @@ GameObject::init(const string &gameObjectName, const string &modelName,
     script = [](SceneNode*, double) {};
     isEnabled = true;
     isVisible = true;
+    areBoundingBoxesVisible = false;
 
-    // TODO: Change when PolyMesh implemented.
     if (SingleMesh* m = dynamic_cast<SingleMesh*>(getModel()))
         createBoundingBox(m, BOUNDING_BOX_TYPE::OBB);
     else if (EffectedModel *m = dynamic_cast<EffectedModel*>(getModel()))

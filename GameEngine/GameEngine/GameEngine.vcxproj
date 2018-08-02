@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="EffectedModel.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mat4x4.cpp" />
     <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="PolyMesh.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RayQuery.cpp" />
@@ -178,11 +178,13 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="DefaultEngineVars.h" />
     <ClInclude Include="EffectedModel.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="PredefinedVertices.h" />
     <ClInclude Include="RayQuery.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -200,7 +202,6 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="MeshType.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="PolyMesh.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="LogManager.h" />

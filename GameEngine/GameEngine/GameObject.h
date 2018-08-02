@@ -57,10 +57,9 @@ public:
 
     // Initialization of everything, mesh, material and shader.
     GameObject(const std::string &gameObjectName, const std::string &modelName,
-        const std::string &meshName, const std::string &materialName,
-        const std::string &shaderName, PrimitiveType prim, 
-        std::vector<Vertex> vertices, std::vector<GLuint> indices,
-        const std::string &vertexShaderPath,
+        const std::string &materialName, const std::string &shaderName, 
+        PrimitiveType prim, std::vector<Vertex> vertices, 
+        std::vector<GLuint> indices, const std::string &vertexShaderPath,
         const std::string &fragmentShaderPath,
         std::vector<ShaderVariable> shaderVars,
         const std::string &diffuseTexture = "", 
@@ -82,6 +81,9 @@ public:
 
     void setIsEnabled(bool enabled);
     bool getIsEnabled() const;
+
+    void setAreBoundingBoxesVisible(bool visible);
+    bool getAreBoundingBoxesVisible();
 
     void setScript(std::function<void(SceneNode*, double)> script);
     std::function<void(SceneNode*, double)> getScript() const;
@@ -105,6 +107,7 @@ protected:
     std::vector<std::unique_ptr<BoundingBox>> boundingBoxes;
     bool isVisible;		// Determines if being rendered.
     bool isEnabled;		// Determines if scripts active/inactive, collisions.
+    bool areBoundingBoxesVisible;
     MESH_TYPE meshType;
 
 private:

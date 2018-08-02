@@ -122,7 +122,7 @@ ModelManager::loadModel(const string &modelName, const string &filepath)
                     modelName + std::to_string(matIndex), defaultShaderName,
                     path.string(), scene->mMaterials[mesh->mMaterialIndex]);
 
-                meshes.emplace_back(SingleMesh("", 
+                meshes.emplace_back(SingleMesh(
                     modelName + std::to_string(matIndex),
                     PrimitiveType::PRIM_TRIANGLE, verts, indices));
                 matIndex++;

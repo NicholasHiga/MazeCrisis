@@ -17,44 +17,48 @@ enum PrimitiveType;
 class OpenGLRenderer : public AbstractRenderer
 {
 public:
-	/// getInstance()
-	/// Singleton, get a single instance of OpenGLRenderer
-	///
-	static OpenGLRenderer* getInstance();
+    /// getInstance()
+    /// Singleton, get a single instance of OpenGLRenderer
+    ///
+    static OpenGLRenderer* getInstance();
 
-	/// renderPrimitive()
-	/// Render a given primitive.
-	///
-	/// @param[in]      prim
-	///                 Primitive to be rendered.
-	///
-	void renderFixedPrimitve(PrimitiveType prim);
+    /// renderPrimitive()
+    /// Render a given primitive.
+    ///
+    /// @param[in]      prim
+    ///                 Primitive to be rendered.
+    ///
+    void renderFixedPrimitve(PrimitiveType prim);
 
-	//void renderMesh(MeshType &meshType);
+    //void renderMesh(MeshType &meshType);
 
-	void renderSingleMesh(const SingleMesh &mesh, BoundingBox *boundingBox,
-		std::shared_ptr<SceneNode> node, Camera &camera);
+    void renderSingleMesh(const SingleMesh &mesh, BoundingBox *boundingBox,
+        std::shared_ptr<SceneNode> node, Camera &camera);
 
-	void renderEffectedModel(EffectedModel &model, BoundingBox *boundingBox,
-		std::shared_ptr<SceneNode> node, Camera &camera);
+    void renderEffectedModel(EffectedModel &model, 
+        std::vector<BoundingBox*> &bb, std::shared_ptr<SceneNode> node, 
+        Camera &camera);
 
-	void renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node);
-	//void renderMesh(Mesh &mesh);
+    void renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node);
+    //void renderMesh(Mesh &mesh);
 
-	//void renderMesh(PolyMesh &polymesh);
+    virtual void renderBoundingBox(BoundingBox *boundingBox,
+        float lineThickness = 2.5f);
 
-	void setWireframeMode(bool isOn);
+    //void renderMesh(PolyMesh &polymesh);
 
-	void renderSceneGraph(SceneGraph &graph, Camera &cam);
+    void setWireframeMode(bool isOn);
 
-	void renderSceneNode(std::shared_ptr<SceneNode> node, Camera &camera);
+    void renderSceneGraph(SceneGraph &graph, Camera &cam);
 
-	void setWindowSize(int width, int height, Camera *cam = 0);
+    void renderSceneNode(std::shared_ptr<SceneNode> node, Camera &camera);
 
-	void prepareToRender(Camera &camera);
+    void setWindowSize(int width, int height, Camera *cam = 0);
+
+    void prepareToRender(Camera &camera);
 
 private:
-	static std::unique_ptr<OpenGLRenderer> myInstance;
+    static std::unique_ptr<OpenGLRenderer> myInstance;
 
-	OpenGLRenderer();
+    OpenGLRenderer();
 };

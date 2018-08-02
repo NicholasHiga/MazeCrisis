@@ -73,7 +73,7 @@ namespace MazeCrisis
                             // Making the material, and texture name the same
                             // which is the path of the texture.
                             // Model will simply be the texturepath + "Cube"
-                            MeshManager::getInstance()->loadCubeModel(
+                            MeshManager::getInstance()->loadTexturedCubeModel(
                                 textures[i][j][k] + "Cube",
                                 meshName, textures[i][j][k],
                                 shaderName, textures[i][j][k]);

@@ -7,7 +7,7 @@ class Image
 {
 public:
 	Image(std::string _filename);
-	~Image();
+	virtual ~Image();
 
 	std::string getFileName() const;
 	void getDimensions(unsigned int &_width, unsigned int &_height);

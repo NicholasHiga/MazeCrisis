@@ -17,6 +17,8 @@
 #include "EffectedModel.h"
 #include "ShaderProgram.h"
 #include "ShaderVariable.h"
+#include "DefaultEngineVars.h"
+#include "ShaderProgramManager.h"
 
 using glm::vec3;
 using glm::mat4;
@@ -91,18 +93,6 @@ OpenGLRenderer::renderFixedPrimitve(PrimitiveType prim)
     }
 }
 
-/*void
-OpenGLRenderer::renderMesh(MeshType &meshType)
-{*/
-    /*if (typeid(meshType) == typeid(SingleMesh))
-        renderSingleMesh(dynamic_cast<SingleMesh&>(meshType));*/
-    //else
-        //renderMesh(dynamic_cast<PolyMesh&>(meshType));
-/*
-    if (SingleMesh* mesh = dynamic_cast<SingleMesh*>(&meshType))
-        renderSingleMesh(dynamic_cast<SingleMesh&>(meshType));
-}*/
-
 void
 OpenGLRenderer::renderSingleMesh(const SingleMesh &mesh,
     BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
@@ -111,33 +101,22 @@ OpenGLRenderer::renderSingleMesh(const SingleMesh &mesh,
     Material *material = nullptr;
     vector<ShaderVariable> samplerVars; 
 
-    GLenum err = glGetError();
-
     if (!mats.empty()) 
     {
         material = mats[0];
         samplerVars = material->getShader()->getSamplerVars();
     }
-
     mat4 modelM = node.get()->getModelMatrix();
     matrixStack.pushModelStack(modelM);
 
-    /*if (boundingBox != nullptr &&
+    if (boundingBox != nullptr &&
         camera.getFrustum()->isBoxInFrustum(*boundingBox))
-    {*/
+    {
         if (material != nullptr)
             glUseProgram(material->getShader()->getProgramID());
         else
             glUseProgram(0);
 
-        // Debug
-        auto t = material->getShader()->getProgramID();
-
-        if (boundingBox->getIsVisible())
-        {
-            // Print bounding box.
-        }
-        err = glGetError();
         // Only diffuse texture.
         if (!samplerVars.empty())
         {
@@ -149,11 +128,8 @@ OpenGLRenderer::renderSingleMesh(const SingleMesh &mesh,
                 glUniform1i(samplerVars[0].getUniformLocation(), 0);
                 glBindTexture(GL_TEXTURE_2D,
                     material->getDiffuseTextures()[0]->textureID);           
-                t = material->getDiffuseTextures()[0]->textureID;
-                int z = 5;
             }
         }
-        err = glGetError();
 
         ShaderProgram *s = material->getShader();
 
@@ -163,23 +139,22 @@ OpenGLRenderer::renderSingleMesh(const SingleMesh &mesh,
 
         glUniformMatrix4fv(material->getShader()->getProjectionID(),
             1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
-        err = glGetError();
-        auto test = mesh.getVAO();
         glBindVertexArray(mesh.getVAO());
-        err = glGetError();
         if (!mesh.getIndices().empty())
             glDrawElements(GL_TRIANGLES, mesh.getIndices().size(),
                 GL_UNSIGNED_INT, 0);
         else
             glDrawArrays(GL_TRIANGLES, 0, mesh.getVertices().size());
-        err = glGetError();
 
         glBindVertexArray(0);
         node.get()->isBeingRendered = true;
         glUseProgram(0);
-    //}
-    //else
-   //     node.get()->isBeingRendered = false;
+
+        if (boundingBox->isVisible)
+            renderBoundingBox(boundingBox);
+    }
+    else
+        node.get()->isBeingRendered = false;
 
     matrixStack.popModelStack();
 
@@ -189,71 +164,15 @@ OpenGLRenderer::renderSingleMesh(const SingleMesh &mesh,
 
 void 
 OpenGLRenderer::renderEffectedModel(EffectedModel &model,
-    BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
+    vector<BoundingBox*> &bb, shared_ptr<SceneNode> node, Camera &camera)
 {
     const vector<SingleMesh> *meshes = model.getMeshes();
 
-    for (size_t i = 0; i < meshes->size(); ++i)
-        renderSingleMesh((*meshes)[i], boundingBox, node, camera);
-}
-
-/*void
-OpenGLRenderer::renderEffectedModel(EffectedModel &model,
-BoundingBox *boundingBox, shared_ptr<SceneNode> node, Camera &camera)
-{
-    Material *material = model.getMaterials()[0];
-    vector<ShaderVariable> samplerVars = material->getShader()->getSamplerVars();
-
-    mat4 modelM = node.get()->getModelMatrix();
-    matrixStack.pushModelStack(modelM);
-
-    if (camera.getFrustum()->isBoxInFrustum(*boundingBox))
+    for (auto i = 0; i < meshes->size(); ++i)
     {
-        glUseProgram(material->getShader()->getProgramID());
-
-        if (boundingBox->getIsVisible())
-        {
-
-        }
-
-        // Only diffuse texture.
-        if (!samplerVars.empty())
-        {
-            glActiveTexture(GL_TEXTURE0);
-            glUniform1i(samplerVars[0].getUniformLocation(), 0); 
-            // Might be buggy with multiple textures.
-            glBindTexture(GL_TEXTURE_2D, 
-                material->getDiffuseTexture()->textureID);
-        }
-
-        glUniformMatrix4fv(material->getShader()->getModelViewMatrixID(),
-            1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix() 
-            * matrixStack.getModelMatrix()));
-
-        glUniformMatrix4fv(material->getShader()->getProjectionID(),
-            1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
-
-        SingleMesh *m = model.getMesh();
-        glBindVertexArray(m->getVAO());
-
-        if (!m->getIndices().empty())
-            glDrawElements(GL_TRIANGLES, m->getIndices().size(), 
-            GL_UNSIGNED_INT, 0);
-        else
-            glDrawArrays(GL_TRIANGLES, 0, m->getVertices().size());
-
-        glBindVertexArray(0);
-        node.get()->isBeingRendered = true;
-        glUseProgram(0);
+        renderSingleMesh((*meshes)[i], bb[i], node, camera);
     }
-    else
-        node.get()->isBeingRendered = false;
-
-    matrixStack.popModelStack();
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-}*/
+}
 
 void 
 OpenGLRenderer::renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node)
@@ -279,30 +198,47 @@ OpenGLRenderer::renderSkybox(Skybox &skybox, std::shared_ptr<SceneNode> node)
     glDepthMask(GL_TRUE);
 }
 
-/*
-void
-OpenGLRenderer::renderMesh(Mesh &mesh)
+void 
+OpenGLRenderer::renderBoundingBox(BoundingBox *boundingBox, 
+    float lineThickness)
 {
-    for (int i = 0; i < mesh.getNumPrimitives(); ++i)
-        renderPrimitiveShape(mesh.getPrimitives()[i]);
-}
+    setWireframeMode(true);
+    ShaderProgram* shader = ShaderProgramManager::getInstance()->get(
+        boundingBoxShaderName);
+    SingleMesh* mesh = boundingBox->associatedMesh;
+    glUseProgram(shader->getProgramID());
 
-void
-OpenGLRenderer::renderMesh(PolyMesh &polymesh)
-{
-    for (int i = 0; i < polymesh.getNumMeshes(); ++i)
-        renderMesh(*((*polymesh.getMeshes())[i]));
-}*/
+    glUniformMatrix4fv(shader->getModelViewMatrixID(),
+        1, GL_FALSE, glm::value_ptr(matrixStack.getViewMatrix()
+            * boundingBox->lastTransform));
+
+    glUniformMatrix4fv(shader->getProjectionID(),
+        1, GL_FALSE, glm::value_ptr(matrixStack.getProjectionMatrix()));
+
+    glBindVertexArray(mesh->getVAO());
+    glDrawElements(GL_TRIANGLES, mesh->getIndices().size(),
+        GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
+    setWireframeMode(false);
+}
 
 void 
 OpenGLRenderer::setWireframeMode(bool isOn)
 { 
     isWireframe = isOn; 
 
-    if (isOn) 
+    if (isOn)
+    {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_CULL_FACE);
+    }
     else
+    {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_CULL_FACE);
+    }
 }
 
 void
@@ -328,11 +264,12 @@ OpenGLRenderer::renderSceneNode(shared_ptr<SceneNode> node, Camera &camera)
             {
                 if (EffectedModel *em 
                     = dynamic_cast<EffectedModel*>(go->getModel()))
-                        renderEffectedModel(*em, go->getBoundingBoxes()[i],
+                        renderEffectedModel(*em, go->getBoundingBoxes(),
                             node, camera);
                 else if (SingleMesh *sm = 
                     dynamic_cast<SingleMesh*>(go->getModel()))
                 {
+                    // TODO: Change the dependency on getBoundingBoxes()
                     renderSingleMesh(*sm, go->getBoundingBoxes()[i],
                         node, camera);
                 }
@@ -380,6 +317,4 @@ void OpenGLRenderer::prepareToRender(Camera &camera)
     look = camera.getSceneCenter();
     up = camera.getCameraUp();
     matrixStack.setViewMatrix(glm::lookAt(pos, look, up));
-    //matrixStack.setUntranslatedViewMatrix(glm::lookAt(vec3(0, 0, 0),
-    //	look, up));
 }

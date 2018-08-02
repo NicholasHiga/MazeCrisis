@@ -4,68 +4,74 @@
 #include "ShaderProgram.h"
 #include "ShaderVariable.h"
 #include "MaterialManager.h"
+#include "DefaultEngineVars.h"
+#include "ShaderProgramManager.h"
 
 using std::vector;
 using std::string;
 
-SingleMesh::SingleMesh(const string &name, PrimitiveType prim,
+SingleMesh::SingleMesh(PrimitiveType prim,
     const vector<Vertex> &vertices, const vector<GLuint> &indices)
 {
-    initModel(name, prim, vertices, indices);
+    initModel(prim, vertices, indices);
+}
+
+SingleMesh::SingleMesh(PrimitiveType prim, const std::vector<Vertex> &vertices,
+    const std::vector<GLuint> &indices, bool isBoundingBox)
+{
+    initModel(prim, vertices, indices);
+    m_isBoundingBox = isBoundingBox;
+    bindAttributes();
 }
 
 // Doesn't initialize mesh, shader or material, assume all are loaded already.
-SingleMesh::SingleMesh(const SingleMesh &baseMesh, const string &name,
-    const string &materialName)
+SingleMesh::SingleMesh(const SingleMesh &baseMesh, const string &materialName)
 {
-    initModel(name, baseMesh);
+    initModel(baseMesh);
     addExistingMaterial(materialName);
     bindAttributes();
 }
 
 // Doesn't initialize mesh or shader, but initializes the material using 
 // the given shader and texture.
-SingleMesh::SingleMesh(const SingleMesh &baseMesh, const string &name,
-    const string &materialName, const string &shaderName,
-    const string &diffuseTexture)
+SingleMesh::SingleMesh(const SingleMesh &baseMesh, const string &materialName,
+    const string &shaderName, const string &diffuseTexture)
 {
-    initModel(name, baseMesh);
+    initModel(baseMesh);
     initMaterialWithLoadedShader(materialName, shaderName, diffuseTexture);
     bindAttributes();
 }
 
 // Initialize mesh, but not material or shader.
-SingleMesh::SingleMesh(const string &name, const string &materialName,
-    PrimitiveType prim, const vector<Vertex> &vertices,
-    const vector<GLuint> &indices)
+SingleMesh::SingleMesh(const string &materialName, PrimitiveType prim,
+    const vector<Vertex> &vertices, const vector<GLuint> &indices)
 {
     addExistingMaterial(materialName);
-    initModel(name, prim, vertices, indices);
+    initModel(prim, vertices, indices);
     bindAttributes();
 }
 
 // Initialize material and shader, but not mesh.
-SingleMesh::SingleMesh(const SingleMesh &baseMesh, const string &name,
+SingleMesh::SingleMesh(const SingleMesh &baseMesh,
     const string &materialName, const string &shaderName,
     const string &vertexShaderPath, const string &fragmentShaderPath, 
     const vector<ShaderVariable> &shaderVars, const string &diffuseTexture,
     bool printShaderLoadStatus)
 {
-    initModel(name, baseMesh);
+    initModel(baseMesh);
     initMaterial(materialName, shaderName, vertexShaderPath, fragmentShaderPath,
         shaderVars, diffuseTexture, printShaderLoadStatus);
     bindAttributes();
 }
 
 // Initialization of everything, mesh, material and shader.
-SingleMesh::SingleMesh(const string &name,
-    const string &materialName, const string &shaderName, PrimitiveType prim,
-    const vector<Vertex> &vertices, const vector<GLuint> &indices,
-    const string &vertexShaderPath, const string &fragmentShaderPath,
-    const vector<ShaderVariable> &shaderVars, const string &diffuseTexture,
-    bool printShaderLoadStatus)
+SingleMesh::SingleMesh(const string &materialName, const string &shaderName, 
+    PrimitiveType prim, const vector<Vertex> &vertices, 
+    const vector<GLuint> &indices, const string &vertexShaderPath,
+    const string &fragmentShaderPath, const vector<ShaderVariable> &shaderVars, 
+    const string &diffuseTexture, bool printShaderLoadStatus)
 {
-    initModel(name, prim, vertices, indices);
+    initModel(prim, vertices, indices);
     initMaterial(materialName, shaderName, vertexShaderPath, fragmentShaderPath,
         shaderVars, diffuseTexture, printShaderLoadStatus);
     bindAttributes();
@@ -106,28 +112,27 @@ SingleMesh::operator=(SingleMesh &&other)
     return *this;
 }
 
-std::string
-SingleMesh::getName() const
-{
-    return name;
-}
-
 vector<Vertex>
 SingleMesh::getVertices() const
 { 
     return vertices;
 }
 
+ShaderProgram*
+SingleMesh::getShader() const
+{
+    if (!getMaterials().empty())
+        return getMaterials()[0]->getShader();
+    else if (m_isBoundingBox)
+        return ShaderProgramManager::getInstance()->get(boundingBoxShaderName);
+    else
+        return nullptr;
+}
+
 vector<GLuint>
 SingleMesh::getIndices() const
 {
     return indices;
-}
-
-void
-SingleMesh::setName(const string &name)
-{
-    this->name = name;
 }
 
 void
@@ -199,8 +204,7 @@ SingleMesh::bindAttributes()
     glBindVertexArray(getVAO());
 
     // TO DO: MAKE SURE WORKING WITH MULTIPLE MATERIALS!!
-    vector<ShaderVariable> vars = getMaterials()[0]->getShader()
-        ->getShaderVars();
+    vector<ShaderVariable> vars = getShader()->getShaderVars();
 
     for (size_t i = 0; i < vars.size(); ++i)
     {
@@ -218,7 +222,7 @@ SingleMesh::bindAttributes()
             glVertexAttribPointer(i, 2, GL_FLOAT, GL_FALSE,
                 sizeof(Vertex), (GLvoid*)offsetof(Vertex, uv));
         else if (eVar == ENGINE_VAR::VERTEX_COLOR)
-            glVertexAttribPointer(i, 3, GL_FLOAT, GL_FALSE,
+            glVertexAttribPointer(i, 4, GL_FLOAT, GL_FALSE,
                 sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
     }
 
@@ -226,15 +230,15 @@ SingleMesh::bindAttributes()
 }
 
 void 
-SingleMesh::initModel(const std::string &name, const SingleMesh &baseMesh)
+SingleMesh::initModel(const SingleMesh &baseMesh)
 {
-    initModel(name, baseMesh.getPrimitiveType(), baseMesh.getVertices(),
+    initModel(baseMesh.getPrimitiveType(), baseMesh.getVertices(),
         baseMesh.getIndices());
 }
 
 void
-SingleMesh::initModel(const string &name, PrimitiveType prim,
-    const vector<Vertex> &vertices, const vector<GLuint> &indices)
+SingleMesh::initModel(PrimitiveType prim, const vector<Vertex> &vertices, 
+    const vector<GLuint> &indices)
 {
     setPrimitiveType(prim);
     this->vertices = vertices;
@@ -246,7 +250,6 @@ SingleMesh::initModel(const string &name, PrimitiveType prim,
     if (!indices.empty())
         glGenBuffers(1, &ibo);
 
-    setName(name);
     setIndices(indices);
     setVertices(vertices);
 }

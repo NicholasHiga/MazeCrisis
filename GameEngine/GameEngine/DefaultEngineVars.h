@@ -9,6 +9,12 @@ static const std::string defaultMeshName = "DefaultMesh.mesh";
 static const std::string defaultMaterialName = "DefaultMaterial.mat";
 static const std::string defaultShaderName = "DefaultShader.shader";
 static const std::string defaultVertexShaderPath
-= "../GameEngine/DefaultShaders/DefaultVertex.vert";
+    = "../GameEngine/DefaultShaders/DefaultVertex.vert";
 static const std::string defaultFragmentShaderPath
-= "../GameEngine/DefaultShaders/DefaultFragment.frag";
+    = "../GameEngine/DefaultShaders/DefaultFragment.frag";
+
+static const std::string boundingBoxShaderName = "BoundingBox.shader";
+static const std::string boundingBoxVertexShaderPath 
+    = "../GameEngine/DefaultShaders/BoundingBox.vert";
+static const std::string boundingBoxFragmentShaderPath
+    = "../GameEngine/DefaultShaders/BoundingBox.frag";

@@ -28,10 +28,12 @@ public:
         const std::vector<ShaderVariable> &shaderVars);
 
     static std::vector<ShaderVariable> getDefaultShaderVars();
+    static std::vector<ShaderVariable> getBoundingBoxShaderVars();
 
 private:
     static std::unique_ptr<ShaderProgramManager> myInstance;
     static std::vector<ShaderVariable> defaultShaderVars;
+    static std::vector<ShaderVariable> defaultBoundingBoxShaderVars;
 
     ShaderProgramManager() {};
 };

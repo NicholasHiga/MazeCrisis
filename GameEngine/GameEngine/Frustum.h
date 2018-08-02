@@ -8,7 +8,7 @@ class Frustum
 public:
 	void setWindowSize(float _fov, float _aspectRatio, float _nearPlaneDistance,
 		float _farPlaneDistance); // Call whenever window size is changed.
-	void setCamera(const glm::vec3 &_pos, const glm::vec3 &_direction,
+	void setCamera(const glm::vec3 &_pos, const glm::vec3 &_lookAt,
 		const glm::vec3 &_up);
 	bool isPointInFrustum(glm::vec3 &point);
 	bool isBoxInFrustum(BoundingBox &box);

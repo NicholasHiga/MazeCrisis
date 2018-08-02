@@ -136,7 +136,7 @@ SceneNode::getModelMatrix() const
 	float angle;
 	vec3 rotAxis;
 
-	getOrientation().toRotationAndVectorDegrees(angle, rotAxis);
+	getOrientation().toRotationAndVectorRadians(angle, rotAxis);
 
 	mat4 modelM;
 	modelM = glm::translate(modelM, vec3(position.x, position.y, position.z));

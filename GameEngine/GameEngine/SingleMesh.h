@@ -6,6 +6,7 @@
 #include "MeshType.h"
 
 class Material;
+class ShaderProgram;
 class ShaderVariable;
 
 // It is up to the developer to make sure that the number of total vertices is
@@ -15,29 +16,30 @@ class SingleMesh : public MeshType
 {
 public:
     SingleMesh() {};
-    SingleMesh(const std::string &name, PrimitiveType prim,
-        const std::vector<Vertex> &vertices,
+    SingleMesh(PrimitiveType prim, const std::vector<Vertex> &vertices,
         const std::vector<GLuint> &indices);
+
+    // Case where we want a mesh without a texture.
+    SingleMesh(PrimitiveType prim, const std::vector<Vertex> &vertices,
+        const std::vector<GLuint> &indices, bool isBoundingBox);
 
     // Doesn't initialize mesh, shader or material, assume all are loaded
     // already.
-    SingleMesh(const SingleMesh &baseMesh, const std::string &name,
-        const std::string &materialName);
+    SingleMesh(const SingleMesh &baseMesh, const std::string &materialName);
 
     // Doesn't initialize mesh or shader, but initializes the material 
     // using the given shader and texture.
-    SingleMesh(const SingleMesh &baseMesh, const std::string &name, 
-        const std::string &materialName, const std::string &shaderName,
-        const std::string &diffuseTexture = "");
+    SingleMesh(const SingleMesh &baseMesh, const std::string &materialName, 
+        const std::string &shaderName, const std::string &diffuseTexture = "");
 
     // Initialize mesh, but not material or shader.
-    SingleMesh(const std::string &name, const std::string &materialName,
-        PrimitiveType prim, const std::vector<Vertex> &vertices,
+    SingleMesh(const std::string &materialName, PrimitiveType prim, 
+        const std::vector<Vertex> &vertices, 
         const std::vector<GLuint> &indices);
 
     // Initialize material and shader, but not mesh.
-    SingleMesh(const SingleMesh &baseMesh, const std::string &name, 
-        const std::string &materialName, const std::string &shaderName, 
+    SingleMesh(const SingleMesh &baseMesh, const std::string &materialName,
+        const std::string &shaderName, 
         const std::string &vertexShaderPath,
         const std::string &fragmentShaderPath,
         const std::vector<ShaderVariable> &shaderVars,
@@ -45,7 +47,7 @@ public:
         bool printShaderLoadStatus = false);
 
     // Initialization of everything, mesh, material and shader.
-    SingleMesh(const std::string &name, const std::string &materialName,
+    SingleMesh(const std::string &materialName,
         const std::string &shaderName, PrimitiveType prim,
         const std::vector<Vertex> &vertices,
         const std::vector<GLuint> &indices,
@@ -62,16 +64,15 @@ public:
     SingleMesh& operator=(SingleMesh &other) = delete;
     SingleMesh& operator=(SingleMesh &&other);
 
-    std::string getName() const;
     std::vector<Vertex> getVertices() const;
     std::vector<GLuint> getIndices() const;
+    ShaderProgram* getShader() const;
 
     const GLuint getVAO() const { return vao; }
     const GLuint getVBO() const { return vbo; }
     const GLuint getIBO() const { return ibo; }
     PrimitiveType getPrimitiveType() const { return primitiveType; }
 
-    void setName(const std::string &name);
     void setVertices(std::vector<Vertex> vertices); 
     void setIndices(std::vector<GLuint> indices);
     // Order of ShaderVariables matters in the ShaderProgram.
@@ -82,15 +83,15 @@ public:
     const std::vector<Material*> getMaterials() const;
 
     std::string className() const { return "SingleMesh"; }
+    bool m_isBoundingBox;
 
     ~SingleMesh() noexcept;
 
 protected:
     void bindAttributes();
     
-    void initModel(const std::string &name, const SingleMesh &baseMesh);
-    void initModel(const std::string &name, PrimitiveType prim,
-        const std::vector<Vertex> &vertices,
+    void initModel(const SingleMesh &baseMesh);
+    void initModel(PrimitiveType prim, const std::vector<Vertex> &vertices,
         const std::vector<GLuint> &indices);
 
     void initMaterial(const std::string &materialName,

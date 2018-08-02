@@ -8,6 +8,7 @@ using std::shared_ptr;
 
 unique_ptr<ShaderProgramManager> ShaderProgramManager::myInstance = nullptr;
 vector<ShaderVariable> ShaderProgramManager::defaultShaderVars;
+vector<ShaderVariable> ShaderProgramManager::defaultBoundingBoxShaderVars;
 
 ShaderProgramManager*
 ShaderProgramManager::getInstance()
@@ -83,4 +84,21 @@ ShaderProgramManager::getDefaultShaderVars()
             ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
     }
     return defaultShaderVars;
+}
+
+vector<ShaderVariable>
+ShaderProgramManager::getBoundingBoxShaderVars()
+{
+    if (defaultBoundingBoxShaderVars.empty())
+    {
+        defaultBoundingBoxShaderVars.push_back(ShaderVariable(
+            ENGINE_VAR::VERTEX_POSITION, "position"));
+        defaultBoundingBoxShaderVars.push_back(ShaderVariable(
+            ENGINE_VAR::VERTEX_COLOR, "colors"));
+        defaultBoundingBoxShaderVars.push_back(ShaderVariable(
+            ENGINE_VAR::MODEL_VIEW_MATRIX, "modelViewMatrix"));
+        defaultBoundingBoxShaderVars.push_back(ShaderVariable(
+            ENGINE_VAR::PROJECTION_MATRIX, "projectionMatrix"));
+    }
+    return defaultBoundingBoxShaderVars;
 }

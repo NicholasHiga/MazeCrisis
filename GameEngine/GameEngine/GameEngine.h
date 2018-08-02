@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "RayQuery.h"
 #include "LogManager.h"
+#include "FirstPersonCamera.h"
 
 #include "GameObject.h"
 #include "SingleMesh.h"
@@ -42,7 +43,7 @@ class GameEngine
 public:
 	GameEngine(AbstractRenderer &renderer, GLuint windowWidth, 
 		GLuint windowHeight);
-	~GameEngine();
+	virtual ~GameEngine();
 
 	virtual void onStart();
 	virtual void onEnd();

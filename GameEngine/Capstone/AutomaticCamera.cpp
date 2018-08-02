@@ -19,7 +19,7 @@ namespace MazeCrisis
 		GLuint windowWidth, GLuint windowHeight)
 		: Camera(windowWidth, windowHeight)
 	{
-		MeshManager::getInstance()->loadCubeModel("CameraBox",
+		MeshManager::getInstance()->loadTexturedCubeModel("CameraBox",
 			TEXTURES_PATH + "bcrate.jpg");
 		go = std::make_shared<GameObject>("CameraBox", "CameraBox",
 			MESH_TYPE::SINGLE_MESH);

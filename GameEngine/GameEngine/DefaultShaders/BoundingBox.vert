@@ -1,9 +1,9 @@
 #version 330 core
   
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec2 uv;
+layout (location = 1) in vec4 color;
 
-out vec2 texCoords;
+out vec4 inColor;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -11,5 +11,5 @@ uniform mat4 projectionMatrix;
 void main()
 {
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position.x, position.y, position.z, 1.0);
-    texCoords = vec2(uv.x, 1.0 - uv.y);
+    inColor = color;
 }

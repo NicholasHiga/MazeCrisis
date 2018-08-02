@@ -13,6 +13,7 @@
 
 #define DEG2RAD 3.14159265358979323846/180.0
 
+using glm::vec2;
 using glm::vec3;
 using std::vector;
 using std::string;
@@ -23,13 +24,17 @@ GLFWwindow* window;
 const GLushort WIDTH = 1280;
 const GLushort HEIGHT = 720;
 int lastMouseState = GLFW_RELEASE;
+Camera *firstPersonCamera;
 
 void window_size_callback(GLFWwindow* window, int width, int height);
-static void mouseHandler(GLFWwindow* window, int button, int action, int mods);
+static void mouseMovementHandler(GLFWwindow* window, double xpos, double ypos);
+static void mouseButtonHandler(GLFWwindow* window, int button,
+    int action, int mods);
 static void keyHandler(GLFWwindow* window, int key,
     int scancode, int action, int mods);
 
 float camAngle = 0;
+float deltaTime = 0;
 
 class DemoApp : public GameEngine
 {
@@ -49,35 +54,39 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
     renderer = OpenGLRenderer::getInstance();
     shaderManager = ShaderProgramManager::getInstance();
 
-    camera->setCameraPosition(vec3(0, 0, 3), false);
-    camera->setSceneCenter(vec3(0, 0, 0), false);
+    camera = std::make_unique<FirstPersonCamera>(vec3(0.03f, 0.03f, 0.03f),
+        vec2(0.1f, 0.1f), WIDTH, HEIGHT);
+    camera->setCameraPosition(vec3(0, 0, 0), false);
+    camera->setSceneCenter(vec3(0, 0, 3), false);
     camera->setCameraUp(vec3(0, 1, 0), true);
+    firstPersonCamera = camera.get();
 
     nodes.push_back(std::make_shared<SceneNode>());
     nodes.push_back(std::make_shared<SceneNode>());
 
-    nodes[0]->setOrientation(Quaternion(180.0f, vec3(0, 1, 0), false));
-    nodes[0]->setPosition(vec3(0.0f, -1.0f, 1.0f));
+    nodes[0]->setOrientation(Quaternion(150.0f, vec3(0, 1, 0), false));
+    nodes[0]->setPosition(vec3(-1.0f, -0.7f, 1.7f));
     nodes[0]->setScale(vec3(0.1f, 0.1f, 0.1f));
 
-    //nodes[1]->setPosition(vec3(1.2f, -1.0f, 4.5f));
-    //nodes[1]->setScale(vec3(1.0f, 1.0f, 1.0f));
+    nodes[1]->setPosition(vec3(1.2f, -1.0f, 4.5f));
+    nodes[1]->setScale(vec3(1.0f, 1.0f, 1.0f));
 
     try
     {
         //meshManager->loadCubeModel("Test", "floor.png");
-        //modelManager->loadModel("Glock", "./Assets/nanosuit/nanosuit.obj");
-        modelManager->loadModel("Glock", "./Assets/cube.obj");
+        modelManager->loadModel("Glock", "./Assets/nanosuit/nanosuit.obj");
+        //modelManager->loadModel("Glock", "./Assets/cube.obj");
         gameObjects.push_back(std::make_shared<GameObject>("Object1", "Glock",
             MESH_TYPE::EFFECTED_MODEL));
         nodes[0]->addRenderable(*gameObjects[0]);
+        gameObjects[0]->setAreBoundingBoxesVisible(true);
         scene->appendChildNode(nodes[0]);		
         
-        /*meshManager->loadCubeModel("Test2", "floor.png");
+        meshManager->loadTexturedCubeModel("Test2", "floor.png");
         gameObjects.push_back(std::make_shared<GameObject>("Object1", "Test2",
             MESH_TYPE::SINGLE_MESH));
-        nodes[0]->addRenderable(*gameObjects[0]);
-        scene->appendChildNode(nodes[0]);*/
+        nodes[1]->addRenderable(*gameObjects[1]);
+        scene->appendChildNode(nodes[1]);
     }
     catch (std::exception &e)
     {
@@ -95,6 +104,7 @@ DemoApp::update(double t)
         camera->setSceneCenter(vec3(x, 0, y));
         camAngle += 0.1f * t;*/
     }
+    deltaTime = t;
 }
 
 DemoApp::~DemoApp()
@@ -154,10 +164,12 @@ int main()
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     // Hide the mouse and enable unlimited mouvement
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    glfwSetMouseButtonCallback(window, mouseHandler);
+    glfwSetMouseButtonCallback(window, mouseButtonHandler);
+    glfwSetCursorPosCallback(window, mouseMovementHandler);
     glfwSetKeyCallback(window, keyHandler);
+    glfwFocusWindow(window);
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -195,7 +207,14 @@ window_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void
-mouseHandler(GLFWwindow* window, int button, int action, int mods)
+mouseMovementHandler(GLFWwindow* window, double xpos, double ypos)
+{
+    FirstPersonCamera* cam = static_cast<FirstPersonCamera*>(firstPersonCamera);
+    cam->moveCursor(vec2(xpos, ypos));
+}
+
+void
+mouseButtonHandler(GLFWwindow* window, int button, int action, int mods)
 {
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
@@ -206,7 +225,7 @@ mouseHandler(GLFWwindow* window, int button, int action, int mods)
        /* Ray r = RayQuery::getRayFromMouseClick((int)xpos, (int)ypos);
 
         vector<shared_ptr<SceneNode>> intersections =
-            RayQuery::Raycast(r, true);
+            RayQuery::Raycast;(r, true);
 
         if (!intersections.empty())
         {
@@ -233,4 +252,16 @@ keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_P && action == GLFW_PRESS)
         engine->isPaused = !engine->isPaused;
+
+    if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        firstPersonCamera->moveForward(deltaTime);
+
+    if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        firstPersonCamera->moveBackward(deltaTime);
+
+    if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        firstPersonCamera->moveLeft(deltaTime);
+
+    if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT))
+        firstPersonCamera->moveRight(deltaTime);
 }
