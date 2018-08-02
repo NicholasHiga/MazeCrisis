@@ -55,13 +55,13 @@ OpenGLRenderer::renderFixedPrimitve(PrimitiveType prim)
 {
     GLuint vao, vbo;
     GLfloat points[] = {
-        0.0f, 0.0f,		// Dot
-        -0.5f, 0.0f,	// Line
+        0.0f, 0.0f,        // Dot
+        -0.5f, 0.0f,    // Line
         0.5f, 0.0f,
-        0.0f, 0.5f,		// Triangle
+        0.0f, 0.5f,        // Triangle
         -0.5f, -0.5f,
         0.5f, -0.5f,
-        0.5f, 0.5f,		// Square
+        0.5f, 0.5f,        // Square
         0.5f, -0.5f,
         -0.5f, -0.5f,
         -0.5f, -0.5f,
@@ -292,7 +292,7 @@ OpenGLRenderer::setWindowSize(int width, int height, Camera *cam)
         // avoid zerodivide
         winHeight = 1;
     }
-    glViewport(0, 0, winWidth, winHeight);			// set Viewport size
+    glViewport(0, 0, winWidth, winHeight);            // set Viewport size
 
     mat4 projection = glm::perspective(45.0f, 
         (GLfloat)winWidth / (GLfloat)winHeight, 0.1f, 1000.0f);

@@ -11,79 +11,79 @@ LogManager::LogManager() : LogManager("Log.log", LogPriority::LOG_INFO)
 
 LogManager::LogManager(const string &filename, LogPriority priority)
 {
-	myFilename = filename;
-	myPriority = priority;
-	myFile = new ofstream(filename.c_str());
+    myFilename = filename;
+    myPriority = priority;
+    myFile = new ofstream(filename.c_str());
 }
 
 LogManager::~LogManager()
 {
-	close();
+    close();
 
 }
 
 LogManager&
 LogManager::getInstance()
 {
-	if (myInstance == nullptr)
-		myInstance = std::unique_ptr<LogManager>(new LogManager());
+    if (myInstance == nullptr)
+        myInstance = std::unique_ptr<LogManager>(new LogManager());
 
-	return *myInstance;
+    return *myInstance;
 }
 
 void 
 LogManager::close()
 {
-	if (myFile != nullptr)
-	{
-		myFile->close();
-		delete myFile;
-		myFile = nullptr;
-	}
+    if (myFile != nullptr)
+    {
+        myFile->close();
+        delete myFile;
+        myFile = nullptr;
+    }
 }
 
 void 
 LogManager::setFilename(const string &filename)
 {
-	myFile->close();
-	rename(myFilename.c_str(), filename.c_str());
-	myFilename = filename;
+    myFile->close();
+    rename(myFilename.c_str(), filename.c_str());
+    myFilename = filename;
 }
 
 void 
 LogManager::setPriority(LogPriority priority)
 {
-	myPriority = priority;
+    myPriority = priority;
 }
 
 void 
 LogManager::log(const string &message, LogPriority priority)
 {
-	if (priority >= myPriority)
-		*myFile << message << std::endl;
+    if (priority >= myPriority)
+        *myFile << message << std::endl;
 }
 
 void 
 LogManager::info(const string &message)
 {
-	log(message, LogPriority::LOG_INFO);
+    log(message, LogPriority::LOG_INFO);
 }
 
 void 
 LogManager::trace(const string &message)
 {
-	log(message, LogPriority::LOG_TRACE);
+    log(message, LogPriority::LOG_TRACE);
 }
 
 void 
 LogManager::warn(const string &message)
 {
-	log(message, LogPriority::LOG_WARN);
+    log(message, LogPriority::LOG_WARN);
 }
 
 void 
 LogManager::error(const string &message)
 {
-	log(message, LogPriority::LOG_ERROR);
+    log(message, LogPriority::LOG_ERROR);
 }
 

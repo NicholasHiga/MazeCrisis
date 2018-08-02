@@ -5,12 +5,12 @@
 #include "ShaderProgram.h"
 #include "ResourceManager.h"
 
-#define DUPLICATE_SHADER	  0x1		// Shader already loaded in program, 
+#define DUPLICATE_SHADER      0x1        // Shader already loaded in program, 
                                         // status.message
                                         // returned will have the name of
                                         // the shader.
-#define SHADER_NAME_TAKEN	  0x2
-#define LOAD_FAILED			  0x4
+#define SHADER_NAME_TAKEN      0x2
+#define LOAD_FAILED              0x4
 
 struct ShaderManagerLoadStatus
 {

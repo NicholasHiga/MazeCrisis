@@ -2,5 +2,5 @@
 
 namespace MazeCrisis
 {
-	std::stack<GameState> Common::gameStates;
+    std::stack<GameState> Common::gameStates;
 }

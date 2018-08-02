@@ -105,8 +105,8 @@ protected:
     std::string gameObjectName, modelName;
     std::function<void(SceneNode*, double)> script;
     std::vector<std::unique_ptr<BoundingBox>> boundingBoxes;
-    bool isVisible;		// Determines if being rendered.
-    bool isEnabled;		// Determines if scripts active/inactive, collisions.
+    bool isVisible;        // Determines if being rendered.
+    bool isEnabled;        // Determines if scripts active/inactive, collisions.
     bool areBoundingBoxesVisible;
     MESH_TYPE meshType;
 

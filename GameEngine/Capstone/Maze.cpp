@@ -32,9 +32,9 @@ namespace MazeCrisis
             textureValues.size());
         mazeRoot = std::make_shared<SceneNode>();
 
-        int a = textureValues.size();			//	3	// Height
-        int b = textureValues[0].size();		//	2	// Length
-        int c = textureValues[0][0].size();		//	1	// Width
+        int a = textureValues.size();            //    3    // Height
+        int b = textureValues[0].size();        //    2    // Length
+        int c = textureValues[0][0].size();        //    1    // Width
 
         textures = vector<vector<vector<string>>>(textureValues.size(),
             vector<vector<string>>(textureValues[0].size(),
@@ -88,9 +88,9 @@ namespace MazeCrisis
                         gameObjects.back().get()->setIsEnabled(false);
                         node->addRenderable(*gameObjects.back());
                         node->setPosition(
-                            vec3(startPos.x + k * sizePerCube,	// 1
-                                startPos.y + i * sizePerCube - 2,		// 3
-                                startPos.z - j * sizePerCube - 4));	// 2
+                            vec3(startPos.x + k * sizePerCube,    // 1
+                                startPos.y + i * sizePerCube - 2,        // 3
+                                startPos.z - j * sizePerCube - 4));    // 2
                         node->setScale(vec3(sizePerCube, sizePerCube, 
                             sizePerCube));
                         mazeRoot->appendChildNode(node);

@@ -85,7 +85,7 @@ private:
     static int boundingBoxIndex;
 
     MeshManager();
-    //	Mesh* buildSingleModel(const string &path, ImageManager &im,
+    //    Mesh* buildSingleModel(const string &path, ImageManager &im,
     // int _index = 0);
     //PolyMesh* buildPolyModel(const string &path, ImageManager &im);
     

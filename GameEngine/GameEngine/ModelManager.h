@@ -10,16 +10,16 @@
 class ModelManager : public ResourceManager<EffectedModel>
 {
 public:
-	static ModelManager* getInstance();
+    static ModelManager* getInstance();
 
-	// Used for loading any model from a file.
-	bool loadModel(const std::string &modelName, const std::string &filepath);
+    // Used for loading any model from a file.
+    bool loadModel(const std::string &modelName, const std::string &filepath);
 
-	bool loadModel(const std::string &modelName,
-		std::shared_ptr<EffectedModel> model);
+    bool loadModel(const std::string &modelName,
+        std::shared_ptr<EffectedModel> model);
 
 private:
-	static std::unique_ptr<ModelManager> myInstance; // Singleton
+    static std::unique_ptr<ModelManager> myInstance; // Singleton
 
-	ModelManager() {};
+    ModelManager() {};
 };

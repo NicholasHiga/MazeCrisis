@@ -21,7 +21,7 @@ public:
         bool printShaderLoadStatus = false);
 
     void setName(const std::string &name);
-    void setShader(const std::string &shaderName);	
+    void setShader(const std::string &shaderName);    
 
     bool addTexture(const std::string &textureName, TextureType type);
     bool addDiffuseTexture(const std::string &textureName);

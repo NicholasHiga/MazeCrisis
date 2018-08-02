@@ -109,8 +109,8 @@ protected:
     std::vector<GLuint> indices;
     std::vector<Material*> materials;
 
-    GLuint vao, vbo, ibo;			// Vertex buffer, vertex array,
-                                    //	index buffer.													
-    PrimitiveType primitiveType;	// Using only triangles, or quads 
-                                    //	as the main primitive
+    GLuint vao, vbo, ibo;            // Vertex buffer, vertex array,
+                                    //    index buffer.                                                    
+    PrimitiveType primitiveType;    // Using only triangles, or quads 
+                                    //    as the main primitive
 };

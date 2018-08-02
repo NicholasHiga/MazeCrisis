@@ -76,7 +76,7 @@ TextureManager::loadTexture(const string &path, const string &name,
                                         // keeps being returned even when there
                                         // is no instance of this occuring.
                                         // Hence this was commented out.
-            //	throw std::runtime_error("Image failed to load.");
+            //    throw std::runtime_error("Image failed to load.");
 
             if (name == "")
                 return store(path, texture);

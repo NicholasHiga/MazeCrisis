@@ -4,19 +4,19 @@
 
 namespace MazeCrisis
 {
-	using namespace glm;
-	using namespace std;
+    using namespace glm;
+    using namespace std;
 
-	class WiiCursorSmoother
-	{
-	public:
-		WiiCursorSmoother();
-		WiiCursorSmoother(unsigned int maxElements);
-		vec2 addPointAndGetAverage(vec2 point);
+    class WiiCursorSmoother
+    {
+    public:
+        WiiCursorSmoother();
+        WiiCursorSmoother(unsigned int maxElements);
+        vec2 addPointAndGetAverage(vec2 point);
 
-	private:
-		unsigned int numMaxElements;
-		list<vec2> pointsToAverage;
-		vec2 runningAverage;
-	};
+    private:
+        unsigned int numMaxElements;
+        list<vec2> pointsToAverage;
+        vec2 runningAverage;
+    };
 }

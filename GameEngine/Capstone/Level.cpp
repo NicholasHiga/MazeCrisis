@@ -491,7 +491,7 @@ namespace MazeCrisis
         if (currentSection == 7)
         {
             // nodes[11]->setPosition(nodes[11]->getPosition() 
-            //	+ vec3(0, 0, 0.005f * deltaTime));
+            //    + vec3(0, 0, 0.005f * deltaTime));
             nodes[12]->setPosition(nodes[12]->getPosition()
                 + vec3(0, 0, 0.027f * deltaTime));
             // nodes[13]->setPosition(nodes[13]->getPosition() 

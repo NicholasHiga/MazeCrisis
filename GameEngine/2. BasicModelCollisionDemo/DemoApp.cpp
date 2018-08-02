@@ -39,7 +39,7 @@ public:
     vector<Vertex> squareVertices, cubeOneVertices, cubeTwoVertices;
 
     vector<string> meshNames     = { "ColoredCube", "TexturedCube" };
-    vector<string> modelNames	= { "RainbowCube", "YellowCube", "Floor", 
+    vector<string> modelNames    = { "RainbowCube", "YellowCube", "Floor", 
         "WoodSlab", "Crate", "Grass" };
     vector<string> materialNames = { "RainbowCube", "YellowCube", "Floor",
         "WoodSlab", "Crate", "Grass" };
@@ -107,7 +107,7 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
             cubeOneVertices, coloredCubeIndices);
         materialManager->loadMaterial(materialNames[0], shaderNames[0],
             "ColoredVertex.vert", "ColoredFragment.frag", vars, "", true);
-        modelManager->loadModel(modelNames[0], meshNames[0], materialNames[0]);	
+        modelManager->loadModel(modelNames[0], meshNames[0], materialNames[0]);    
             // Need to make model manager which handles creation of polymodels,
             // EffectedModels
             //// PolyModels = vector of EffectedModels
@@ -347,7 +347,7 @@ mouseHandler(GLFWwindow* window, int button, int action, int mods)
 }
 
 void 
-keyHandler(GLFWwindow* window, int key,	int scancode, int action, int mods)
+keyHandler(GLFWwindow* window, int key,    int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
         engine->moveCube(0, vec3(-0.1, 0, 0));

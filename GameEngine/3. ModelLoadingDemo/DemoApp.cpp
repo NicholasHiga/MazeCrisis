@@ -80,7 +80,7 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
             MESH_TYPE::EFFECTED_MODEL));
         nodes[0]->addRenderable(*gameObjects[0]);
         gameObjects[0]->setAreBoundingBoxesVisible(true);
-        scene->appendChildNode(nodes[0]);		
+        scene->appendChildNode(nodes[0]);        
         
         meshManager->loadTexturedCubeModel("Test2", "floor.png");
         gameObjects.push_back(std::make_shared<GameObject>("Object1", "Test2",
