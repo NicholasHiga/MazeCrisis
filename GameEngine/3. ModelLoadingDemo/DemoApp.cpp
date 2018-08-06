@@ -64,28 +64,30 @@ DemoApp::DemoApp() : GameEngine(*OpenGLRenderer::getInstance(), WIDTH, HEIGHT)
     nodes.push_back(std::make_shared<SceneNode>());
     nodes.push_back(std::make_shared<SceneNode>());
 
-    nodes[0]->setOrientation(Quaternion(150.0f, vec3(0, 1, 0), false));
-    nodes[0]->setPosition(vec3(-1.0f, -0.7f, 1.7f));
+    nodes[0]->setOrientation(Quaternion(130.0f, vec3(0, 1, 0), false));
+    nodes[0]->setPosition(vec3(-0.4f, -0.8f, 1.7f));
     nodes[0]->setScale(vec3(0.1f, 0.1f, 0.1f));
 
-    nodes[1]->setPosition(vec3(1.2f, -1.0f, 4.5f));
-    nodes[1]->setScale(vec3(1.0f, 1.0f, 1.0f));
+    nodes[1]->setOrientation(Quaternion(45.0f, vec3(0, 1, 0), false));
+    nodes[1]->setPosition(vec3(0.6f, -0.5f, 1.7f));
+    nodes[1]->setScale(vec3(0.5f, 0.5f, 0.5f));
 
     try
     {
         //meshManager->loadCubeModel("Test", "floor.png");
-        modelManager->loadModel("Glock", "./Assets/nanosuit/nanosuit.obj");
+        modelManager->loadModel("CrysisGuy", "./Assets/nanosuit/nanosuit.obj");
         //modelManager->loadModel("Glock", "./Assets/cube.obj");
-        gameObjects.push_back(std::make_shared<GameObject>("Object1", "Glock",
-            MESH_TYPE::EFFECTED_MODEL));
+        gameObjects.push_back(std::make_shared<GameObject>("Object1", 
+            "CrysisGuy", MESH_TYPE::EFFECTED_MODEL));
         nodes[0]->addRenderable(*gameObjects[0]);
         gameObjects[0]->setAreBoundingBoxesVisible(true);
         scene->appendChildNode(nodes[0]);        
         
-        meshManager->loadTexturedCubeModel("Test2", "floor.png");
-        gameObjects.push_back(std::make_shared<GameObject>("Object1", "Test2",
+        meshManager->loadTexturedCubeModel("Block", "floor.png");
+        gameObjects.push_back(std::make_shared<GameObject>("Object2", "Block",
             MESH_TYPE::SINGLE_MESH));
         nodes[1]->addRenderable(*gameObjects[1]);
+        gameObjects[1]->setAreBoundingBoxesVisible(true);
         scene->appendChildNode(nodes[1]);
     }
     catch (std::exception &e)
@@ -264,4 +266,13 @@ keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
 
     if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT))
         firstPersonCamera->moveRight(deltaTime);
+    
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        for (auto &i : engine->gameObjects)
+        {
+            i->setAreBoundingBoxesVisible(
+                !i->getAreBoundingBoxesVisible());
+        }
+    }
 }
