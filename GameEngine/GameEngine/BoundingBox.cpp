@@ -190,7 +190,7 @@ BoundingBox::calculateBaseBounds(const SingleMesh &mesh,
         if (verts[i].position.y < baseMins.y)
             baseMins.y = verts[i].position.y;
 
-        if (verts[i].position.z > baseMins.z)
+        if (verts[i].position.z > baseMaxes.z)
             baseMaxes.z = verts[i].position.z;
 
         if (verts[i].position.z < baseMins.z)
