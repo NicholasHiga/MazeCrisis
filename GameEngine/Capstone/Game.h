@@ -1,9 +1,9 @@
 #pragma once
-#include <map>
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glew.h>
 #include <functional>
+#include <unordered_map>
 #include "GLFW/glfw3.h"
 
 #include "wiiuse.h"
@@ -74,7 +74,7 @@ namespace MazeCrisis
         float gameOverTuneDuration, gameOverTuneStartTime;
 
         unsigned int currentLevel = 0;
-        std::map<int, std::unique_ptr<Level>> levels;
+        std::unordered_map<int, std::unique_ptr<Level>> levels;
 
         int lastStateLeft = GLFW_RELEASE, lastStateRight = GLFW_RELEASE;
         int lastStateUp = GLFW_RELEASE, lastStateDown = GLFW_RELEASE;

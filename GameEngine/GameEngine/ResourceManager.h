@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <memory>
 
@@ -7,12 +7,12 @@ template <class T>
 class ResourceManager
 {
 protected:
-    std::map<std::string, std::shared_ptr<T>> resources;
+    std::unordered_map<std::string, std::shared_ptr<T>> resources;
 
 public:
-    typedef typename std::map<std::string, 
+    typedef typename std::unordered_map<std::string, 
         std::shared_ptr<T>>::iterator ResourceIterator;
-    typedef typename std::map<std::string,
+    typedef typename std::unordered_map<std::string,
         std::shared_ptr<T>>::const_iterator ResourceIteratorConst;
 
     // Does not overwrite if copy already found, returns true on success,
